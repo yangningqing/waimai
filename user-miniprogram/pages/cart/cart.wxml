@@ -1,0 +1,54 @@
+<view class="container">
+  <view class="header">
+    <text class="header-title">购物车</text>
+  </view>
+
+  <view class="cart-list">
+    <view class="cart-item">
+      <view class="shop-info">
+        <text class="shop-name">塔斯汀</text>
+        <text class="shop-desc">满20元起送</text>
+      </view>
+      <view class="goods-info">
+        <image src="../../images/ai_example1.png" class="goods-image"></image>
+        <view class="goods-details">
+          <text class="goods-name">香辣鸡腿堡</text>
+          <text class="goods-price">¥25</text>
+        </view>
+        <view class="quantity-control">
+          <button class="quantity-btn" bindtap="decreaseQuantity">-</button>
+          <text class="quantity">1</text>
+          <button class="quantity-btn" bindtap="increaseQuantity">+</button>
+        </view>
+      </view>
+    </view>
+
+    <view class="cart-item">
+      <view class="shop-info">
+        <text class="shop-name">曼玲粥店</text>
+        <text class="shop-desc">满15元起送</text>
+      </view>
+      <view class="goods-info">
+        <image src="../../images/ai_example2.png" class="goods-image"></image>
+        <view class="goods-details">
+          <text class="goods-name">皮蛋瘦肉粥</text>
+          <text class="goods-price">¥15</text>
+        </view>
+        <view class="quantity-control">
+          <button class="quantity-btn" bindtap="decreaseQuantity">-</button>
+          <text class="quantity">1</text>
+          <button class="quantity-btn" bindtap="increaseQuantity">+</button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="total-section">
+    <text class="total-label">合计：</text>
+    <text class="total-value">¥40</text>
+  </view>
+
+  <view class="checkout-section">
+    <button class="checkout-btn" bindtap="checkout">去结算</button>
+  </view>
+</view>

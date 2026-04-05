@@ -1,0 +1,64 @@
+<view class="container">
+  <view class="header">
+    <text class="header-title">商家中心</text>
+    <text class="shop-name">塔斯汀</text>
+  </view>
+
+  <view class="stats-section">
+    <view class="stat-card">
+      <text class="stat-title">今日订单</text>
+      <text class="stat-value">{{stats.todayOrders}}</text>
+      <text class="stat-desc">较昨日 +12%</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-title">今日收入</text>
+      <text class="stat-value">¥{{stats.todayIncome.toLocaleString()}}</text>
+      <text class="stat-desc">较昨日 +8%</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-title">待处理订单</text>
+      <text class="stat-value">{{stats.pendingOrders}}</text>
+      <text class="stat-desc">较昨日 -20%</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-title">商品总数</text>
+      <text class="stat-value">{{stats.goodsCount}}</text>
+      <text class="stat-desc">较昨日 0</text>
+    </view>
+  </view>
+
+  <view class="order-section">
+    <view class="section-header">
+      <text class="section-title">最近订单</text>
+      <text class="section-more" bindtap="navigateToOrders">查看全部</text>
+    </view>
+    <view class="order-list">
+      <view class="order-item" wx:for="{{recentOrders}}" wx:key="index">
+        <view class="order-info">
+          <text class="order-id">订单号：{{item.orderId}}</text>
+          <text class="order-status">{{item.status}}</text>
+        </view>
+        <text class="order-time">{{item.time}}</text>
+        <text class="order-amount">¥{{item.amount}}</text>
+        <button class="order-btn" bindtap="{{item.status === '待处理' ? 'handleOrder' : 'viewOrderDetail'}}" data-id="{{item.id}}">{{item.status === '待处理' ? '处理' : '详情'}}</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="goods-section">
+    <view class="section-header">
+      <text class="section-title">热门商品</text>
+      <text class="section-more" bindtap="navigateToGoods">查看全部</text>
+    </view>
+    <view class="goods-list">
+      <view class="goods-item" wx:for="{{hotGoods}}" wx:key="index">
+        <image src="{{item.image}}" class="goods-image"></image>
+        <view class="goods-info">
+          <text class="goods-name">{{item.name}}</text>
+          <text class="goods-price">¥{{item.price}}</text>
+          <text class="goods-sales">月售 {{item.sales}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

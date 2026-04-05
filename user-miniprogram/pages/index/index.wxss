@@ -1,0 +1,167 @@
+.container {
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.header {
+  background-color: #fff;
+  padding: 10rpx 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.1);
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+
+.arrow {
+  width: 20rpx;
+  height: 20rpx;
+  margin-left: 5rpx;
+}
+
+.search-bar {
+  background-color: #f5f5f5;
+  border-radius: 20rpx;
+  padding: 10rpx 20rpx;
+  margin-bottom: 10rpx;
+}
+
+.search-input {
+  font-size: 32rpx;
+  color: #999;
+}
+
+.category-nav {
+  display: flex;
+  background-color: #fff;
+  padding: 20rpx 0;
+  margin-bottom: 10rpx;
+}
+
+.category-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.category-icon {
+  width: 80rpx;
+  height: 80rpx;
+  margin-bottom: 10rpx;
+  background-color: #ff4757;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+.coupon-section {
+  background-color: #fff;
+  padding: 20rpx;
+  margin-bottom: 10rpx;
+}
+
+.coupon-item {
+  display: inline-block;
+  background-color: #f0f0f0;
+  border-radius: 10rpx;
+  padding: 15rpx;
+  margin-right: 10rpx;
+  margin-bottom: 10rpx;
+}
+
+.coupon-amount {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #ff4757;
+}
+
+.coupon-desc {
+  font-size: 24rpx;
+  color: #666;
+  display: block;
+}
+
+.coupon-btn {
+  background-color: #ff4757;
+  color: #fff;
+  border: none;
+  border-radius: 20rpx;
+  padding: 15rpx 30rpx;
+  font-size: 32rpx;
+  margin-top: 10rpx;
+}
+
+.recommend-section {
+  background-color: #fff;
+  padding: 20rpx;
+}
+
+.section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.more {
+  color: #999;
+  font-size: 28rpx;
+}
+
+.merchant-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.merchant-item {
+  display: flex;
+  gap: 20rpx;
+  padding: 20rpx;
+  background-color: #f9f9f9;
+  border-radius: 10rpx;
+}
+
+.merchant-image {
+  width: 150rpx;
+  height: 150rpx;
+  border-radius: 10rpx;
+}
+
+.merchant-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.merchant-name {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.merchant-desc {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+}
+
+.merchant-stats {
+  display: flex;
+  gap: 15rpx;
+  font-size: 24rpx;
+  color: #999;
+}
+
+.rating {
+  color: #ff9800;
+  font-weight: bold;
+}

@@ -1,0 +1,28 @@
+<view class="container">
+  <view class="header">
+    <text class="header-title">投诉管理</text>
+  </view>
+
+  <view class="complaint-list">
+    <view class="complaint-item">
+      <view class="complaint-header">
+        <text class="complaint-id">投诉编号：20260406001</text>
+        <text class="complaint-status">待处理</text>
+      </view>
+      <view class="complaint-info">
+        <text class="info-item">客户：张三</text>
+        <text class="info-item">订单号：20260406123456</text>
+        <text class="info-item">类型：配送问题</text>
+        <text class="info-item">时间：2026-04-06 12:30</text>
+      </view>
+      <view class="complaint-content">
+        <text class="content-title">投诉内容：</text>
+        <text class="content-text">骑手配送超时，服务态度差。</text>
+      </view>
+      <view class="complaint-actions">
+        <button class="action-btn" bindtap="handleComplaint">处理</button>
+        <button class="action-btn" bindtap="viewComplaintDetail">详情</button>
+      </view>
+    </view>
+  </view>
+</view>

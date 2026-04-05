@@ -1,0 +1,21 @@
+<view class="container">
+  <view class="header">
+    <text class="header-title">骑手管理</text>
+  </view>
+
+  <view class="rider-list">
+    <view class="rider-item">
+      <image src="../../images/avatar.png" class="rider-avatar"></image>
+      <view class="rider-info">
+        <text class="rider-name">王师傅</text>
+        <text class="rider-phone">138****5678</text>
+        <text class="rider-status">配送中</text>
+        <text class="rider-stats">今日订单：12 | 总订单：1234</text>
+      </view>
+      <view class="rider-actions">
+        <button class="action-btn" bindtap="viewRiderDetail">详情</button>
+        <button class="action-btn" bindtap="editRider">编辑</button>
+      </view>
+    </view>
+  </view>
+</view>

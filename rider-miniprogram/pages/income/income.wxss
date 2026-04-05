@@ -1,0 +1,99 @@
+.container {
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.header {
+  background-color: #fff;
+  padding: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.1);
+  margin-bottom: 20rpx;
+}
+
+.header-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.income-summary {
+  background-color: #fff;
+  padding: 30rpx 20rpx;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.1);
+}
+
+.summary-item {
+  text-align: center;
+}
+
+.summary-label {
+  display: block;
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+}
+
+.summary-value {
+  display: block;
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #ff4757;
+}
+
+.income-list {
+  background-color: #fff;
+  padding: 20rpx;
+  margin: 0 20rpx;
+  border-radius: 10rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.1);
+}
+
+.list-header {
+  padding-bottom: 15rpx;
+  border-bottom: 1rpx solid #e0e0e0;
+  margin-bottom: 15rpx;
+}
+
+.list-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.income-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.income-item:last-child {
+  border-bottom: none;
+}
+
+.income-info {
+  flex: 1;
+}
+
+.income-order {
+  display: block;
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 5rpx;
+}
+
+.income-time {
+  display: block;
+  font-size: 24rpx;
+  color: #999;
+}
+
+.income-amount {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #2ed573;
+}

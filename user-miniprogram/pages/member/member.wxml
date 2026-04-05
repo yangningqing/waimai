@@ -1,0 +1,136 @@
+<view class="container">
+  <view class="header">
+    <image src="../../images/avatar.png" class="avatar"></image>
+    <view class="user-info">
+      <text class="user-name">张三</text>
+      <text class="user-status">实名待认证</text>
+    </view>
+    <view class="header-actions">
+      <image src="../../images/icons/customer-service.svg" class="action-icon"></image>
+      <image src="../../images/icons/setting.svg" class="action-icon"></image>
+    </view>
+  </view>
+
+  <view class="member-card">
+    <view class="member-info">
+      <text class="member-level">白银会员</text>
+      <text class="member-stars">★★★★☆</text>
+      <text class="member-points">成长值 714 / 2000</text>
+    </view>
+    <view class="member-benefits">
+      <view class="benefit-item">
+        <image src="../../images/ai_example1.png" class="benefit-image"></image>
+        <text class="benefit-title">惊喜多选1</text>
+        <text class="benefit-desc">抢！限量免单</text>
+      </view>
+      <view class="benefit-item">
+        <image src="../../images/ai_example2.png" class="benefit-image"></image>
+        <text class="benefit-title">换季洗涤</text>
+        <text class="benefit-desc">白银专享券</text>
+      </view>
+      <view class="benefit-item">
+        <image src="../../images/ai_example1.png" class="benefit-image"></image>
+        <text class="benefit-title">会员神券包</text>
+        <text class="benefit-desc">低至2.99元</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="function-section">
+    <view class="function-item">
+      <image src="../../images/icons/question.svg" class="function-icon"></image>
+      <text class="function-text">收藏</text>
+    </view>
+    <view class="function-item">
+      <image src="../../images/icons/copy.svg" class="function-icon"></image>
+      <text class="function-text">浏览记录</text>
+    </view>
+    <view class="function-item">
+      <image src="../../images/icons/share.svg" class="function-icon"></image>
+      <text class="function-text">红包卡券</text>
+    </view>
+    <view class="function-item">
+      <image src="../../images/icons/examples.png" class="function-icon"></image>
+      <text class="function-text">美团币</text>
+    </view>
+  </view>
+
+  <view class="order-section">
+    <view class="section-header">
+      <text class="section-title">订单</text>
+      <text class="section-more">全部订单</text>
+    </view>
+    <view class="order-items">
+      <view class="order-item">
+        <image src="../../images/icons/business.png" class="order-icon"></image>
+        <text class="order-text">全部订单</text>
+      </view>
+      <view class="order-item">
+        <image src="../../images/icons/business.png" class="order-icon"></image>
+        <text class="order-text">待收货/使用</text>
+      </view>
+      <view class="order-item">
+        <image src="../../images/icons/business.png" class="order-icon"></image>
+        <text class="order-text">待评价</text>
+      </view>
+      <view class="order-item">
+        <image src="../../images/icons/business.png" class="order-icon"></image>
+        <text class="order-text">退款售后</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="wallet-section">
+    <view class="section-header">
+      <text class="section-title">钱包</text>
+      <text class="section-more">查看全部</text>
+    </view>
+    <view class="wallet-items">
+      <view class="wallet-item">
+        <text class="wallet-icon">美团借钱</text>
+        <text class="wallet-amount">¥97</text>
+      </view>
+      <view class="wallet-item">
+        <text class="wallet-icon">我的账单</text>
+        <text class="wallet-amount">8元</text>
+      </view>
+      <view class="wallet-item">
+        <text class="wallet-icon">支付奖励</text>
+        <text class="wallet-amount">12元</text>
+      </view>
+      <view class="wallet-item">
+        <text class="wallet-icon">未领取</text>
+        <text class="wallet-amount">6张</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="coupon-section">
+    <view class="section-header">
+      <text class="section-title">神券·天天免费领</text>
+    </view>
+    <view class="coupon-items">
+      <view class="coupon-item">
+        <text class="coupon-amount">13元</text>
+        <text class="coupon-desc">外卖大额神券</text>
+      </view>
+      <view class="coupon-item">
+        <text class="coupon-amount">40元</text>
+        <text class="coupon-desc">踏青美食神券</text>
+      </view>
+      <view class="coupon-item">
+        <text class="coupon-amount">10元</text>
+        <text class="coupon-desc">外卖大额神券</text>
+      </view>
+      <view class="coupon-item">
+        <text class="coupon-amount">11元</text>
+        <text class="coupon-desc">休闲玩乐神券</text>
+      </view>
+    </view>
+    <button class="coupon-btn" bindtap="领取优惠券">一键领取</button>
+  </view>
+
+  <view class="feedback-section">
+    <button class="feedback-btn" bindtap="navigateToFeedback">意见反馈</button>
+  </view>
+</view>

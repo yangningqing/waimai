@@ -1,0 +1,46 @@
+<view class="container">
+  <view class="header">
+    <text class="header-title">收入统计</text>
+  </view>
+
+  <view class="income-summary">
+    <view class="summary-item">
+      <text class="summary-label">今日收入</text>
+      <text class="summary-value">¥186</text>
+    </view>
+    <view class="summary-item">
+      <text class="summary-label">今日单量</text>
+      <text class="summary-value">12</text>
+    </view>
+  </view>
+
+  <view class="income-list">
+    <view class="list-header">
+      <text class="list-title">今日收入明细</text>
+    </view>
+
+    <view class="income-item">
+      <view class="income-info">
+        <text class="income-order">订单：20260406001</text>
+        <text class="income-time">10:30</text>
+      </view>
+      <text class="income-amount">+15</text>
+    </view>
+
+    <view class="income-item">
+      <view class="income-info">
+        <text class="income-order">订单：20260406002</text>
+        <text class="income-time">11:15</text>
+      </view>
+      <text class="income-amount">+18</text>
+    </view>
+
+    <view class="income-item">
+      <view class="income-info">
+        <text class="income-order">订单：20260406003</text>
+        <text class="income-time">12:00</text>
+      </view>
+      <text class="income-amount">+16</text>
+    </view>
+  </view>
+</view>

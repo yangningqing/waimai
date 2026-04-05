@@ -1,0 +1,39 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/orders/orders",
+    "pages/riders/riders",
+    "pages/areas/areas",
+    "pages/complaints/complaints"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "后台管理",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/orders/orders",
+        "text": "订单管理"
+      },
+      {
+        "pagePath": "pages/riders/riders",
+        "text": "骑手管理"
+      },
+      {
+        "pagePath": "pages/areas/areas",
+        "text": "区域管理"
+      },
+      {
+        "pagePath": "pages/complaints/complaints",
+        "text": "投诉管理"
+      }
+    ]
+  }
+}

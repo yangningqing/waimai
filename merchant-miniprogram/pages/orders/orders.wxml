@@ -1,0 +1,47 @@
+<view class="container">
+  <view class="header">
+    <text class="header-title">订单管理</text>
+  </view>
+
+  <view class="status-tabs">
+    <view class="tab-item active">全部</view>
+    <view class="tab-item">待接单</view>
+    <view class="tab-item">配送中</view>
+    <view class="tab-item">已完成</view>
+  </view>
+
+  <view class="order-list">
+    <view class="order-item">
+      <view class="order-header">
+        <text class="order-id">订单号：20260406001</text>
+        <text class="order-status">待接单</text>
+      </view>
+      <view class="order-content">
+        <text class="customer-name">张三</text>
+        <text class="goods-info">香辣鸡腿堡 x1，薯条 x1</text>
+        <text class="order-time">下单时间：10:30</text>
+        <text class="order-price">¥30</text>
+      </view>
+      <view class="order-actions">
+        <button class="action-btn accept-btn">接单</button>
+        <button class="action-btn">拒单</button>
+      </view>
+    </view>
+
+    <view class="order-item">
+      <view class="order-header">
+        <text class="order-id">订单号：20260406002</text>
+        <text class="order-status">配送中</text>
+      </view>
+      <view class="order-content">
+        <text class="customer-name">李四</text>
+        <text class="goods-info">曼玲粥套餐 x1</text>
+        <text class="order-time">下单时间：11:15</text>
+        <text class="order-price">¥25</text>
+      </view>
+      <view class="order-actions">
+        <button class="action-btn">查看详情</button>
+      </view>
+    </view>
+  </view>
+</view>

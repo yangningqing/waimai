@@ -1,0 +1,47 @@
+<view class="container">
+  <view class="header">
+    <text class="header-title">地址管理</text>
+  </view>
+
+  <view class="address-list">
+    <view class="address-item">
+      <view class="address-info">
+        <view class="address-header">
+          <text class="address-name">张三</text>
+          <text class="address-phone">138****1234</text>
+          <text class="address-tag">默认</text>
+        </view>
+        <view class="address-detail">
+          <text class="address-full">北京市顺义区北京城市学院顺义校区</text>
+        </view>
+        <image src="../../images/ai_example1.png" class="address-image"></image>
+      </view>
+      <view class="address-actions">
+        <button class="action-btn" bindtap="editAddress">编辑</button>
+        <button class="action-btn" bindtap="deleteAddress">删除</button>
+      </view>
+    </view>
+
+    <view class="address-item">
+      <view class="address-info">
+        <view class="address-header">
+          <text class="address-name">李四</text>
+          <text class="address-phone">139****5678</text>
+        </view>
+        <view class="address-detail">
+          <text class="address-full">北京市朝阳区望京SOHO</text>
+        </view>
+      </view>
+      <view class="address-actions">
+        <button class="action-btn" bindtap="editAddress">编辑</button>
+        <button class="action-btn" bindtap="deleteAddress">删除</button>
+      </view>
+    </view>
+  </view>
+
+  <button class="add-address-btn" bindtap="addAddress">添加新地址</button>
+
+  <view class="empty-address" wx:if="{{addresses.length === 0}}">
+    <text class="empty-text">暂无地址</text>
+  </view>
+</view>

@@ -1,0 +1,131 @@
+.container {
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.header {
+  background-color: #fff;
+  padding: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.1);
+  margin-bottom: 20rpx;
+}
+
+.header-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.category-list {
+  background-color: #fff;
+  display: flex;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.1);
+}
+
+.category-item {
+  flex: 1;
+  text-align: center;
+  padding: 15rpx 0;
+  font-size: 28rpx;
+  color: #666;
+  border-bottom: 3rpx solid transparent;
+}
+
+.category-item.active {
+  color: #ff4757;
+  border-bottom-color: #ff4757;
+  font-weight: bold;
+}
+
+.goods-list {
+  padding: 0 20rpx;
+}
+
+.goods-item {
+  background-color: #fff;
+  border-radius: 10rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.1);
+}
+
+.goods-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15rpx;
+}
+
+.goods-icon {
+  width: 100rpx;
+  height: 100rpx;
+  background-color: #f0f0f0;
+  border-radius: 10rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 48rpx;
+  margin-right: 20rpx;
+}
+
+.goods-detail {
+  flex: 1;
+}
+
+.goods-name {
+  display: block;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+
+.goods-price {
+  display: block;
+  font-size: 36rpx;
+  color: #ff4757;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.goods-status {
+  display: block;
+  font-size: 24rpx;
+  color: #2ed573;
+}
+
+.goods-actions {
+  display: flex;
+  gap: 15rpx;
+  justify-content: flex-end;
+}
+
+.edit-btn,
+.off-btn {
+  border: 1rpx solid #e0e0e0;
+  border-radius: 20rpx;
+  padding: 10rpx 20rpx;
+  font-size: 24rpx;
+  background-color: #fff;
+  color: #333;
+}
+
+.off-btn {
+  background-color: #ff4757;
+  color: #fff;
+  border: none;
+}
+
+.add-btn {
+  padding: 20rpx;
+}
+
+.add-btn button {
+  width: 100%;
+  background-color: #ff4757;
+  color: #fff;
+  border-radius: 10rpx;
+  padding: 25rpx;
+  font-size: 28rpx;
+}

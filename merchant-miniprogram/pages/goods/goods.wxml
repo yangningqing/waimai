@@ -1,0 +1,47 @@
+<view class="container">
+  <view class="header">
+    <text class="header-title">商品管理</text>
+  </view>
+
+  <view class="category-list">
+    <view class="category-item active">全部商品</view>
+    <view class="category-item">热销商品</view>
+    <view class="category-item">新品上架</view>
+  </view>
+
+  <view class="goods-list">
+    <view class="goods-item">
+      <view class="goods-info">
+        <view class="goods-icon">🍔</view>
+        <view class="goods-detail">
+          <text class="goods-name">香辣鸡腿堡</text>
+          <text class="goods-price">¥18</text>
+          <text class="goods-status">上架中</text>
+        </view>
+      </view>
+      <view class="goods-actions">
+        <button class="edit-btn">编辑</button>
+        <button class="off-btn">下架</button>
+      </view>
+    </view>
+
+    <view class="goods-item">
+      <view class="goods-info">
+        <view class="goods-icon">🍟</view>
+        <view class="goods-detail">
+          <text class="goods-name">薯条（大）</text>
+          <text class="goods-price">¥12</text>
+          <text class="goods-status">上架中</text>
+        </view>
+      </view>
+      <view class="goods-actions">
+        <button class="edit-btn">编辑</button>
+        <button class="off-btn">下架</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="add-btn">
+    <button>添加商品</button>
+  </view>
+</view>

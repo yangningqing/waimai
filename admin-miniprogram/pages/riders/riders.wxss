@@ -1,0 +1,85 @@
+.container {
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.header {
+  background-color: #fff;
+  padding: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.1);
+  margin-bottom: 20rpx;
+}
+
+.header-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.rider-list {
+  padding: 0 20rpx;
+}
+
+.rider-item {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  background-color: #fff;
+  border-radius: 10rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.1);
+}
+
+.rider-avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+}
+
+.rider-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+}
+
+.rider-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.rider-phone {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.rider-status {
+  font-size: 24rpx;
+  padding: 5rpx 15rpx;
+  border-radius: 15rpx;
+  background-color: #e8f5e8;
+  color: #27ae60;
+  width: fit-content;
+}
+
+.rider-stats {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.rider-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+}
+
+.action-btn {
+  border: 1rpx solid #e0e0e0;
+  border-radius: 20rpx;
+  padding: 10rpx 20rpx;
+  font-size: 24rpx;
+  background-color: #fff;
+  color: #333;
+}

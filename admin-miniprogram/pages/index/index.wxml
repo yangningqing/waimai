@@ -1,0 +1,77 @@
+<view class="container">
+  <view class="header">
+    <text class="header-title">后台管理系统</text>
+    <text class="admin-name">管理员：admin</text>
+  </view>
+
+  <view class="stats-section">
+    <view class="stat-card">
+      <text class="stat-title">今日订单</text>
+      <text class="stat-value">{{stats.todayOrders}}</text>
+      <text class="stat-desc">较昨日 +12%</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-title">待处理订单</text>
+      <text class="stat-value">{{stats.pendingOrders}}</text>
+      <text class="stat-desc">较昨日 -5%</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-title">今日骑手</text>
+      <text class="stat-value">{{stats.todayRiders}}</text>
+      <text class="stat-desc">较昨日 +3%</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-title">今日收入</text>
+      <text class="stat-value">¥{{stats.todayIncome.toLocaleString()}}</text>
+      <text class="stat-desc">较昨日 +8%</text>
+    </view>
+  </view>
+
+  <view class="order-warning-section">
+    <view class="section-header">
+      <text class="section-title">订单预警</text>
+      <text class="section-more" bindtap="navigateToOrders">查看全部</text>
+    </view>
+    <view class="warning-list">
+      <view class="warning-item" wx:for="{{warnings}}" wx:key="index">
+        <text class="warning-id">订单号：{{item.orderId}}</text>
+        <text class="warning-status">{{item.status}}</text>
+        <text class="warning-time">{{item.status === '即将超时' ? '剩余时间：00:' + item.remainingTime : '超时时间：00:' + item.overtime}}</text>
+        <button class="warning-btn" bindtap="handleWarning" data-id="{{item.id}}">处理</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="rider-section">
+    <view class="section-header">
+      <text class="section-title">骑手状态</text>
+      <text class="section-more" bindtap="navigateToRiders">查看全部</text>
+    </view>
+    <view class="rider-list">
+      <view class="rider-item" wx:for="{{riders}}" wx:key="index">
+        <image src="{{item.avatar}}" class="rider-avatar"></image>
+        <view class="rider-info">
+          <text class="rider-name">{{item.name}}</text>
+          <text class="rider-status">{{item.status}}</text>
+          <text class="rider-orders">当前订单：{{item.currentOrders}}</text>
+        </view>
+        <button class="rider-btn" bindtap="viewRiderDetail" data-id="{{item.id}}">详情</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="area-section">
+    <view class="section-header">
+      <text class="section-title">区域管理</text>
+      <text class="section-more" bindtap="navigateToAreas">查看全部</text>
+    </view>
+    <view class="area-list">
+      <view class="area-item" wx:for="{{areas}}" wx:key="index">
+        <text class="area-name">{{item.name}}</text>
+        <text class="area-orders">今日订单：{{item.todayOrders}}</text>
+        <text class="area-riders">骑手数量：{{item.riderCount}}</text>
+        <button class="area-btn" bindtap="viewAreaDetail" data-id="{{item.id}}">详情</button>
+      </view>
+    </view>
+  </view>
+</view>

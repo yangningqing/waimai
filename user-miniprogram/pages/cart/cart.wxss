@@ -1,0 +1,151 @@
+.container {
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.header {
+  background-color: #fff;
+  padding: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.1);
+  margin-bottom: 20rpx;
+}
+
+.header-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.cart-list {
+  padding: 0 20rpx;
+  margin-bottom: 100rpx;
+}
+
+.cart-item {
+  background-color: #fff;
+  border-radius: 10rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.1);
+}
+
+.shop-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+  padding-bottom: 10rpx;
+  border-bottom: 1rpx solid #e0e0e0;
+}
+
+.shop-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.shop-desc {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.goods-info {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.goods-image {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 10rpx;
+}
+
+.goods-details {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.goods-name {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.goods-price {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #ff4757;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+}
+
+.quantity-btn {
+  width: 50rpx;
+  height: 50rpx;
+  border: 1rpx solid #e0e0e0;
+  border-radius: 50%;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32rpx;
+}
+
+.quantity {
+  font-size: 28rpx;
+  color: #333;
+  min-width: 50rpx;
+  text-align: center;
+}
+
+.total-section {
+  position: fixed;
+  bottom: 100rpx;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  padding: 20rpx;
+  box-shadow: 0 -2rpx 10rpx rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10rpx;
+}
+
+.total-label {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.total-value {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #ff4757;
+}
+
+.checkout-section {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  padding: 20rpx;
+  box-shadow: 0 -2rpx 10rpx rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.checkout-btn {
+  background-color: #ff4757;
+  color: #fff;
+  border: none;
+  border-radius: 25rpx;
+  padding: 15rpx 60rpx;
+  font-size: 32rpx;
+}

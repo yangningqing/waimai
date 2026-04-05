@@ -1,0 +1,37 @@
+<view class="container">
+  <view class="header">
+    <text class="header-title">商品详情</text>
+  </view>
+
+  <view class="goods-info">
+    <image src="../../images/ai_example1.png" class="goods-image"></image>
+    <view class="goods-details">
+      <text class="goods-name">香辣鸡腿堡</text>
+      <text class="goods-price">¥25</text>
+      <text class="goods-sales">月售 1234</text>
+      <text class="goods-desc">香辣可口的鸡腿堡，配以新鲜的蔬菜和特制酱料，是您的美味选择。</text>
+    </view>
+  </view>
+
+  <view class="shop-info">
+    <view class="shop-header">
+      <text class="shop-name">塔斯汀</text>
+      <text class="shop-rating">4.8</text>
+    </view>
+    <view class="shop-stats">
+      <text class="shop-sales">月售 1234</text>
+      <text class="shop-distance">1.2km</text>
+      <text class="shop-price">¥20起送</text>
+    </view>
+  </view>
+
+  <view class="buy-section">
+    <view class="quantity-control">
+      <button class="quantity-btn" bindtap="decreaseQuantity">-</button>
+      <text class="quantity">{{quantity}}</text>
+      <button class="quantity-btn" bindtap="increaseQuantity">+</button>
+    </view>
+    <button class="add-to-cart-btn" bindtap="addToCart">加入购物车</button>
+    <button class="buy-now-btn" bindtap="buyNow">立即购买</button>
+  </view>
+</view>

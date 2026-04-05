@@ -1,0 +1,53 @@
+<view class="container">
+  <view class="header">
+    <text class="header-title">区域管理</text>
+    <button class="add-btn" bindtap="addArea">+ 新增区域</button>
+  </view>
+
+  <view class="area-list">
+    <view class="area-item" wx:for="{{areas}}" wx:key="index">
+      <view class="area-header">
+        <text class="area-name">{{item.name}}</text>
+        <text class="area-status">{{item.status}}</text>
+      </view>
+      <view class="area-info">
+        <text class="info-item">骑手数量：{{item.riderCount}}</text>
+        <text class="info-item">今日订单：{{item.todayOrders}}</text>
+        <text class="info-item">昨日订单：{{item.yesterdayOrders}}</text>
+      </view>
+      <view class="area-actions">
+        <button class="action-btn edit-btn" bindtap="editArea" data-id="{{item.id}}">编辑</button>
+        <button class="action-btn fence-btn" bindtap="setFence" data-id="{{item.id}}">电子围栏</button>
+        <button class="action-btn delete-btn" bindtap="deleteArea" data-id="{{item.id}}">删除</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 电子围栏设置弹窗 -->
+  <view class="fence-modal" wx:if="{{showFenceModal}}">
+    <view class="modal-content">
+      <view class="modal-header">
+        <text>设置电子围栏</text>
+        <text class="close-btn" bindtap="closeFenceModal">×</text>
+      </view>
+      <view class="modal-body">
+        <view class="map-container">
+          <image src="../../images/ai_example1.png" class="map-image"></image>
+          <view class="fence-controls">
+            <button class="control-btn" bindtap="drawFence">绘制围栏</button>
+            <button class="control-btn" bindtap="clearFence">清除围栏</button>
+            <button class="control-btn" bindtap="saveFence">保存围栏</button>
+          </view>
+        </view>
+        <view class="fence-info">
+          <text class="info-label">围栏名称：</text>
+          <input placeholder="请输入围栏名称" class="input" value="{{fenceData.name}}"></input>
+        </view>
+        <view class="fence-info">
+          <text class="info-label">围栏描述：</text>
+          <textarea placeholder="请输入围栏描述" class="textarea" value="{{fenceData.description}}"></textarea>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

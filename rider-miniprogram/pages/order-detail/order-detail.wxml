@@ -1,0 +1,74 @@
+<view class="container">
+  <view class="header">
+    <text class="header-title">订单详情</text>
+  </view>
+
+  <view class="order-detail">
+    <view class="order-info-section">
+      <view class="section-title">订单信息</view>
+      <view class="order-info">
+        <text class="info-label">订单号：</text>
+        <text class="info-value">{{order.orderId}}</text>
+      </view>
+      <view class="order-info">
+        <text class="info-label">下单时间：</text>
+        <text class="info-value">{{order.orderTime}}</text>
+      </view>
+      <view class="order-info">
+        <text class="info-label">预计送达：</text>
+        <text class="info-value">{{order.expectedTime}}</text>
+      </view>
+      <view class="order-info">
+        <text class="info-label">剩余时间：</text>
+        <text class="info-value countdown">{{formatTime(order.remainingTime)}}</text>
+      </view>
+    </view>
+
+    <view class="merchant-section">
+      <view class="section-title">商家信息</view>
+      <view class="merchant-info">
+        <text class="merchant-name">{{order.merchant.name}}</text>
+        <text class="merchant-address">{{order.merchant.address}}</text>
+        <button class="nav-btn" bindtap="navigateToMerchant">导航到商家</button>
+      </view>
+    </view>
+
+    <view class="customer-section">
+      <view class="section-title">客户信息</view>
+      <view class="customer-info">
+        <text class="customer-name">{{order.customer.name}}</text>
+        <text class="customer-phone">{{order.customer.phone}}</text>
+        <text class="customer-address">{{order.customer.address}}</text>
+        <view class="location-image">
+          <text class="image-label">位置图片：</text>
+          <image src="{{order.customer.image}}" class="image" bindtap="previewImage"></image>
+        </view>
+        <button class="nav-btn" bindtap="navigateToCustomer">导航到客户</button>
+      </view>
+    </view>
+
+    <view class="goods-section">
+      <view class="section-title">商品信息</view>
+      <view class="goods-list">
+        <view class="goods-item" wx:for="{{order.goods}}" wx:key="index">
+          <text class="goods-name">{{item.name}}</text>
+          <text class="goods-quantity">× {{item.quantity}}</text>
+          <text class="goods-price">¥{{item.price}}</text>
+        </view>
+      </view>
+      <view class="total-section">
+        <text class="total-label">订单金额：</text>
+        <text class="total-value">¥{{order.totalAmount}}</text>
+      </view>
+      <view class="income-section">
+        <text class="income-label">预计收入：</text>
+        <text class="income-value">¥{{order.expectedIncome}}</text>
+      </view>
+    </view>
+
+    <view class="action-section">
+      <button class="action-btn report-btn" bindtap="reportException">异常上报</button>
+      <button class="action-btn complete-btn" bindtap="completeOrder">完成配送</button>
+    </view>
+  </view>
+</view>

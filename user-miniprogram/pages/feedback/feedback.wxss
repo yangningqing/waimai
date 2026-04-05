@@ -1,0 +1,137 @@
+.container {
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.header {
+  background-color: #fff;
+  padding: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.1);
+  margin-bottom: 20rpx;
+}
+
+.header-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.feedback-form {
+  padding: 0 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.form-item {
+  background-color: #fff;
+  border-radius: 10rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.1);
+}
+
+.form-label {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15rpx;
+  display: block;
+}
+
+.form-options {
+  display: flex;
+  gap: 15rpx;
+}
+
+.option-item {
+  flex: 1;
+  background-color: #f0f0f0;
+  border-radius: 20rpx;
+  padding: 15rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: #666;
+}
+
+.option-item.active {
+  background-color: #ff4757;
+  color: #fff;
+}
+
+.form-textarea {
+  width: 100%;
+  min-height: 200rpx;
+  border: 1rpx solid #e0e0e0;
+  border-radius: 10rpx;
+  padding: 15rpx;
+  font-size: 28rpx;
+  resize: none;
+}
+
+.image-uploader {
+  display: flex;
+  gap: 15rpx;
+  flex-wrap: wrap;
+}
+
+.upload-item {
+  width: 120rpx;
+  height: 120rpx;
+  border: 1rpx dashed #e0e0e0;
+  border-radius: 10rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.upload-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-bottom: 10rpx;
+}
+
+.upload-text {
+  font-size: 20rpx;
+  color: #999;
+}
+
+.uploaded-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 10rpx;
+}
+
+.delete-image {
+  position: absolute;
+  top: -10rpx;
+  right: -10rpx;
+  width: 30rpx;
+  height: 30rpx;
+  background-color: #ff4757;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24rpx;
+}
+
+.form-input {
+  width: 100%;
+  border: 1rpx solid #e0e0e0;
+  border-radius: 10rpx;
+  padding: 15rpx;
+  font-size: 28rpx;
+}
+
+.submit-btn {
+  background-color: #ff4757;
+  color: #fff;
+  border: none;
+  border-radius: 25rpx;
+  padding: 20rpx;
+  font-size: 32rpx;
+  width: 100%;
+  margin-top: 20rpx;
+}

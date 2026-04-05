@@ -1,0 +1,53 @@
+<view class="container">
+  <view class="header">
+    <text class="header-title">我的优惠券</text>
+  </view>
+
+  <view class="tab-section">
+    <view class="tab-item active">未使用</view>
+    <view class="tab-item">已使用</view>
+    <view class="tab-item">已过期</view>
+  </view>
+
+  <view class="coupon-list">
+    <view class="coupon-item">
+      <view class="coupon-left">
+        <text class="coupon-amount">¥13</text>
+        <text class="coupon-condition">满30元可用</text>
+      </view>
+      <view class="coupon-right">
+        <text class="coupon-title">外卖大额神券</text>
+        <text class="coupon-expiry">有效期至：2026-05-06</text>
+        <button class="coupon-btn">立即使用</button>
+      </view>
+    </view>
+
+    <view class="coupon-item">
+      <view class="coupon-left">
+        <text class="coupon-amount">¥40</text>
+        <text class="coupon-condition">满100元可用</text>
+      </view>
+      <view class="coupon-right">
+        <text class="coupon-title">踏青美食神券</text>
+        <text class="coupon-expiry">有效期至：2026-05-15</text>
+        <button class="coupon-btn">立即使用</button>
+      </view>
+    </view>
+
+    <view class="coupon-item">
+      <view class="coupon-left">
+        <text class="coupon-amount">¥10</text>
+        <text class="coupon-condition">满25元可用</text>
+      </view>
+      <view class="coupon-right">
+        <text class="coupon-title">外卖大额神券</text>
+        <text class="coupon-expiry">有效期至：2026-04-30</text>
+        <button class="coupon-btn">立即使用</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-coupon" wx:if="{{coupons.length === 0}}">
+    <text class="empty-text">暂无优惠券</text>
+  </view>
+</view>
