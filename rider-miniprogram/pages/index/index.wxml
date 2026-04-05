@@ -1,80 +1,98 @@
 <view class="container">
   <!-- 顶部状态栏 -->
   <view class="top-bar">
-    <view class="online-status">
-      <text class="status-text">离线</text>
+    <view class="online-status" bindtap="toggleOnline">
+      <text class="status-text">{{isOnline ? '在线' : '离线'}}</text>
       <text class="status-arrow">▼</text>
     </view>
-    <view class="logout-btn">
+    <view class="logout-btn" bindtap="logout">
       <text class="logout-text">退出登录</text>
     </view>
   </view>
 
   <!-- 标签页 -->
   <view class="tab-bar">
-    <view class="tab-item active">待抢单</view>
-    <view class="tab-item">配送中</view>
-    <view class="tab-item">筛选</view>
+    <view class="tab-item {{currentTab === 0 ? 'active' : ''}}" bindtap="switchTab" data-index="0">待抢单</view>
+    <view class="tab-item {{currentTab === 1 ? 'active' : ''}}" bindtap="switchTab" data-index="1">配送中</view>
+    <view class="tab-item {{currentTab === 2 ? 'active' : ''}}" bindtap="switchTab" data-index="2">已完成</view>
   </view>
 
   <!-- 待抢单列表 -->
-  <view class="order-list">
-    <!-- 订单1 -->
-    <view class="order-item priority" data-id="1">
-      <view class="order-header">
-        <text class="delivery-time">预计 04-03 15:44:09 送达</text>
+  <view class="order-list" wx:if="{{currentTab === 0}}">
+    <view class="order-item priority" wx:for="{{pendingOrders}}" wx:key="id" data-index="{{index}}">
+      <view class="order-header" bindtap="viewOrderDetail" data-index="{{index}}">
+        <text class="delivery-time">预计 {{item.deliveryTime}} 送达</text>
         <view class="order-tags">
-          <text class="tag shop-tag">商家单</text>
-          <text class="tag help-tag">帮我买</text>
-          <text class="tag douyin-tag">抖音订单</text>
+          <text class="tag shop-tag" wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this">{{tag}}</text>
         </view>
       </view>
       <view class="order-content">
         <view class="order-info">
-          <text class="distance">3.08 km</text>
+          <text class="distance">{{item.distance}}</text>
+          <text class="wait-time" wx:if="{{item.waitTime}}">{{item.waitTime}}</text>
         </view>
         <view class="order-info">
-          <text class="info-value">认证通过后，查看取货地址</text>
+          <text class="info-value">商家：{{item.shopName}}</text>
         </view>
         <view class="order-info">
-          <text class="info-value">认证通过后，查看配送地址</text>
+          <text class="info-value">客户：{{item.customerName}}</text>
         </view>
       </view>
       <view class="order-actions">
-        <button class="action-btn accept-btn" bindtap="acceptOrder" data-id="1">立即抢单</button>
-      </view>
-    </view>
-
-    <!-- 订单2 -->
-    <view class="order-item" data-id="2">
-      <view class="order-header">
-        <text class="delivery-time">预计 04-03 15:50:00 送达</text>
-        <view class="order-tags">
-          <text class="tag urgent-tag">跑腿单</text>
-          <text class="tag help-tag">帮我买</text>
-        </view>
-      </view>
-      <view class="order-content">
-        <view class="order-info">
-          <text class="distance">2.1 km</text>
-          <text class="wait-time">立即送达（已等待7分钟）</text>
-        </view>
-        <view class="order-info">
-          <text class="info-value">认证通过后，查看取货地址</text>
-        </view>
-        <view class="order-info">
-          <text class="info-value">认证通过后，查看配送地址</text>
-        </view>
-      </view>
-      <view class="order-actions">
-        <button class="action-btn accept-btn" bindtap="acceptOrder" data-id="2">立即抢单</button>
+        <button class="action-btn accept-btn" bindtap="acceptOrder" data-index="{{index}}">立即抢单</button>
       </view>
     </view>
   </view>
 
-  <!-- 底部提示 -->
-  <view class="bottom-tip">
-    <text class="tip-text">当前显示的订单是随机推送订单，常审核通过后完善个人</text>
-    <text class="tip-text">查看符合您的订单</text>
+  <!-- 配送中列表 -->
+  <view class="order-list" wx:if="{{currentTab === 1}}">
+    <view class="order-item" wx:for="{{deliveringOrders}}" wx:key="id" data-index="{{index}}">
+      <view class="order-header" bindtap="viewOrderDetail" data-index="{{index}}">
+        <text class="delivery-time">预计 {{item.deliveryTime}} 送达</text>
+        <text class="order-status">{{item.status}}</text>
+      </view>
+      <view class="order-content">
+        <view class="order-info">
+          <text class="distance">{{item.distance}}</text>
+        </view>
+        <view class="order-info">
+          <text class="info-value">商家：{{item.shopName}}</text>
+        </view>
+        <view class="order-info">
+          <text class="info-value">客户：{{item.customerName}}</text>
+        </view>
+      </view>
+      <view class="order-actions">
+        <button class="action-btn" bindtap="navigateToShop" data-index="{{index}}">导航到店</button>
+        <button class="action-btn" bindtap="navigateToCustomer" data-index="{{index}}">导航送达</button>
+        <button class="action-btn" bindtap="callCustomer" data-index="{{index}}">联系客户</button>
+        <button class="action-btn accept-btn" bindtap="completeDelivery" data-index="{{index}}">完成配送</button>
+        <button class="action-btn" bindtap="reportException" data-index="{{index}}">异常上报</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 已完成列表 -->
+  <view class="order-list" wx:if="{{currentTab === 2}}">
+    <view class="order-item" wx:for="{{completedOrders}}" wx:key="id" data-index="{{index}}">
+      <view class="order-header" bindtap="viewOrderDetail" data-index="{{index}}">
+        <text class="delivery-time">{{item.deliveryTime}}</text>
+        <text class="order-status">{{item.status}}</text>
+      </view>
+      <view class="order-content">
+        <view class="order-info">
+          <text class="distance">{{item.distance}}</text>
+        </view>
+        <view class="order-info">
+          <text class="info-value">商家：{{item.shopName}}</text>
+        </view>
+        <view class="order-info">
+          <text class="info-value">客户：{{item.customerName}}</text>
+        </view>
+        <view class="order-info" wx:if="{{item.amount}}">
+          <text class="info-value">收入：¥{{item.amount}}</text>
+        </view>
+      </view>
+    </view>
   </view>
 </view>

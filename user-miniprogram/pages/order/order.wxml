@@ -4,63 +4,41 @@
   </view>
 
   <view class="tab-section">
-    <view class="tab-item active">全部</view>
-    <view class="tab-item">待付款</view>
-    <view class="tab-item">待收货</view>
-    <view class="tab-item">已完成</view>
+    <view class="tab-item {{activeTab === 0 ? 'active' : ''}}" bindtap="switchTab" data-index="0">全部</view>
+    <view class="tab-item {{activeTab === 1 ? 'active' : ''}}" bindtap="switchTab" data-index="1">待付款</view>
+    <view class="tab-item {{activeTab === 2 ? 'active' : ''}}" bindtap="switchTab" data-index="2">待收货</view>
+    <view class="tab-item {{activeTab === 3 ? 'active' : ''}}" bindtap="switchTab" data-index="3">已完成</view>
   </view>
 
-  <view class="order-list">
-    <view class="order-item">
+  <view class="order-list" wx:if="{{orders.length > 0}}">
+    <view class="order-item" wx:for="{{orders}}" wx:key="id">
       <view class="order-header">
-        <text class="order-shop">塔斯汀</text>
-        <text class="order-status">待收货</text>
+        <text class="order-shop">{{item.shop}}</text>
+        <text class="order-status">{{item.status}}</text>
       </view>
       <view class="order-content">
-        <view class="order-goods">
-          <image src="../../images/ai_example1.png" class="goods-image"></image>
+        <view class="order-goods" wx:for="{{item.goods}}" wx:for-item="goods" wx:key="goods.id">
+          <image src="{{goods.image}}" class="goods-image"></image>
           <view class="goods-info">
-            <text class="goods-name">香辣鸡腿堡</text>
-            <text class="goods-price">¥25</text>
+            <text class="goods-name">{{goods.name}}</text>
+            <text class="goods-price">¥{{goods.price}}</text>
           </view>
-          <text class="goods-quantity">x1</text>
+          <text class="goods-quantity">x{{goods.quantity}}</text>
         </view>
       </view>
       <view class="order-footer">
-        <text class="order-total">合计：¥25</text>
+        <text class="order-total">合计：¥{{item.total}}</text>
         <view class="order-actions">
-          <button class="action-btn">联系骑手</button>
-          <button class="action-btn primary">确认收货</button>
-        </view>
-      </view>
-    </view>
-
-    <view class="order-item">
-      <view class="order-header">
-        <text class="order-shop">曼玲粥店</text>
-        <text class="order-status">已完成</text>
-      </view>
-      <view class="order-content">
-        <view class="order-goods">
-          <image src="../../images/ai_example2.png" class="goods-image"></image>
-          <view class="goods-info">
-            <text class="goods-name">皮蛋瘦肉粥</text>
-            <text class="goods-price">¥15</text>
-          </view>
-          <text class="goods-quantity">x1</text>
-        </view>
-      </view>
-      <view class="order-footer">
-        <text class="order-total">合计：¥15</text>
-        <view class="order-actions">
-          <button class="action-btn">再次购买</button>
-          <button class="action-btn">评价</button>
+          <button class="action-btn" bindtap="contactRider" wx:if="{{item.status === '待收货'}}">联系骑手</button>
+          <button class="action-btn primary" bindtap="confirmReceipt" wx:if="{{item.status === '待收货'}}">确认收货</button>
+          <button class="action-btn" bindtap="buyAgain" wx:if="{{item.status === '已完成'}}">再次购买</button>
+          <button class="action-btn" bindtap="evaluate" wx:if="{{item.status === '已完成'}}">评价</button>
         </view>
       </view>
     </view>
   </view>
 
-  <view class="empty-order" wx:if="{{orders.length === 0}}">
+  <view class="empty-order" wx:else>
     <text class="empty-text">暂无订单</text>
   </view>
 </view>

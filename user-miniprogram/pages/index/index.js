@@ -35,11 +35,6 @@ Page({
   onShow() {
     // 页面显示时的逻辑
   },
-  navigateToCategory() {
-    wx.navigateTo({
-      url: '../category/category'
-    })
-  },
   navigateToMerchant(e) {
     const merchantId = e.currentTarget.dataset.id
     wx.navigateTo({
@@ -61,10 +56,21 @@ Page({
       url: '../member/member'
     })
   },
- 领取优惠券() {
+  claimCoupons() {
     wx.showToast({
       title: '优惠券领取成功',
       icon: 'success'
+    })
+  },
+  navigateToCategory() {
+    wx.navigateTo({
+      url: '../category/category'
+    })
+  },
+  search() {
+    wx.showToast({
+      title: '搜索功能开发中',
+      icon: 'none'
     })
   }
 })

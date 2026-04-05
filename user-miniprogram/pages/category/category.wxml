@@ -2,49 +2,17 @@
   <view class="category-container">
     <!-- 左侧分类列表 -->
     <view class="left-category">
-      <view class="category-item active" data-id="1" bindtap="switchCategory">鲜花</view>
-      <view class="category-item" data-id="2" bindtap="switchCategory">餐饮</view>
-      <view class="category-item" data-id="3" bindtap="switchCategory">水果</view>
-      <view class="category-item" data-id="4" bindtap="switchCategory">超市</view>
-      <view class="category-item" data-id="5" bindtap="switchCategory">药品</view>
-      <view class="category-item" data-id="6" bindtap="switchCategory">蛋糕</view>
-      <view class="category-item" data-id="7" bindtap="switchCategory">饮品</view>
-      <view class="category-item" data-id="8" bindtap="switchCategory">其他</view>
+      <view class="category-item {{activeCategory === item.id ? 'active' : ''}}" wx:for="{{categories}}" wx:key="id" data-id="{{item.id}}" bindtap="switchCategory">{{item.name}}</view>
     </view>
 
     <!-- 右侧商品列表 -->
     <view class="right-goods">
-      <view class="category-title">鲜花</view>
+      <view class="category-title">{{currentCategoryName}}</view>
       <view class="goods-grid">
-        <view class="goods-item">
-          <image src="../../images/ai_example1.png" class="goods-image"></image>
-          <text class="goods-name">玫瑰花</text>
-          <text class="goods-price">¥99</text>
-        </view>
-        <view class="goods-item">
-          <image src="../../images/ai_example2.png" class="goods-image"></image>
-          <text class="goods-name">栀子花</text>
-          <text class="goods-price">¥49</text>
-        </view>
-        <view class="goods-item">
-          <image src="../../images/ai_example1.png" class="goods-image"></image>
-          <text class="goods-name">向日葵</text>
-          <text class="goods-price">¥69</text>
-        </view>
-        <view class="goods-item">
-          <image src="../../images/ai_example2.png" class="goods-image"></image>
-          <text class="goods-name">百合花</text>
-          <text class="goods-price">¥79</text>
-        </view>
-        <view class="goods-item">
-          <image src="../../images/ai_example1.png" class="goods-image"></image>
-          <text class="goods-name">康乃馨</text>
-          <text class="goods-price">¥59</text>
-        </view>
-        <view class="goods-item">
-          <image src="../../images/ai_example2.png" class="goods-image"></image>
-          <text class="goods-name">郁金香</text>
-          <text class="goods-price">¥89</text>
+        <view class="goods-item" wx:for="{{currentGoods}}" wx:key="id" data-id="{{item.id}}" bindtap="navigateToGoodsDetail">
+          <image src="{{item.image}}" class="goods-image"></image>
+          <text class="goods-name">{{item.name}}</text>
+          <text class="goods-price">¥{{item.price}}</text>
         </view>
       </view>
     </view>

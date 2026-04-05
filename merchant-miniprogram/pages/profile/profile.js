@@ -12,6 +12,35 @@ Page({
   onShow() {
     // 页面显示
   },
+  navigateToShopManagement() {
+    wx.showToast({
+      title: '店铺管理功能开发中',
+      icon: 'none'
+    })
+  },
+  navigateToFinance() {
+    wx.showToast({
+      title: '财务管理功能开发中',
+      icon: 'none'
+    })
+  },
+  navigateToOrders() {
+    wx.navigateTo({
+      url: '../orders/orders'
+    })
+  },
+  navigateToFeedback() {
+    wx.showToast({
+      title: '意见反馈功能开发中',
+      icon: 'none'
+    })
+  },
+  navigateToSettings() {
+    wx.showToast({
+      title: '设置功能开发中',
+      icon: 'none'
+    })
+  },
   logout() {
     wx.showToast({
       title: '已退出登录',

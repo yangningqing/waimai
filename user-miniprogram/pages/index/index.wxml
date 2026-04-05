@@ -5,30 +5,30 @@
       <text>北京城市学院（顺义校区）</text>
       <text class="arrow">▼</text>
     </view>
-    <view class="search-bar">
+    <view class="search-bar" bindtap="search">
       <input placeholder="搜索商家、商品" class="search-input"></input>
     </view>
   </view>
 
   <!-- 分类导航 -->
   <view class="category-nav">
-    <view class="category-item">
+    <view class="category-item" bindtap="navigateToCategory">
       <view class="category-icon">外</view>
       <text>外卖</text>
     </view>
-    <view class="category-item">
+    <view class="category-item" bindtap="search">
       <view class="category-icon">团</view>
       <text>团购</text>
     </view>
-    <view class="category-item">
+    <view class="category-item" bindtap="search">
       <view class="category-icon">酒</view>
       <text>酒店</text>
     </view>
-    <view class="category-item">
+    <view class="category-item" bindtap="search">
       <view class="category-icon">闪</view>
       <text>闪购</text>
     </view>
-    <view class="category-item">
+    <view class="category-item" bindtap="search">
       <view class="category-icon">更</view>
       <text>更多</text>
     </view>
@@ -36,55 +36,30 @@
 
   <!-- 优惠券区域 -->
   <view class="coupon-section">
-    <view class="coupon-item">
-      <text class="coupon-amount">13元</text>
-      <text class="coupon-desc">外卖大额神券</text>
+    <view class="coupon-item" wx:for="{{coupons}}" wx:key="index">
+      <text class="coupon-amount">{{item.amount}}元</text>
+      <text class="coupon-desc">{{item.description}}</text>
     </view>
-    <view class="coupon-item">
-      <text class="coupon-amount">40元</text>
-      <text class="coupon-desc">踏青美食神券</text>
-    </view>
-    <view class="coupon-item">
-      <text class="coupon-amount">10元</text>
-      <text class="coupon-desc">外卖大额神券</text>
-    </view>
-    <view class="coupon-item">
-      <text class="coupon-amount">11元</text>
-      <text class="coupon-desc">休闲玩乐神券</text>
-    </view>
-    <button class="coupon-btn">一键领取</button>
+    <button class="coupon-btn" bindtap="claimCoupons">一键领取</button>
   </view>
 
   <!-- 推荐商家 -->
   <view class="recommend-section">
     <view class="section-title">
       <text>附近商家</text>
-      <text class="more">查看更多</text>
+      <text class="more" bindtap="search">查看更多</text>
     </view>
     <view class="merchant-list">
-      <view class="merchant-item">
-        <image src="../../images/ai_example1.png" class="merchant-image"></image>
+      <view class="merchant-item" wx:for="{{merchants}}" wx:key="id" bindtap="navigateToMerchant" data-id="{{item.id}}">
+        <image src="{{item.image}}" class="merchant-image"></image>
         <view class="merchant-info">
-          <text class="merchant-name">塔斯汀</text>
-          <text class="merchant-desc">汉堡 • 西式快餐</text>
+          <text class="merchant-name">{{item.name}}</text>
+          <text class="merchant-desc">{{item.description}}</text>
           <view class="merchant-stats">
-            <text class="rating">4.8</text>
-            <text class="sales">月售1234</text>
-            <text class="distance">1.2km</text>
-            <text class="price">¥20起送</text>
-          </view>
-        </view>
-      </view>
-      <view class="merchant-item">
-        <image src="../../images/ai_example2.png" class="merchant-image"></image>
-        <view class="merchant-info">
-          <text class="merchant-name">曼玲粥店</text>
-          <view class="merchant-desc">粥类 • 早餐</view>
-          <view class="merchant-stats">
-            <text class="rating">4.6</text>
-            <text class="sales">月售892</text>
-            <text class="distance">0.8km</text>
-            <text class="price">¥15起送</text>
+            <text class="rating">{{item.rating}}</text>
+            <text class="sales">月售{{item.sales}}</text>
+            <text class="distance">{{item.distance}}</text>
+            <text class="price">¥{{item.minPrice}}起送</text>
           </view>
         </view>
       </view>

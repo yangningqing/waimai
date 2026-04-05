@@ -4,17 +4,17 @@
   </view>
 
   <view class="rider-list">
-    <view class="rider-item">
-      <image src="../../images/avatar.png" class="rider-avatar"></image>
+    <view class="rider-item" wx:for="{{riders}}" wx:key="id" data-id="{{item.id}}">
+      <image src="{{item.avatar}}" class="rider-avatar"></image>
       <view class="rider-info">
-        <text class="rider-name">王师傅</text>
-        <text class="rider-phone">138****5678</text>
-        <text class="rider-status">配送中</text>
-        <text class="rider-stats">今日订单：12 | 总订单：1234</text>
+        <text class="rider-name">{{item.name}}</text>
+        <text class="rider-phone">{{item.phone}}</text>
+        <text class="rider-status">{{item.status}}</text>
+        <text class="rider-stats">今日订单：{{item.todayOrders}} | 总订单：{{item.totalOrders}}</text>
       </view>
       <view class="rider-actions">
-        <button class="action-btn" bindtap="viewRiderDetail">详情</button>
-        <button class="action-btn" bindtap="editRider">编辑</button>
+        <button class="action-btn" bindtap="viewRiderDetail" data-id="{{item.id}}">详情</button>
+        <button class="action-btn" bindtap="editRider" data-id="{{item.id}}">编辑</button>
       </view>
     </view>
   </view>

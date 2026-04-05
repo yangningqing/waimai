@@ -4,37 +4,22 @@
   </view>
 
   <view class="address-list">
-    <view class="address-item">
-      <view class="address-info">
+    <view class="address-item" wx:for="{{addresses}}" wx:key="id" data-index="{{index}}">
+      <view class="address-info" bindtap="selectAddress" data-index="{{index}}">
         <view class="address-header">
-          <text class="address-name">张三</text>
-          <text class="address-phone">138****1234</text>
-          <text class="address-tag">默认</text>
+          <text class="address-name">{{item.name}}</text>
+          <text class="address-phone">{{item.phone}}</text>
+          <text class="address-tag" wx:if="{{item.isDefault}}">默认</text>
+          <text class="address-tag" wx:else bindtap="setDefault" data-index="{{index}}">设为默认</text>
         </view>
         <view class="address-detail">
-          <text class="address-full">北京市顺义区北京城市学院顺义校区</text>
+          <text class="address-full">{{item.address}}</text>
         </view>
-        <image src="../../images/ai_example1.png" class="address-image"></image>
+        <image src="{{item.image}}" class="address-image" wx:if="{{item.image}}"></image>
       </view>
       <view class="address-actions">
-        <button class="action-btn" bindtap="editAddress">编辑</button>
-        <button class="action-btn" bindtap="deleteAddress">删除</button>
-      </view>
-    </view>
-
-    <view class="address-item">
-      <view class="address-info">
-        <view class="address-header">
-          <text class="address-name">李四</text>
-          <text class="address-phone">139****5678</text>
-        </view>
-        <view class="address-detail">
-          <text class="address-full">北京市朝阳区望京SOHO</text>
-        </view>
-      </view>
-      <view class="address-actions">
-        <button class="action-btn" bindtap="editAddress">编辑</button>
-        <button class="action-btn" bindtap="deleteAddress">删除</button>
+        <button class="action-btn" bindtap="editAddress" data-index="{{index}}">编辑</button>
+        <button class="action-btn" bindtap="deleteAddress" data-index="{{index}}">删除</button>
       </view>
     </view>
   </view>

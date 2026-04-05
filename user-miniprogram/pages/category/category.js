@@ -11,6 +11,8 @@ Page({
       { id: 8, name: '其他' }
     ],
     activeCategory: 1,
+    currentCategoryName: '鲜花',
+    currentGoods: [],
     goods: {
       1: [
         { id: 101, name: '玫瑰花', price: 99, image: '../../images/ai_example1.png' },
@@ -34,12 +36,23 @@ Page({
   },
   onLoad() {
     // 页面加载时的初始化逻辑
+    this.updateCurrentCategory()
+  },
+  updateCurrentCategory() {
+    const activeCategory = this.data.activeCategory
+    const category = this.data.categories.find(c => c.id === activeCategory)
+    const currentGoods = this.data.goods[activeCategory] || this.data.goods[1] || []
+    this.setData({
+      currentCategoryName: category ? category.name : '鲜花',
+      currentGoods: currentGoods
+    })
   },
   switchCategory(e) {
     const categoryId = parseInt(e.currentTarget.dataset.id)
     this.setData({
       activeCategory: categoryId
     })
+    this.updateCurrentCategory()
   },
   addToCart(e) {
     const goodsId = e.currentTarget.dataset.id

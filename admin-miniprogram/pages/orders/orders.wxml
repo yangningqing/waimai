@@ -4,28 +4,24 @@
   </view>
 
   <view class="order-tabs">
-    <view class="tab-item active">全部</view>
-    <view class="tab-item">待处理</view>
-    <view class="tab-item">配送中</view>
-    <view class="tab-item">已完成</view>
-    <view class="tab-item">已取消</view>
+    <view class="tab-item {{currentTab === index ? 'active' : ''}}" wx:for="{{tabList}}" wx:key="index" bindtap="switchTab" data-index="{{index}}">{{item}}</view>
   </view>
 
   <view class="order-list">
-    <view class="order-item">
+    <view class="order-item" wx:for="{{orders}}" wx:key="id" data-index="{{index}}">
       <view class="order-header">
-        <text class="order-id">订单号：20260406123456</text>
-        <text class="order-status">待处理</text>
+        <text class="order-id">订单号：{{item.orderId}}</text>
+        <text class="order-status">{{item.status}}</text>
       </view>
       <view class="order-info">
-        <text class="info-item">商家：塔斯汀</text>
-        <text class="info-item">客户：张三</text>
-        <text class="info-item">金额：¥33</text>
-        <text class="info-item">时间：2026-04-06 12:00</text>
+        <text class="info-item">商家：{{item.merchant}}</text>
+        <text class="info-item">客户：{{item.customer}}</text>
+        <text class="info-item">金额：¥{{item.amount}}</text>
+        <text class="info-item">时间：{{item.time}}</text>
       </view>
       <view class="order-actions">
-        <button class="action-btn" bindtap="handleOrder">处理</button>
-        <button class="action-btn" bindtap="viewOrderDetail">详情</button>
+        <button class="action-btn" bindtap="handleOrder" data-index="{{index}}">处理</button>
+        <button class="action-btn" bindtap="viewOrderDetail" data-index="{{index}}">详情</button>
       </view>
     </view>
   </view>

@@ -29,7 +29,7 @@ Page({
   onShow() {
     // 页面显示时的逻辑
   },
-  领取优惠券() {
+  claimCoupons() {
     wx.showToast({
       title: '优惠券领取成功',
       icon: 'success'
@@ -48,6 +48,36 @@ Page({
   navigateToCoupons() {
     wx.navigateTo({
       url: '../coupon/coupon'
+    })
+  },
+  navigateToCustomerService() {
+    wx.showToast({
+      title: '客服功能开发中',
+      icon: 'none'
+    })
+  },
+  navigateToSettings() {
+    wx.showToast({
+      title: '设置功能开发中',
+      icon: 'none'
+    })
+  },
+  navigateToFavorites() {
+    wx.showToast({
+      title: '收藏功能开发中',
+      icon: 'none'
+    })
+  },
+  navigateToHistory() {
+    wx.showToast({
+      title: '浏览记录功能开发中',
+      icon: 'none'
+    })
+  },
+  navigateToCoins() {
+    wx.showToast({
+      title: '金币功能开发中',
+      icon: 'none'
     })
   }
 })

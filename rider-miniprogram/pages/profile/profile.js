@@ -12,6 +12,29 @@ Page({
   onShow() {
     // 页面显示
   },
+  navigateToWallet() {
+    wx.showToast({
+      title: '钱包功能开发中',
+      icon: 'none'
+    })
+  },
+  navigateToOrders() {
+    wx.navigateTo({
+      url: '../index/index'
+    })
+  },
+  navigateToFeedback() {
+    wx.showToast({
+      title: '意见反馈功能开发中',
+      icon: 'none'
+    })
+  },
+  navigateToSettings() {
+    wx.showToast({
+      title: '设置功能开发中',
+      icon: 'none'
+    })
+  },
   logout() {
     wx.showToast({
       title: '已退出登录',

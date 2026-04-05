@@ -7,13 +7,13 @@
     <view class="form-item">
       <text class="form-label">反馈类型</text>
       <view class="form-options">
-        <view class="option-item active" bindtap="selectType" data-type="建议">
+        <view class="option-item {{feedbackType === '建议' ? 'active' : ''}}" bindtap="selectType" data-type="建议">
           <text class="option-text">建议</text>
         </view>
-        <view class="option-item" bindtap="selectType" data-type="投诉">
+        <view class="option-item {{feedbackType === '投诉' ? 'active' : ''}}" bindtap="selectType" data-type="投诉">
           <text class="option-text">投诉</text>
         </view>
-        <view class="option-item" bindtap="selectType" data-type="其他">
+        <view class="option-item {{feedbackType === '其他' ? 'active' : ''}}" bindtap="selectType" data-type="其他">
           <text class="option-text">其他</text>
         </view>
       </view>
@@ -21,26 +21,26 @@
 
     <view class="form-item">
       <text class="form-label">反馈内容</text>
-      <textarea class="form-textarea" placeholder="请输入您的反馈内容" bindinput="inputContent"></textarea>
+      <textarea class="form-textarea" placeholder="请输入您的反馈内容" value="{{feedbackContent}}" bindinput="inputContent"></textarea>
     </view>
 
     <view class="form-item">
       <text class="form-label">上传图片</text>
       <view class="image-uploader">
-        <view class="upload-item" bindtap="uploadImage">
-          <image src="../../images/icons/upload.svg" class="upload-icon"></image>
-          <text class="upload-text">点击上传</text>
+        <view class="upload-item" wx:for="{{feedbackImages}}" wx:key="index">
+          <image src="{{item}}" class="uploaded-image"></image>
+          <text class="delete-image" bindtap="deleteImage" data-index="{{index}}">×</text>
         </view>
-        <view class="upload-item">
-          <image src="../../images/ai_example1.png" class="uploaded-image"></image>
-          <text class="delete-image" bindtap="deleteImage" data-index="0">×</text>
+        <view class="upload-item" wx:if="{{feedbackImages.length < 9}}" bindtap="uploadImage">
+          <text class="upload-icon">+</text>
+          <text class="upload-text">点击上传</text>
         </view>
       </view>
     </view>
 
     <view class="form-item">
       <text class="form-label">联系方式</text>
-      <input class="form-input" placeholder="请输入您的联系方式" bindinput="inputContact"></input>
+      <input class="form-input" placeholder="请输入您的联系方式" value="{{contactInfo}}" bindinput="inputContact"></input>
     </view>
 
     <button class="submit-btn" bindtap="submitFeedback">提交反馈</button>
