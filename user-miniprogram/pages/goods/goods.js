@@ -18,7 +18,8 @@ Page({
       minPrice: 20,
       image: '../../images/ai_example1.png'
     },
-    loading: true
+    loading: true,
+    selectedAddressText: ''
   },
   onLoad(options) {
     const merchantId = options.id
@@ -31,6 +32,20 @@ Page({
         icon: 'none'
       })
     }
+  },
+  onShow() {
+    this.syncSelectedAddress()
+  },
+  syncSelectedAddress() {
+    const selectedAddress = wx.getStorageSync('selectedAddress') || null
+    this.setData({
+      selectedAddressText: selectedAddress && selectedAddress.address
+        ? String(selectedAddress.address)
+        : ''
+    })
+  },
+  chooseAddress() {
+    wx.navigateTo({ url: '../address/address?mode=select' })
   },
   getGoodsByMerchant(merchantId) {
     wx.showLoading({
@@ -315,6 +330,19 @@ Page({
       goods: allGoods.filter(goods => goods.quantity > 0)
     }]
     const selectedAddress = wx.getStorageSync('selectedAddress') || null
+    if (!selectedAddress || !selectedAddress.id) {
+      wx.showModal({
+        title: '请选择收货地址',
+        content: '下单前需要先选择收货地址',
+        confirmText: '去选择',
+        success: res => {
+          if (res.confirm) {
+            wx.navigateTo({ url: '../address/address?mode=select' })
+          }
+        }
+      })
+      return
+    }
     wx.showLoading({ title: '下单中...' })
     wx.cloud.callFunction({
       name: 'api',

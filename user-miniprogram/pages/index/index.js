@@ -20,9 +20,32 @@ Page({
     }
   },
   onShow() {
+    this.tryShowCouponPopup()
     if (!Array.isArray(this.data.merchants) || this.data.merchants.length === 0) {
       this.getMerchants()
     }
+  },
+  onPullDownRefresh() {
+    const app = getApp()
+    app.globalData.homeCouponPopupShown = false
+    this.tryShowCouponPopup()
+    this.getMerchants()
+  },
+  tryShowCouponPopup() {
+    const app = getApp()
+    if (app.globalData.homeCouponPopupShown) return
+    app.globalData.homeCouponPopupShown = true
+    wx.showModal({
+      title: '新人优惠券',
+      content: '恭喜获得外卖优惠券，是否立即领取？',
+      confirmText: '立即领取',
+      cancelText: '暂不领取',
+      success: (res) => {
+        if (res.confirm) {
+          this.claimCoupons()
+        }
+      }
+    })
   },
   loadMerchantsCache() {
     try {
@@ -132,7 +155,7 @@ Page({
   },
   chooseLocation() {
     wx.chooseLocation({
-      success: (res) => {
+      success: () => {
         wx.showToast({
           title: '地址选择成功',
           icon: 'success'

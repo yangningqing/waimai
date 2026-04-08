@@ -148,12 +148,6 @@ Page({
       url: '../feedback/feedback'
     })
   },
-  navigateToOrders() {
-    if (!this.ensureLoggedIn()) return
-    wx.switchTab({
-      url: '/pages/order/order'
-    })
-  },
   navigateToCoupons() {
     if (!this.ensureLoggedIn()) return
     wx.navigateTo({
@@ -205,6 +199,10 @@ Page({
       const count = result.success && Array.isArray(result.data) ? result.data.length : 0
       wx.showToast({ title: `已收藏${count}个商家`, icon: 'none' })
     }).catch(() => wx.showToast({ title: '网络错误', icon: 'none' }))
+  },
+  navigateToAddress() {
+    if (!this.ensureLoggedIn()) return
+    wx.navigateTo({ url: '../address/address' })
   },
   navigateToHistory() {
     if (!this.ensureLoggedIn()) return

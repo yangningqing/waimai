@@ -41,6 +41,34 @@
   color: #666;
 }
 
+.address-bar {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+}
+
+.address-label {
+  font-size: 13px;
+  color: #666;
+}
+
+.address-value {
+  flex: 1;
+  font-size: 13px;
+  color: #333;
+  margin: 0 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.address-arrow {
+  font-size: 14px;
+  color: #999;
+}
+
 .stat-item {
   margin-right: 15px;
 }
@@ -176,6 +204,7 @@
   font-size: 18px;
   padding: 0;
 }
+
 
 /* 底部结算栏 */
 .checkout-bar {

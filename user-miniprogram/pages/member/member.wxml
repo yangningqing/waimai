@@ -18,30 +18,10 @@
       <image src="../../images/icons/question.svg" class="function-icon"></image>
       <text class="function-text">收藏</text>
     </view>
+    <view class="function-item" bindtap="navigateToAddress">
+      <image src="../../images/icons/setting.svg" class="function-icon"></image>
+      <text class="function-text">地址</text>
+    </view>
   </view>
 
-  <view class="order-section">
-    <view class="section-header">
-      <text class="section-title">订单</text>
-      <text class="section-more" bindtap="navigateToOrders">全部订单</text>
-    </view>
-    <view class="order-items">
-      <view class="order-item" bindtap="navigateToOrders">
-        <image src="../../images/icons/business.png" class="order-icon"></image>
-        <text class="order-text">全部订单</text>
-      </view>
-      <view class="order-item" bindtap="navigateToOrders">
-        <image src="../../images/icons/business.png" class="order-icon"></image>
-        <text class="order-text">待收货/使用</text>
-      </view>
-      <view class="order-item" bindtap="navigateToOrders">
-        <image src="../../images/icons/business.png" class="order-icon"></image>
-        <text class="order-text">待评价</text>
-      </view>
-      <view class="order-item" bindtap="navigateToOrders">
-        <image src="../../images/icons/business.png" class="order-icon"></image>
-        <text class="order-text">退款售后</text>
-      </view>
-    </view>
-  </view>
 </view>

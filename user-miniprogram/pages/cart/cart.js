@@ -1,7 +1,8 @@
 Page({
   data: {
     cartItems: [],
-    totalAmount: 0
+    totalAmount: 0,
+    selectedAddressText: ''
   },
   onLoad() {
     // 页面加载时的初始化逻辑
@@ -10,6 +11,18 @@ Page({
   onShow() {
     // 页面显示时的逻辑
     this.loadCartItems()
+    this.syncSelectedAddress()
+  },
+  syncSelectedAddress() {
+    const selectedAddress = wx.getStorageSync('selectedAddress') || null
+    this.setData({
+      selectedAddressText: selectedAddress && selectedAddress.address
+        ? String(selectedAddress.address)
+        : ''
+    })
+  },
+  chooseAddress() {
+    wx.navigateTo({ url: '../address/address?mode=select' })
   },
   loadCartItems() {
     const rawCartItems = wx.getStorageSync('cartItems') || []
@@ -101,6 +114,19 @@ Page({
     }
 
     const selectedAddress = wx.getStorageSync('selectedAddress') || null
+    if (!selectedAddress || !selectedAddress.id) {
+      wx.showModal({
+        title: '请选择收货地址',
+        content: '下单前需要先选择收货地址',
+        confirmText: '去选择',
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({ url: '../address/address?mode=select' })
+          }
+        }
+      })
+      return
+    }
     wx.showLoading({ title: '下单中...' })
     wx.cloud.callFunction({
       name: 'api',

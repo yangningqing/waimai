@@ -2,6 +2,11 @@
   <view class="cart-header">
     <text class="cart-title">购物车</text>
   </view>
+  <view class="address-bar" bindtap="chooseAddress">
+    <text class="address-label">收货地址：</text>
+    <text class="address-value">{{selectedAddressText || '请选择收货地址'}}</text>
+    <text class="address-arrow">></text>
+  </view>
   <view class="cart-content">
     <block wx:for="{{cartItems}}" wx:key="id" wx:for-index="shopIndex">
       <view class="shop-section">

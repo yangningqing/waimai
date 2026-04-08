@@ -12,6 +12,11 @@
       </view>
     </view>
   </view>
+  <view class="address-bar" bindtap="chooseAddress">
+    <text class="address-label">收货地址：</text>
+    <text class="address-value">{{selectedAddressText || '请选择收货地址'}}</text>
+    <text class="address-arrow">></text>
+  </view>
 
   <!-- 商品分类导航 -->
   <view class="category-nav">
@@ -37,7 +42,7 @@
             <text class="quantity">{{item.quantity}}</text>
             <button class="quantity-btn" bindtap="increaseQuantity" data-id="{{item.id}}">+</button>
           </view>
-          <button class="add-btn" bindtap="addToCart" data-id="{{item.id}}">{{item.quantity > 0 ? '已加' : '+'}}</button>
+          <button class="add-btn" wx:if="{{item.quantity === 0}}" bindtap="addToCart" data-id="{{item.id}}">+</button>
         </view>
       </view>
     </view>

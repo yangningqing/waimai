@@ -1,0 +1,27 @@
+<view class="container">
+  <view class="header">
+    <text class="nav-btn" bindtap="goBack">‹</text>
+    <text class="title">新增收货地址</text>
+    <text class="nav-btn right" bindtap="onTapFeedback">反馈</text>
+  </view>
+
+  <view class="search-bar">
+    <text class="city" bindtap="chooseCity">{{city}} ▼</text>
+    <input class="search-input" placeholder="请输入您的收货地址" value="{{keyword}}" bindinput="onInputKeyword" />
+  </view>
+
+  <map class="map" latitude="{{latitude}}" longitude="{{longitude}}" scale="17" markers="{{[marker]}}">
+    <cover-view class="bubble">{{filteredCandidates[selectedIndex].name}}</cover-view>
+  </map>
+
+  <view class="candidate-panel">
+    <view class="candidate-item {{index===selectedIndex?'active':''}}" wx:for="{{filteredCandidates}}" wx:key="name" data-index="{{index}}" bindtap="chooseCandidate">
+      <view>
+        <text class="name">{{item.name}}</text>
+        <text class="detail">{{item.detail}}</text>
+      </view>
+      <text class="radio">{{index===selectedIndex?'◉':'○'}}</text>
+    </view>
+    <button class="confirm-btn" bindtap="confirmPick">确认选择</button>
+  </view>
+</view>

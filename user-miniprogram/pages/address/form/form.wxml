@@ -1,0 +1,46 @@
+<view class="container">
+  <view class="header">
+    <text class="nav-btn" bindtap="goBack">‹</text>
+    <text class="title">新增收货地址</text>
+    <text class="nav-btn right" bindtap="onTapFeedback">反馈</text>
+  </view>
+
+  <view class="map-mask"></view>
+
+  <view class="form-card">
+    <view class="pick-address-btn" bindtap="chooseAddressFromMap">选择收货地址 ></view>
+    <view class="picked-address" wx:if="{{address}}">
+      <view class="picked-address-main">
+        <text class="picked-address-short">{{addressShort || address}}</text>
+        <text class="picked-address-detail">{{addressDetail || address}}</text>
+      </view>
+      <text class="edit-address-link" bindtap="chooseAddressFromMap">修改地址</text>
+    </view>
+
+    <view class="field">
+      <text class="label">门牌号</text>
+      <input class="input" value="{{doorNo}}" placeholder="详细地址，例如1室1" bindinput="onInputDoorNo" />
+    </view>
+
+    <view class="field">
+      <text class="label">标签</text>
+      <view class="tag-list">
+        <text wx:for="{{tagOptions}}" wx:key="*this" class="tag {{tag===item?'active':''}}" data-tag="{{item}}" bindtap="chooseTag">{{item}}</text>
+      </view>
+    </view>
+
+    <view class="field row">
+      <text class="label">联系人</text>
+      <input class="input flex" value="{{contactName}}" placeholder="请填写收货人的姓名" bindinput="onInputContactName" />
+      <text class="gender {{gender==='先生'?'active':''}}" data-gender="先生" bindtap="chooseGender">先生</text>
+      <text class="gender {{gender==='女士'?'active':''}}" data-gender="女士" bindtap="chooseGender">女士</text>
+    </view>
+
+    <view class="field">
+      <text class="label">手机号</text>
+      <input class="input" type="number" maxlength="11" value="{{phone}}" placeholder="请填写收货手机号" bindinput="onInputPhone" />
+    </view>
+
+    <button class="save-btn" bindtap="saveAddress">保存地址</button>
+  </view>
+</view>

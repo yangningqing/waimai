@@ -1,0 +1,140 @@
+.container {
+  min-height: 100vh;
+  background: #f5f5f5;
+  position: relative;
+}
+.header {
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24rpx;
+  background: #fff;
+  border-bottom: 1rpx solid #eee;
+}
+.nav-btn {
+  width: 120rpx;
+  font-size: 28rpx;
+  color: #333;
+}
+.nav-btn.right {
+  text-align: right;
+}
+.title {
+  flex: 1;
+  text-align: center;
+  font-size: 34rpx;
+  font-weight: 600;
+}
+.map-mask {
+  height: 360rpx;
+  background: linear-gradient(180deg, #eaf3ff 0%, #f5f7fa 100%);
+}
+.form-card {
+  margin: -40rpx 20rpx 20rpx;
+  background: #fff;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  position: relative;
+  z-index: 2;
+}
+.pick-address-btn {
+  height: 72rpx;
+  line-height: 72rpx;
+  border: 1rpx solid #d9d9d9;
+  border-radius: 10rpx;
+  text-align: center;
+  color: #333;
+  background: #fff;
+  margin-bottom: 20rpx;
+}
+.picked-address {
+  margin-top: -6rpx;
+  margin-bottom: 16rpx;
+  background: #f7f8fa;
+  border-radius: 8rpx;
+  padding: 10rpx 14rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12rpx;
+}
+.picked-address-main {
+  flex: 1;
+  min-width: 0;
+}
+.picked-address-short {
+  display: block;
+  font-size: 30rpx;
+  color: #222;
+  font-weight: 600;
+  line-height: 1.35;
+  margin-bottom: 4rpx;
+}
+.picked-address-detail {
+  display: block;
+  font-size: 22rpx;
+  color: #8a8a8a;
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.edit-address-link {
+  font-size: 24rpx;
+  color: #07c160;
+  white-space: nowrap;
+}
+.field {
+  display: flex;
+  align-items: center;
+  margin-bottom: 18rpx;
+}
+.field.row {
+  gap: 12rpx;
+}
+.label {
+  width: 100rpx;
+  font-size: 30rpx;
+  color: #333;
+  font-weight: 600;
+}
+.input {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+}
+.flex {
+  min-width: 0;
+}
+.tag-list {
+  display: flex;
+  gap: 14rpx;
+}
+.tag {
+  padding: 8rpx 22rpx;
+  border-radius: 8rpx;
+  background: #f5f5f5;
+  color: #666;
+  font-size: 26rpx;
+}
+.tag.active {
+  background: #e8f5e9;
+  color: #07c160;
+}
+.gender {
+  font-size: 26rpx;
+  color: #666;
+  padding: 4rpx 8rpx;
+}
+.gender.active {
+  color: #07c160;
+}
+.save-btn {
+  margin-top: 24rpx;
+  background: #07c160;
+  color: #fff;
+  border-radius: 10rpx;
+  font-size: 34rpx;
+  font-weight: 600;
+}

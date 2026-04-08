@@ -6,6 +6,8 @@
     "pages/cart/cart",
     "pages/order/order",
     "pages/address/address",
+    "pages/address/form/form",
+    "pages/address/form/map/map",
     "pages/feedback/feedback",
     "pages/login/login",
     "pages/register/register",
@@ -19,6 +21,15 @@
     "navigationBarTitleText": "微信外卖",
     "navigationBarTextStyle": "black"
   },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于选择收货地址"
+    }
+  },
+  "requiredPrivateInfos": [
+    "chooseLocation",
+    "getLocation"
+  ],
   "tabBar": {
     "list": [
       {

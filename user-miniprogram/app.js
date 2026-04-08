@@ -40,6 +40,7 @@ App({
     userInfo: null,
     baseUrl: 'https://api.example.com',
     currentAccount: null,
-    accountId: ''
+    accountId: '',
+    homeCouponPopupShown: false
   }
 })
