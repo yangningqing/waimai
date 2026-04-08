@@ -1,44 +1,78 @@
 <view class="container">
-  <view class="header">
-    <text class="header-title">我的订单</text>
+  <view class="topbar">
+    <view class="search-wrap">
+      <text class="search-icon">🔍</text>
+      <input
+        class="search-input"
+        placeholder="搜索我的订单"
+        value="{{keyword}}"
+        bindinput="handleSearchInput"
+      />
+      <text class="clear-btn" wx:if="{{keyword}}" bindtap="clearKeyword">清空</text>
+    </view>
+    <view class="top-actions">
+      <text class="top-action" bindtap="onTapFilter">筛选</text>
+      <text class="top-action" bindtap="onTapInvoice">发票</text>
+    </view>
   </view>
 
   <view class="tab-section">
-    <view class="tab-item {{activeTab === 0 ? 'active' : ''}}" bindtap="switchTab" data-index="0">全部</view>
-    <view class="tab-item {{activeTab === 1 ? 'active' : ''}}" bindtap="switchTab" data-index="1">待付款</view>
-    <view class="tab-item {{activeTab === 2 ? 'active' : ''}}" bindtap="switchTab" data-index="2">待收货</view>
-    <view class="tab-item {{activeTab === 3 ? 'active' : ''}}" bindtap="switchTab" data-index="3">已完成</view>
+    <view
+      class="tab-item {{activeTab === index ? 'active' : ''}}"
+      wx:for="{{tabs}}"
+      wx:key="status"
+      bindtap="switchTab"
+      data-index="{{index}}"
+    >
+      <text class="tab-label">{{item.label}}</text>
+    </view>
   </view>
 
-  <view class="order-list" wx:if="{{orders.length > 0}}">
-    <view class="order-item" wx:for="{{orders}}" wx:key="id">
+  <view class="loading-wrap" wx:if="{{loading}}">
+    <text class="loading-text">正在加载订单...</text>
+  </view>
+
+  <view class="order-list" wx:elif="{{orders.length > 0}}">
+    <view class="order-item" wx:for="{{orders}}" wx:key="id" bindlongpress="handleMore" data-id="{{item.id}}">
       <view class="order-header">
-        <text class="order-shop">{{item.shop}}</text>
-        <text class="order-status">{{item.status}}</text>
+        <view class="shop-wrap">
+          <text class="order-shop" bindtap="navigateToShop" data-merchant-id="{{item.merchantId}}">{{item.shop}}</text>
+        </view>
+        <text class="order-status {{item.statusClass}}">{{item.status}}</text>
       </view>
       <view class="order-content">
-        <view class="order-goods" wx:for="{{item.goods}}" wx:for-item="goods" wx:key="goods.id">
-          <image src="{{goods.image}}" class="goods-image"></image>
-          <view class="goods-info">
-            <text class="goods-name">{{goods.name}}</text>
-            <text class="goods-price">¥{{goods.price}}</text>
+        <view class="order-goods" wx:if="{{item.goods.length > 0}}">
+          <image src="{{item.goods[0].image}}" class="goods-image"></image>
+          <view class="goods-info main">
+            <view class="goods-left">
+              <text class="goods-name">{{item.goodsDetailText}}</text>
+              <text class="goods-time">下单: {{item.createdAt || '未知时间'}}</text>
+            </view>
+            <text class="goods-price">¥{{item.totalText}}</text>
           </view>
-          <text class="goods-quantity">x{{goods.quantity}}</text>
         </view>
       </view>
       <view class="order-footer">
-        <text class="order-total">合计：¥{{item.total}}</text>
+        <view class="order-meta">
+          <view class="more-entry" bindtap="handleMore" data-id="{{item.id}}">
+            <text class="order-summary">更多</text>
+            <text class="more-arrow">▾</text>
+          </view>
+        </view>
         <view class="order-actions">
-          <button class="action-btn" bindtap="contactRider" wx:if="{{item.status === '待收货'}}">联系骑手</button>
-          <button class="action-btn primary" bindtap="confirmReceipt" wx:if="{{item.status === '待收货'}}">确认收货</button>
-          <button class="action-btn" bindtap="buyAgain" wx:if="{{item.status === '已完成'}}">再次购买</button>
-          <button class="action-btn" bindtap="evaluate" wx:if="{{item.status === '已完成'}}">评价</button>
+          <button class="action-btn primary" bindtap="buyAgain" data-id="{{item.id}}">再来一单</button>
+          <button class="action-btn primary" bindtap="immediatePay" data-id="{{item.id}}" wx:if="{{item.status === '待付款'}}">立即支付</button>
+          <button class="action-btn" bindtap="contactRider" data-id="{{item.id}}" wx:if="{{item.status === '待收货'}}">联系骑手</button>
+          <button class="action-btn" bindtap="confirmReceipt" data-id="{{item.id}}" wx:if="{{item.status === '待收货'}}">确认收货</button>
+          <button class="action-btn" bindtap="evaluate" data-id="{{item.id}}" wx:if="{{item.canEvaluate}}">评价</button>
+          <button class="action-btn ghost" bindtap="copyOrderId" data-id="{{item.id}}">复制单号</button>
         </view>
       </view>
     </view>
   </view>
 
   <view class="empty-order" wx:else>
-    <text class="empty-text">暂无订单</text>
+    <text class="empty-text">当前筛选下暂无订单</text>
+    <text class="empty-tip">下拉可以刷新订单列表</text>
   </view>
 </view>

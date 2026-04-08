@@ -6,11 +6,11 @@
   <view class="income-summary">
     <view class="summary-item">
       <text class="summary-label">今日收入</text>
-      <text class="summary-value">¥568</text>
+      <text class="summary-value">¥{{todayIncome}}</text>
     </view>
     <view class="summary-item">
       <text class="summary-label">今日订单</text>
-      <text class="summary-value">24</text>
+      <text class="summary-value">{{todayOrders}}</text>
     </view>
   </view>
 
@@ -19,28 +19,12 @@
       <text class="list-title">今日收入明细</text>
     </view>
 
-    <view class="income-item">
+    <view class="income-item" wx:for="{{incomeList}}" wx:key="orderId">
       <view class="income-info">
-        <text class="income-order">订单：20260406001</text>
-        <text class="income-time">10:30</text>
+        <text class="income-order">订单：{{item.orderId}}</text>
+        <text class="income-time">{{item.time}}</text>
       </view>
-      <text class="income-amount">+30</text>
-    </view>
-
-    <view class="income-item">
-      <view class="income-info">
-        <text class="income-order">订单：20260406002</text>
-        <text class="income-time">11:15</text>
-      </view>
-      <text class="income-amount">+25</text>
-    </view>
-
-    <view class="income-item">
-      <view class="income-info">
-        <text class="income-order">订单：20260406003</text>
-        <text class="income-time">12:00</text>
-      </view>
-      <text class="income-amount">+45</text>
+      <text class="income-amount">+{{item.amount}}</text>
     </view>
   </view>
 </view>

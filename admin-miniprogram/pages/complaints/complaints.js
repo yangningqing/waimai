@@ -14,21 +14,42 @@ Page({
     ]
   },
   onLoad() {
-    // 页面加载时的初始化逻辑
+    this.loadComplaints()
   },
   onShow() {
-    // 页面显示时的逻辑
+    this.loadComplaints()
+  },
+  callApi(action, data = {}) {
+    const accountId = getApp().getAccountId()
+    return wx.cloud.callFunction({
+      name: 'api',
+      data: { action, data: { ...data, ...(accountId ? { accountId } : {}) } }
+    }).then(res => (res && res.result) || {})
+  },
+  loadComplaints() {
+    this.callApi('getAdminComplaints').then(result => {
+      if (result.success && Array.isArray(result.data)) {
+        this.setData({ complaints: result.data })
+      }
+    }).catch(() => {})
   },
   handleComplaint(e) {
-    const complaintId = e.currentTarget.dataset.id
+    const complaintId = Number(e.currentTarget.dataset.id)
     wx.showModal({
       title: '处理投诉',
-      content: '确定要处理这个投诉吗？',
+      editable: true,
+      placeholderText: '请输入处理结果',
       success: (res) => {
         if (res.confirm) {
-          wx.showToast({
-            title: '投诉处理成功',
-            icon: 'success'
+          this.callApi('handleComplaint', {
+            id: complaintId,
+            handleResult: String(res.content || '已处理')
+          }).then(result => {
+            wx.showToast({
+              title: result.success ? '投诉处理成功' : (result.message || '处理失败'),
+              icon: result.success ? 'success' : 'none'
+            })
+            if (result.success) this.loadComplaints()
           })
         }
       }
@@ -36,14 +57,11 @@ Page({
   },
   viewComplaintDetail(e) {
     const complaintId = e.currentTarget.dataset.id
+    const complaint = (this.data.complaints || []).find(item => item.id === complaintId)
     wx.showModal({
       title: '投诉详情',
-      content: '投诉详情页面',
-      success: (res) => {
-        if (res.confirm) {
-          // 跳转到投诉详情页
-        }
-      }
+      content: complaint ? `用户：${complaint.customer || ''}\n内容：${complaint.content || ''}\n状态：${complaint.status || ''}` : '无详情',
+      showCancel: false
     })
   }
 })

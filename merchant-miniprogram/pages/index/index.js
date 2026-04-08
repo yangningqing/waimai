@@ -40,25 +40,52 @@ Page({
     ]
   },
   onLoad() {
-    // 页面加载时的初始化逻辑
+    this.loadDashboard()
   },
   onShow() {
-    // 页面显示时的逻辑
+    this.loadDashboard()
+  },
+  callApi(action, data = {}) {
+    const accountId = getApp().getAccountId()
+    return wx.cloud.callFunction({
+      name: 'api',
+      data: { action, data: { ...data, ...(accountId ? { accountId } : {}) } }
+    }).then(res => (res && res.result) || {})
+  },
+  getMerchantName() {
+    const account = getApp().globalData.currentAccount || {}
+    return String(account.nickname || account.merchantName || '塔斯汀')
+  },
+  loadDashboard() {
+    if (!getApp().isLoggedIn()) {
+      this.setData({ recentOrders: [], stats: { ...this.data.stats, todayOrders: 0, pendingOrders: 0, todayIncome: 0 } })
+      return
+    }
+    const merchant = this.getMerchantName()
+    Promise.all([
+      this.callApi('getMerchantDashboard', { merchant, merchantId: 1 }),
+      this.callApi('getMerchantOrders', { merchant }),
+      this.callApi('getMerchantGoods', { merchantId: 1 })
+    ]).then(([dashboard, orders, goods]) => {
+      if (dashboard.success && dashboard.data) {
+        this.setData({ stats: dashboard.data })
+      }
+      if (orders.success && Array.isArray(orders.data)) {
+        this.setData({ recentOrders: orders.data.slice(0, 5) })
+      }
+      if (goods.success && Array.isArray(goods.data)) {
+        this.setData({ hotGoods: goods.data.slice(0, 5) })
+      }
+    }).catch(() => wx.showToast({ title: '加载失败', icon: 'none' }))
   },
   navigateToGoods() {
-    wx.navigateTo({
-      url: '../goods/goods'
-    })
+    wx.switchTab({ url: '/pages/goods/goods' })
   },
   navigateToOrders() {
-    wx.navigateTo({
-      url: '../orders/orders'
-    })
+    wx.switchTab({ url: '/pages/orders/orders' })
   },
   navigateToIncome() {
-    wx.navigateTo({
-      url: '../income/income'
-    })
+    wx.switchTab({ url: '/pages/income/income' })
   },
   handleOrder(e) {
     const orderId = e.currentTarget.dataset.id
@@ -68,12 +95,24 @@ Page({
       success: (res) => {
         if (res.confirm) {
           wx.showToast({
-            title: '订单处理成功',
-            icon: 'success'
+            title: '处理中...',
+            icon: 'none'
+          })
+          this.callApi('updateMerchantOrderStatus', { orderId, status: '配送中' }).then(result => {
+            wx.showToast({ title: result.success ? '订单处理成功' : (result.message || '处理失败'), icon: result.success ? 'success' : 'none' })
+            if (result.success) this.loadDashboard()
           })
         }
       }
     })
+  },
+  handleOrderAction(e) {
+    const status = String(e.currentTarget.dataset.status || '')
+    if (status === '待处理' || status === '待接单') {
+      this.handleOrder(e)
+      return
+    }
+    this.viewOrderDetail(e)
   },
   viewOrderDetail(e) {
     const orderId = e.currentTarget.dataset.id

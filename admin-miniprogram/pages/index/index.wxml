@@ -1,7 +1,7 @@
 <view class="container">
   <view class="header">
     <text class="header-title">后台管理系统</text>
-    <text class="admin-name">管理员：admin</text>
+    <text class="admin-name">管理员：{{adminName}}</text>
   </view>
 
   <view class="stats-section">

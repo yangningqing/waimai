@@ -1,4 +1,8 @@
 {
+  "miniprogramRoot": ".",
+  "projectname": "用户端",
+  "description": "微信外卖小程序 - 用户端",
+  "appid": "wxc1cb7a1cfec30919",
   "setting": {
     "es6": true,
     "postcss": true,
@@ -20,6 +24,5 @@
     "ignore": [],
     "include": []
   },
-  "appid": "wxc1cb7a1cfec30919",
   "editorSetting": {}
 }

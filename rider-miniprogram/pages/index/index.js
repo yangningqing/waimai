@@ -2,80 +2,56 @@ Page({
   data: {
     currentTab: 0,
     isOnline: false,
-    pendingOrders: [
-      {
-        id: 1,
-        deliveryTime: '04-03 15:44:09',
-        distance: '3.08 km',
-        tags: ['商家单', '帮我买', '抖音订单'],
-        status: '待抢单',
-        shopName: '塔斯汀',
-        shopAddress: '北京市顺义区塔斯汀店',
-        customerName: '张三',
-        customerAddress: '北京城市学院顺义校区',
-        customerPhone: '138****1234',
-        amount: 15
-      },
-      {
-        id: 2,
-        deliveryTime: '04-03 15:50:00',
-        distance: '2.1 km',
-        waitTime: '立即送达（已等待7分钟）',
-        tags: ['跑腿单', '帮我买'],
-        status: '待抢单',
-        shopName: '曼玲粥店',
-        shopAddress: '北京市朝阳区曼玲粥店',
-        customerName: '李四',
-        customerAddress: '朝阳区望京SOHO',
-        customerPhone: '139****5678',
-        amount: 18
-      }
-    ],
-    deliveringOrders: [
-      {
-        id: 3,
-        deliveryTime: '04-03 16:00:00',
-        distance: '1.5 km',
-        tags: ['商家单'],
-        status: '配送中',
-        shopName: '肯德基',
-        shopAddress: '北京市海淀区肯德基店',
-        customerName: '王五',
-        customerAddress: '海淀区中关村',
-        customerPhone: '137****9012',
-        amount: 16
-      }
-    ],
-    completedOrders: [
-      {
-        id: 4,
-        deliveryTime: '04-03 14:30:00',
-        distance: '2.0 km',
-        tags: ['商家单'],
-        status: '已完成',
-        shopName: '麦当劳',
-        customerName: '赵六',
-        amount: 20
-      }
-    ]
+    pendingOrders: [],
+    deliveringOrders: [],
+    completedOrders: []
   },
 
   onLoad() {
-    // 页面加载
+    this.loadOrders()
   },
 
   onShow() {
-    // 页面显示
+    this.loadOrders()
+  },
+  callApi(action, data = {}) {
+    const accountId = getApp().getAccountId()
+    return wx.cloud.callFunction({
+      name: 'api',
+      data: { action, data: { ...data, ...(accountId ? { accountId } : {}) } }
+    }).then(res => (res && res.result) || {})
+  },
+  loadOrders() {
+    if (!getApp().isLoggedIn()) {
+      this.setData({ pendingOrders: [], deliveringOrders: [], completedOrders: [] })
+      return
+    }
+    Promise.all([
+      this.callApi('getRiderOrders', { status: '待抢单' }),
+      this.callApi('getRiderOrders', { status: '配送中' }),
+      this.callApi('getRiderOrders', { status: '已完成' }),
+      this.callApi('getRiderProfile')
+    ]).then(([pending, delivering, completed, profile]) => {
+      this.setData({
+        pendingOrders: pending.success ? (pending.data || []) : [],
+        deliveringOrders: delivering.success ? (delivering.data || []) : [],
+        completedOrders: completed.success ? (completed.data || []) : [],
+        isOnline: !!(profile.success && profile.data && profile.data.online)
+      })
+    }).catch(err => {
+      console.error('加载骑手订单失败:', err)
+      wx.showToast({ title: '加载失败', icon: 'none' })
+    })
   },
 
   toggleOnline() {
-    this.setData({
-      isOnline: !this.data.isOnline
-    })
-    wx.showToast({
-      title: this.data.isOnline ? '已上线' : '已下线',
-      icon: 'success'
-    })
+    const online = !this.data.isOnline
+    this.callApi('updateRiderOnlineStatus', { online }).then(result => {
+      if (result.success) {
+        this.setData({ isOnline: online })
+      }
+      wx.showToast({ title: result.success ? (online ? '已上线' : '已下线') : (result.message || '切换失败'), icon: result.success ? 'success' : 'none' })
+    }).catch(() => wx.showToast({ title: '网络错误', icon: 'none' }))
   },
 
   switchTab(e) {
@@ -88,24 +64,19 @@ Page({
     const index = e.currentTarget.dataset.index
     const pendingOrders = this.data.pendingOrders
     const order = pendingOrders[index]
+    if (!order) return
     
     wx.showModal({
       title: '确认抢单',
       content: `确定要抢这个订单吗？\n距离：${order.distance}\n金额：¥${order.amount}`,
       success: (res) => {
         if (res.confirm) {
-          // 从待抢单列表移除
-          pendingOrders.splice(index, 1)
-          // 添加到配送中列表
-          const deliveringOrders = this.data.deliveringOrders
-          deliveringOrders.push({
-            ...order,
-            status: '配送中'
-          })
-          this.setData({ pendingOrders, deliveringOrders })
-          wx.showToast({
-            title: '抢单成功',
-            icon: 'success'
+          this.callApi('acceptOrder', { orderId: order.id }).then(result => {
+            wx.showToast({
+              title: result.success ? '抢单成功' : (result.message || '抢单失败'),
+              icon: result.success ? 'success' : 'none'
+            })
+            if (result.success) this.loadOrders()
           })
         }
       }
@@ -217,20 +188,15 @@ Page({
       content: '确定已经完成配送了吗？\n完成后收入将实时到账',
       success: (res) => {
         if (res.confirm) {
-          // 从配送中列表移除
-          deliveringOrders.splice(index, 1)
-          // 添加到已完成列表
-          const completedOrders = this.data.completedOrders
-          completedOrders.unshift({
-            ...order,
-            status: '已完成'
-          })
-          this.setData({ deliveringOrders, completedOrders })
-          
-          wx.showToast({
-            title: `配送完成，+¥${order.amount}已到账`,
-            icon: 'success',
-            duration: 2000
+          this.callApi('completeDelivery', { orderId: order.id }).then(result => {
+            if (result.success) {
+              this.loadOrders()
+            }
+            wx.showToast({
+              title: result.success ? `配送完成，+¥${order.amount || 0}已到账` : (result.message || '操作失败'),
+              icon: result.success ? 'success' : 'none',
+              duration: 2000
+            })
           })
         }
       }
@@ -252,9 +218,15 @@ Page({
           placeholderText: '请详细描述异常情况',
           success: (modalRes) => {
             if (modalRes.confirm) {
-              wx.showToast({
-                title: '异常已上报',
-                icon: 'success'
+              this.callApi('reportOrderException', {
+                orderId: this.data.deliveringOrders[index] && this.data.deliveringOrders[index].id,
+                reason,
+                detail: String(modalRes.content || '')
+              }).then(result => {
+                wx.showToast({
+                  title: result.success ? '异常已上报' : (result.message || '上报失败'),
+                  icon: result.success ? 'success' : 'none'
+                })
               })
             }
           }
@@ -269,6 +241,7 @@ Page({
       content: '确定要退出登录吗？',
       success: (res) => {
         if (res.confirm) {
+          getApp().setCurrentAccount(null)
           wx.showToast({
             title: '已退出登录',
             icon: 'success'

@@ -40,7 +40,9 @@
         </view>
         <text class="order-time">{{item.time}}</text>
         <text class="order-amount">¥{{item.amount}}</text>
-        <button class="order-btn" bindtap="{{item.status === '待处理' ? 'handleOrder' : 'viewOrderDetail'}}" data-id="{{item.id}}">{{item.status === '待处理' ? '处理' : '详情'}}</button>
+        <button class="order-btn" bindtap="handleOrderAction" data-id="{{item.id}}" data-status="{{item.status}}">
+          {{item.status === '待处理' || item.status === '待接单' ? '处理' : '详情'}}
+        </button>
       </view>
     </view>
   </view>

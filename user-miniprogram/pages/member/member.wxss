@@ -36,9 +36,25 @@
   color: #999;
 }
 
+.account-text {
+  display: block;
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  color: #666;
+}
+
 .header-actions {
   display: flex;
+  align-items: center;
   gap: 20rpx;
+}
+
+.account-btn {
+  font-size: 22rpx;
+  color: #ff4757;
+  border: 1rpx solid #ff4757;
+  border-radius: 20rpx;
+  padding: 8rpx 16rpx;
 }
 
 .action-icon {

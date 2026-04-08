@@ -1,151 +1,150 @@
-.container {
+.cart-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
   background-color: #f5f5f5;
-  min-height: 100vh;
 }
 
-.header {
-  background-color: #fff;
-  padding: 20rpx;
-  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.1);
-  margin-bottom: 20rpx;
+.cart-header {
+  padding: 15px;
+  background-color: white;
+  border-bottom: 1px solid #eee;
+  text-align: center;
 }
 
-.header-title {
-  font-size: 36rpx;
+.cart-title {
+  font-size: 18px;
   font-weight: bold;
-  color: #333;
 }
 
-.cart-list {
-  padding: 0 20rpx;
-  margin-bottom: 100rpx;
+.cart-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
 }
 
-.cart-item {
-  background-color: #fff;
-  border-radius: 10rpx;
-  padding: 20rpx;
-  margin-bottom: 20rpx;
-  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.1);
+.shop-section {
+  background-color: white;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  overflow: hidden;
 }
 
-.shop-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20rpx;
-  padding-bottom: 10rpx;
-  border-bottom: 1rpx solid #e0e0e0;
-}
-
-.shop-name {
-  font-size: 32rpx;
+.shop-header {
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
   font-weight: bold;
-  color: #333;
 }
 
-.shop-desc {
-  font-size: 24rpx;
-  color: #999;
+.goods-list {
+  padding: 10px;
 }
 
-.goods-info {
+.goods-item {
   display: flex;
-  align-items: center;
-  gap: 20rpx;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.goods-item:last-child {
+  border-bottom: none;
 }
 
 .goods-image {
-  width: 100rpx;
-  height: 100rpx;
-  border-radius: 10rpx;
+  width: 80px;
+  height: 80px;
+  border-radius: 4px;
+  margin-right: 10px;
 }
 
-.goods-details {
+.goods-info {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.goods-name {
+  font-size: 14px;
+  line-height: 1.4;
+  margin-bottom: 5px;
+}
+
+.goods-price-quantity {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.goods-name {
-  font-size: 28rpx;
-  color: #333;
-}
-
 .goods-price {
-  font-size: 28rpx;
+  font-size: 16px;
   font-weight: bold;
-  color: #ff4757;
+  color: #ff4d4f;
 }
 
 .quantity-control {
   display: flex;
   align-items: center;
-  gap: 10rpx;
 }
 
 .quantity-btn {
-  width: 50rpx;
-  height: 50rpx;
-  border: 1rpx solid #e0e0e0;
-  border-radius: 50%;
-  background-color: #fff;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ddd;
+  background-color: white;
+  border-radius: 4px;
+  font-size: 16px;
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-size: 32rpx;
+  justify-content: center;
 }
 
 .quantity {
-  font-size: 28rpx;
-  color: #333;
-  min-width: 50rpx;
+  margin: 0 10px;
+  font-size: 14px;
+  min-width: 30px;
   text-align: center;
 }
 
-.total-section {
-  position: fixed;
-  bottom: 100rpx;
-  left: 0;
-  right: 0;
-  background-color: #fff;
-  padding: 20rpx;
-  box-shadow: 0 -2rpx 10rpx rgba(0,0,0,0.1);
+.empty-cart {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
-  gap: 10rpx;
+  height: 200px;
+  color: #999;
 }
 
-.total-label {
-  font-size: 28rpx;
-  color: #333;
-}
-
-.total-value {
-  font-size: 36rpx;
-  font-weight: bold;
-  color: #ff4757;
-}
-
-.checkout-section {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: #fff;
-  padding: 20rpx;
-  box-shadow: 0 -2rpx 10rpx rgba(0,0,0,0.1);
+.cart-footer {
+  padding: 10px 15px;
+  background-color: white;
+  border-top: 1px solid #eee;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total-price {
+  display: flex;
+  align-items: center;
+}
+
+.total-price text {
+  font-size: 14px;
+}
+
+.total-price .price {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ff4d4f;
+  margin-left: 5px;
 }
 
 .checkout-btn {
-  background-color: #ff4757;
-  color: #fff;
+  background-color: #ff4d4f;
+  color: white;
   border: none;
-  border-radius: 25rpx;
-  padding: 15rpx 60rpx;
-  font-size: 32rpx;
+  border-radius: 4px;
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: bold;
 }

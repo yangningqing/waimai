@@ -2,7 +2,7 @@ Page({
   data: {
     currentTab: 0,
     tabList: ['全部', '待接单', '配送中', '已完成'],
-    orderList: [
+    allOrders: [
       {
         id: '20260406001',
         customerName: '张三',
@@ -23,15 +23,54 @@ Page({
         price: 25,
         status: '配送中'
       }
-    ]
+    ],
+    orderList: []
   },
   onLoad() {
-    // 页面加载
+    this.loadOrders()
+  },
+  onShow() {
+    this.loadOrders()
+  },
+  callApi(action, data = {}) {
+    const accountId = getApp().getAccountId()
+    return wx.cloud.callFunction({
+      name: 'api',
+      data: { action, data: { ...data, ...(accountId ? { accountId } : {}) } }
+    }).then(res => (res && res.result) || {})
+  },
+  getMerchantName() {
+    const account = getApp().globalData.currentAccount || {}
+    return String(account.nickname || account.merchantName || '塔斯汀')
+  },
+  loadOrders() {
+    if (!getApp().isLoggedIn()) {
+      this.setData({ allOrders: [], orderList: [] })
+      return
+    }
+    this.callApi('getMerchantOrders', { merchant: this.getMerchantName() }).then(result => {
+      const allOrders = result.success ? (result.data || []) : []
+      this.setData({ allOrders })
+      this.applyFilter()
+    }).catch(() => wx.showToast({ title: '加载失败', icon: 'none' }))
   },
   switchTab(e) {
     this.setData({
       currentTab: e.currentTarget.dataset.index
     })
+    this.applyFilter()
+  },
+  applyFilter() {
+    const { currentTab, allOrders } = this.data
+    let orderList = allOrders || []
+    if (currentTab === 1) {
+      orderList = orderList.filter(item => item.status === '待接单')
+    } else if (currentTab === 2) {
+      orderList = orderList.filter(item => item.status === '配送中' || item.status === '待取餐')
+    } else if (currentTab === 3) {
+      orderList = orderList.filter(item => item.status === '已完成')
+    }
+    this.setData({ orderList })
   },
   acceptOrder(e) {
     const index = e.currentTarget.dataset.index
@@ -42,11 +81,12 @@ Page({
       content: '确定要接这个订单吗？',
       success: (res) => {
         if (res.confirm) {
-          orderList[index].status = '配送中'
-          this.setData({ orderList })
-          wx.showToast({
-            title: '接单成功',
-            icon: 'success'
+          this.callApi('updateMerchantOrderStatus', { orderId: orderList[index].id, status: '配送中' }).then(result => {
+            wx.showToast({
+              title: result.success ? '接单成功' : (result.message || '接单失败'),
+              icon: result.success ? 'success' : 'none'
+            })
+            if (result.success) this.loadOrders()
           })
         }
       }
@@ -62,11 +102,12 @@ Page({
       placeholderText: '请输入拒单原因',
       success: (res) => {
         if (res.confirm) {
-          orderList.splice(index, 1)
-          this.setData({ orderList })
-          wx.showToast({
-            title: '已拒单',
-            icon: 'success'
+          this.callApi('updateMerchantOrderStatus', { orderId: orderList[index].id, status: '已取消' }).then(result => {
+            wx.showToast({
+              title: result.success ? '已拒单' : (result.message || '操作失败'),
+              icon: result.success ? 'success' : 'none'
+            })
+            if (result.success) this.loadOrders()
           })
         }
       }
@@ -91,11 +132,12 @@ Page({
       content: '确定订单已经完成了吗？',
       success: (res) => {
         if (res.confirm) {
-          orderList[index].status = '已完成'
-          this.setData({ orderList })
-          wx.showToast({
-            title: '订单已完成',
-            icon: 'success'
+          this.callApi('updateMerchantOrderStatus', { orderId: orderList[index].id, status: '已完成' }).then(result => {
+            wx.showToast({
+              title: result.success ? '订单已完成' : (result.message || '操作失败'),
+              icon: result.success ? 'success' : 'none'
+            })
+            if (result.success) this.loadOrders()
           })
         }
       }

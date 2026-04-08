@@ -1,7 +1,7 @@
 <view class="container">
   <!-- 顶部地址栏 -->
   <view class="header">
-    <view class="location">
+    <view class="location" bindtap="chooseLocation">
       <text>北京城市学院（顺义校区）</text>
       <text class="arrow">▼</text>
     </view>
@@ -10,29 +10,7 @@
     </view>
   </view>
 
-  <!-- 分类导航 -->
-  <view class="category-nav">
-    <view class="category-item" bindtap="navigateToCategory">
-      <view class="category-icon">外</view>
-      <text>外卖</text>
-    </view>
-    <view class="category-item" bindtap="search">
-      <view class="category-icon">团</view>
-      <text>团购</text>
-    </view>
-    <view class="category-item" bindtap="search">
-      <view class="category-icon">酒</view>
-      <text>酒店</text>
-    </view>
-    <view class="category-item" bindtap="search">
-      <view class="category-icon">闪</view>
-      <text>闪购</text>
-    </view>
-    <view class="category-item" bindtap="search">
-      <view class="category-icon">更</view>
-      <text>更多</text>
-    </view>
-  </view>
+
 
   <!-- 优惠券区域 -->
   <view class="coupon-section">

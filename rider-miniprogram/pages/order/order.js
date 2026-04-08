@@ -1,33 +1,28 @@
 Page({
   data: {
-    orders: [
-      {
-        id: '20260406001',
-        shopName: '塔斯汀',
-        shopAddress: '北京市顺义区塔斯汀店',
-        customerName: '张三',
-        customerAddress: '北京城市学院顺义校区',
-        status: '待取餐',
-        remainingTime: '29:59',
-        customerPhone: '138****1234'
-      },
-      {
-        id: '20260406002',
-        shopName: '曼玲粥店',
-        shopAddress: '北京市朝阳区曼玲粥店',
-        customerName: '李四',
-        customerAddress: '朝阳区望京SOHO',
-        status: '配送中',
-        remainingTime: '15:30',
-        customerPhone: '139****5678'
-      }
-    ]
+    orders: []
   },
   onLoad() {
-    // 页面加载
+    this.loadOrders()
   },
   onShow() {
-    // 页面显示
+    this.loadOrders()
+  },
+  callApi(action, data = {}) {
+    const accountId = getApp().getAccountId()
+    return wx.cloud.callFunction({
+      name: 'api',
+      data: { action, data: { ...data, ...(accountId ? { accountId } : {}) } }
+    }).then(res => (res && res.result) || {})
+  },
+  loadOrders() {
+    if (!getApp().isLoggedIn()) {
+      this.setData({ orders: [] })
+      return
+    }
+    this.callApi('getRiderOrders', { status: '配送中' }).then(result => {
+      this.setData({ orders: result.success ? (result.data || []) : [] })
+    }).catch(() => wx.showToast({ title: '加载失败', icon: 'none' }))
   },
   navigateToShop(e) {
     const index = e.currentTarget.dataset.index
@@ -65,10 +60,9 @@ Page({
       success: (res) => {
         if (res.confirm) {
           orders[index].status = '配送中'
-          this.setData({ orders })
-          wx.showToast({
-            title: '取餐成功',
-            icon: 'success'
+          this.callApi('confirmPickup', { orderId: orders[index].id }).then(result => {
+            wx.showToast({ title: result.success ? '取餐成功' : (result.message || '操作失败'), icon: result.success ? 'success' : 'none' })
+            if (result.success) this.loadOrders()
           })
         }
       }
@@ -131,28 +125,21 @@ Page({
       content: '确定已经完成配送了吗？\n完成后收入将实时到账',
       success: (res) => {
         if (res.confirm) {
-          orders.splice(index, 1)
-          this.setData({ orders })
-          
-          wx.showToast({
-            title: '配送完成，收入已到账',
-            icon: 'success',
-            duration: 2000
-          })
-          
-          // 更新骑手收入
-          setTimeout(() => {
+          this.callApi('completeDelivery', { orderId: orders[index] && orders[index].id }).then(result => {
             wx.showToast({
-              title: '+15元已到账',
-              icon: 'success'
+              title: result.success ? '配送完成，收入已到账' : (result.message || '操作失败'),
+              icon: result.success ? 'success' : 'none',
+              duration: 2000
             })
-          }, 2000)
+            if (result.success) this.loadOrders()
+          })
         }
       }
     })
   },
   reportException(e) {
     const index = e.currentTarget.dataset.index
+    const orders = this.data.orders || []
     
     wx.showActionSheet({
       itemList: ['联系不上客户', '商品异常', '交通拥堵', '其他异常'],
@@ -166,9 +153,15 @@ Page({
           placeholderText: '请详细描述异常情况',
           success: (modalRes) => {
             if (modalRes.confirm) {
-              wx.showToast({
-                title: '异常已上报',
-                icon: 'success'
+              this.callApi('reportOrderException', {
+                orderId: orders[index] && orders[index].id,
+                reason,
+                detail: String(modalRes.content || '')
+              }).then(result => {
+                wx.showToast({
+                  title: result.success ? '异常已上报' : (result.message || '上报失败'),
+                  icon: result.success ? 'success' : 'none'
+                })
               })
             }
           }

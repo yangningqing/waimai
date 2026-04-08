@@ -1,159 +1,393 @@
 .container {
-  background-color: #f5f5f5;
   min-height: 100vh;
+  background-color: #f5f5f5;
+  padding-bottom: 60px;
 }
 
-.header {
+/* 店铺头部信息 */
+.shop-header {
+  display: flex;
+  align-items: center;
+  padding: 15px;
   background-color: #fff;
-  padding: 20rpx;
-  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.1);
-  margin-bottom: 20rpx;
+  margin-bottom: 10px;
 }
 
-.header-title {
-  font-size: 36rpx;
+.shop-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  margin-right: 15px;
+}
+
+.shop-info {
+  flex: 1;
+}
+
+.shop-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.shop-rating {
+  color: #ff6b6b;
+  margin-bottom: 8px;
+}
+
+.shop-stats {
+  display: flex;
+  font-size: 12px;
+  color: #666;
+}
+
+.stat-item {
+  margin-right: 15px;
+}
+
+/* 商品分类导航 */
+.category-nav {
+  background-color: #fff;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.category-scroll {
+  display: flex;
+  padding: 10px 0;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.category-item {
+  padding: 8px 15px;
+  margin: 0 5px;
+  font-size: 14px;
+  color: #666;
+  border-radius: 20px;
+}
+
+.category-item.active {
+  background-color: #ff6b6b;
+  color: #fff;
+}
+
+/* 商品列表 */
+.goods-list {
+  background-color: #fff;
+  padding: 10px 0;
+}
+
+.category-title {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 15px;
+  color: #333;
+}
+
+.goods-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  padding: 0 15px;
+}
+
+.goods-item {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 10px;
+  position: relative;
+}
+
+.goods-image {
+  width: 100%;
+  height: 120px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.goods-info {
+  margin-bottom: 10px;
+}
+
+.goods-name {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 5px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.goods-price {
+  font-size: 16px;
+  font-weight: bold;
+  color: #ff6b6b;
+  margin-bottom: 3px;
+}
+
+.goods-sales {
+  font-size: 12px;
+  color: #999;
+}
+
+.goods-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.quantity-btn {
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  font-size: 16px;
+  padding: 0;
+}
+
+.quantity {
+  margin: 0 10px;
+  font-size: 14px;
+}
+
+.add-btn {
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  background-color: #ff6b6b;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 18px;
+  padding: 0;
+}
+
+/* 底部结算栏 */
+.checkout-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: #fff;
+  border-top: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  z-index: 100;
+}
+
+.cart-info {
+  position: relative;
+  margin-right: 20px;
+}
+
+.cart-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.cart-count {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  background-color: #ff6b6b;
+  color: #fff;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.total-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.total-label {
+  font-size: 14px;
+  color: #333;
+  margin-right: 5px;
+}
+
+.total-price {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ff6b6b;
+}
+
+.checkout-btn {
+  background-color: #ff6b6b;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* 滚动条样式 */
+.category-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* 购物车展开面板 */
+.cart-panel {
+  position: fixed;
+  bottom: 60px;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 200;
+  max-height: 400px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.cart-panel-title {
+  font-size: 16px;
   font-weight: bold;
   color: #333;
 }
 
-.goods-info {
-  background-color: #fff;
-  padding: 20rpx;
-  margin-bottom: 20rpx;
-  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.1);
+.cart-panel-close {
+  font-size: 24px;
+  color: #999;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.cart-panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.cart-shop {
+  margin-bottom: 15px;
+}
+
+.cart-shop-name {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+  padding-left: 10px;
+}
+
+.cart-goods-list {
+  padding-left: 10px;
+}
+
+.cart-goods-item {
   display: flex;
-  gap: 20rpx;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
 }
 
-.goods-image {
-  width: 200rpx;
-  height: 200rpx;
-  border-radius: 10rpx;
+.cart-goods-item:last-child {
+  border-bottom: none;
 }
 
-.goods-details {
+.cart-goods-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.cart-goods-info {
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.goods-name {
-  font-size: 36rpx;
-  font-weight: bold;
+.cart-goods-name {
+  font-size: 14px;
   color: #333;
-  margin-bottom: 10rpx;
+  margin-bottom: 5px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.goods-price {
-  font-size: 36rpx;
-  font-weight: bold;
-  color: #ff4757;
-  margin-bottom: 10rpx;
-}
-
-.goods-sales {
-  font-size: 24rpx;
-  color: #999;
-  margin-bottom: 10rpx;
-}
-
-.goods-desc {
-  font-size: 28rpx;
-  color: #666;
-  line-height: 1.5;
-}
-
-.shop-info {
-  background-color: #fff;
-  padding: 20rpx;
-  margin-bottom: 20rpx;
-  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.1);
-}
-
-.shop-header {
+.cart-goods-price-quantity {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15rpx;
 }
 
-.shop-name {
-  font-size: 32rpx;
+.cart-goods-price {
+  font-size: 16px;
   font-weight: bold;
-  color: #333;
+  color: #ff6b6b;
 }
 
-.shop-rating {
-  font-size: 28rpx;
-  color: #ff9800;
-  font-weight: bold;
-  background-color: #fff3cd;
-  padding: 5rpx 15rpx;
-  border-radius: 15rpx;
-}
-
-.shop-stats {
-  display: flex;
-  gap: 20rpx;
-  font-size: 24rpx;
-  color: #666;
-}
-
-.buy-section {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: #fff;
-  padding: 20rpx;
-  box-shadow: 0 -2rpx 10rpx rgba(0,0,0,0.1);
+.cart-quantity-control {
   display: flex;
   align-items: center;
-  gap: 20rpx;
 }
 
-.quantity-control {
-  display: flex;
-  align-items: center;
-  gap: 10rpx;
+.cart-quantity-btn {
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 0;
 }
 
-.quantity-btn {
-  width: 50rpx;
-  height: 50rpx;
-  border: 1rpx solid #e0e0e0;
-  border-radius: 50%;
-  background-color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 32rpx;
-}
-
-.quantity {
-  font-size: 28rpx;
-  color: #333;
-  min-width: 50rpx;
+.cart-quantity {
+  margin: 0 10px;
+  font-size: 14px;
+  min-width: 20px;
   text-align: center;
 }
 
-.add-to-cart-btn {
-  flex: 1;
-  background-color: #ff9800;
-  color: #fff;
-  border: none;
-  border-radius: 25rpx;
-  padding: 15rpx;
-  font-size: 28rpx;
+.cart-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  color: #999;
+  font-size: 14px;
 }
 
-.buy-now-btn {
-  flex: 1;
-  background-color: #ff4757;
-  color: #fff;
-  border: none;
-  border-radius: 25rpx;
-  padding: 15rpx;
-  font-size: 28rpx;
+/* 通用样式 */
+page {
+  background-color: #f5f5f5;
 }

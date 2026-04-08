@@ -9,10 +9,11 @@
     <view class="right-goods">
       <view class="category-title">{{currentCategoryName}}</view>
       <view class="goods-grid">
-        <view class="goods-item" wx:for="{{currentGoods}}" wx:key="id" data-id="{{item.id}}" bindtap="navigateToGoodsDetail">
+        <view class="goods-item" wx:for="{{currentGoods}}" wx:key="id" data-id="{{item.id}}" bindtap="navigateToMerchant">
           <image src="{{item.image}}" class="goods-image"></image>
           <text class="goods-name">{{item.name}}</text>
-          <text class="goods-price">¥{{item.price}}</text>
+          <text class="goods-price">{{item.description}}</text>
+          <button class="enter-shop-btn" catchtap="navigateToMerchant" data-id="{{item.id}}">进店</button>
         </view>
       </view>
     </view>

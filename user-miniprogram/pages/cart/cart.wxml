@@ -1,39 +1,42 @@
-<view class="container">
-  <view class="header">
-    <text class="header-title">购物车</text>
+<view class="cart-container">
+  <view class="cart-header">
+    <text class="cart-title">购物车</text>
   </view>
-
-  <view class="cart-list" wx:if="{{cartItems.length > 0}}">
-    <view class="cart-item" wx:for="{{cartItems}}" wx:key="id" data-shop="{{index}}">
-      <view class="shop-info">
-        <text class="shop-name">{{item.shopName}}</text>
-        <text class="shop-desc">满{{item.minOrder}}元起送</text>
-      </view>
-      <view class="goods-info" wx:for="{{item.goods}}" wx:for-item="goods" wx:for-index="goodsIndex" wx:key="goods.id" data-goods="{{goodsIndex}}">
-        <image src="{{goods.image}}" class="goods-image"></image>
-        <view class="goods-details">
-          <text class="goods-name">{{goods.name}}</text>
-          <text class="goods-price">¥{{goods.price}}</text>
+  <view class="cart-content">
+    <block wx:for="{{cartItems}}" wx:key="id" wx:for-index="shopIndex">
+      <view class="shop-section">
+        <view class="shop-header">
+          <text class="shop-name">{{item.shopName}}</text>
         </view>
-        <view class="quantity-control">
-          <button class="quantity-btn" bindtap="decreaseQuantity" data-shop="{{index}}" data-goods="{{goodsIndex}}">-</button>
-          <text class="quantity">{{goods.quantity}}</text>
-          <button class="quantity-btn" bindtap="increaseQuantity" data-shop="{{index}}" data-goods="{{goodsIndex}}">+</button>
+        <view class="goods-list">
+          <block wx:for="{{item.goods}}" wx:key="id" wx:for-index="goodsIndex">
+            <view class="goods-item">
+              <image src="{{item.image}}" class="goods-image"></image>
+              <view class="goods-info">
+                <text class="goods-name">{{item.name}}</text>
+                <view class="goods-price-quantity">
+                  <text class="goods-price">¥{{item.price}}</text>
+                  <view class="quantity-control">
+                    <button class="quantity-btn" bindtap="decreaseQuantity" data-shop="{{shopIndex}}" data-goods="{{goodsIndex}}">-</button>
+                    <text class="quantity">{{item.quantity}}</text>
+                    <button class="quantity-btn" bindtap="increaseQuantity" data-shop="{{shopIndex}}" data-goods="{{goodsIndex}}">+</button>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </block>
         </view>
       </view>
+    </block>
+    <view wx:if="{{cartItems.length === 0}}" class="empty-cart">
+      <text>购物车为空</text>
     </view>
   </view>
-
-  <view class="empty-cart" wx:else>
-    <text class="empty-text">购物车为空</text>
-  </view>
-
-  <view class="total-section" wx:if="{{cartItems.length > 0}}">
-    <text class="total-label">合计：</text>
-    <text class="total-value">¥{{totalAmount}}</text>
-  </view>
-
-  <view class="checkout-section" wx:if="{{cartItems.length > 0}}">
+  <view class="cart-footer" wx:if="{{cartItems.length > 0}}">
+    <view class="total-price">
+      <text>合计：</text>
+      <text class="price">¥{{totalAmount}}</text>
+    </view>
     <button class="checkout-btn" bindtap="checkout">去结算</button>
   </view>
 </view>

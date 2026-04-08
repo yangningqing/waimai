@@ -13,35 +13,52 @@ Page({
     ]
   },
   onLoad() {
-    // 页面加载时的初始化逻辑
+    this.loadRiders()
   },
   onShow() {
-    // 页面显示时的逻辑
+    this.loadRiders()
+  },
+  callApi(action, data = {}) {
+    const accountId = getApp().getAccountId()
+    return wx.cloud.callFunction({
+      name: 'api',
+      data: { action, data: { ...data, ...(accountId ? { accountId } : {}) } }
+    }).then(res => (res && res.result) || {})
+  },
+  loadRiders() {
+    this.callApi('getAdminRiders').then(result => {
+      this.setData({ riders: result.success ? (result.data || []) : [] })
+    }).catch(() => wx.showToast({ title: '加载失败', icon: 'none' }))
   },
   viewRiderDetail(e) {
     const riderId = e.currentTarget.dataset.id
+    const rider = (this.data.riders || []).find(item => item.id === riderId)
     wx.showModal({
       title: '骑手详情',
-      content: '骑手详情页面',
-      success: (res) => {
-        if (res.confirm) {
-          // 跳转到骑手详情页
-        }
-      }
+      content: rider
+        ? `姓名：${rider.name || ''}\n电话：${rider.phone || ''}\n完成单量：${rider.completed || rider.totalOrders || 0}\n评分：${rider.rating || 0}`
+        : '未找到骑手信息',
+      showCancel: false
     })
   },
   editRider(e) {
     const riderId = e.currentTarget.dataset.id
+    const riderIndex = (this.data.riders || []).findIndex(item => item.id === riderId)
     wx.showModal({
       title: '编辑骑手',
-      content: '确定要编辑这个骑手吗？',
+      editable: true,
+      placeholderText: '请输入骑手姓名',
       success: (res) => {
-        if (res.confirm) {
-          wx.showToast({
-            title: '骑手编辑成功',
-            icon: 'success'
-          })
-        }
+        if (!res.confirm) return
+        const name = String(res.content || '').trim()
+        if (!name || riderIndex < 0) return
+        const riders = [...this.data.riders]
+        riders[riderIndex] = { ...riders[riderIndex], name }
+        this.setData({ riders })
+        wx.showToast({
+          title: '骑手信息已更新',
+          icon: 'success'
+        })
       }
     })
   }

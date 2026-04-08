@@ -7,8 +7,11 @@
     "pages/order/order",
     "pages/address/address",
     "pages/feedback/feedback",
+    "pages/login/login",
+    "pages/register/register",
     "pages/member/member",
-    "pages/coupon/coupon"
+    "pages/coupons/coupons",
+    "pages/search/search"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -25,10 +28,6 @@
       {
         "pagePath": "pages/category/category",
         "text": "分类"
-      },
-      {
-        "pagePath": "pages/cart/cart",
-        "text": "购物车"
       },
       {
         "pagePath": "pages/order/order",

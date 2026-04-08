@@ -20,7 +20,7 @@
       </view>
       <view class="order-info">
         <text class="info-label">剩余时间：</text>
-        <text class="info-value countdown">{{formatTime(order.remainingTime)}}</text>
+        <text class="info-value countdown">{{order.remainingTimeText}}</text>
       </view>
     </view>
 

@@ -1,0 +1,47 @@
+<view class="container">
+  <view class="search-header">
+    <view class="search-input-container">
+      <input placeholder="搜索商家、商品" class="search-input" bindinput="onSearchInput" value="{{searchText}}"></input>
+      <text class="search-btn" bindtap="doSearch">搜索</text>
+    </view>
+    <text class="cancel-btn" bindtap="cancelSearch">取消</text>
+  </view>
+
+  <view class="search-history" wx:if="{{searchHistory.length > 0}}">
+    <view class="history-header">
+      <text>搜索历史</text>
+      <text class="clear-history" bindtap="clearHistory">清空</text>
+    </view>
+    <view class="history-list">
+      <view class="history-item" wx:for="{{searchHistory}}" wx:key="index" bindtap="selectHistory" data-text="{{item}}">{{item}}</view>
+    </view>
+  </view>
+
+  <view class="hot-search">
+    <text class="hot-search-title">热门搜索</text>
+    <view class="hot-search-list">
+      <view class="hot-search-item" wx:for="{{hotSearch}}" wx:key="index" bindtap="selectHotSearch" data-text="{{item}}">{{item}}</view>
+    </view>
+  </view>
+
+  <view class="search-results" wx:if="{{showResults}}">
+    <view class="results-header">
+      <text>搜索结果</text>
+    </view>
+    <view class="merchant-list">
+      <view class="merchant-item" wx:for="{{searchResults}}" wx:key="id" bindtap="navigateToMerchant" data-id="{{item.id}}">
+        <image src="{{item.image}}" class="merchant-image"></image>
+        <view class="merchant-info">
+          <text class="merchant-name">{{item.name}}</text>
+          <text class="merchant-desc">{{item.description}}</text>
+          <view class="merchant-stats">
+            <text class="rating">{{item.rating}}</text>
+            <text class="sales">月售{{item.sales}}</text>
+            <text class="distance">{{item.distance}}</text>
+            <text class="price">¥{{item.minPrice}}起送</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

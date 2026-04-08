@@ -1,4 +1,8 @@
 {
+  "miniprogramRoot": "",
+  "projectname": "后台管理端",
+  "description": "微信外卖小程序 - 后台管理端",
+  "appid": "wxc1cb7a1cfec30919",
   "setting": {
     "es6": true,
     "postcss": true,
@@ -29,7 +33,6 @@
     "ignore": [],
     "include": []
   },
-  "appid": "wxc1cb7a1cfec30919",
   "editorSetting": {},
   "libVersion": "3.15.1"
 }

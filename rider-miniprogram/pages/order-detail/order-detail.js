@@ -6,6 +6,7 @@ Page({
       orderTime: '2026-04-06 12:00',
       expectedTime: '2026-04-06 12:30',
       remainingTime: 15, // 15秒
+      remainingTimeText: '00:15',
       merchant: {
         name: '肯德基',
         address: '北京市顺义区北京城市学院顺义校区',
@@ -29,8 +30,10 @@ Page({
     }
   },
   onLoad(options) {
-    // 页面加载时的初始化逻辑
     const orderId = options.id
+    if (orderId) {
+      this.loadOrder(orderId)
+    }
     this.startCountdown()
   },
   onShow() {
@@ -38,13 +41,18 @@ Page({
   },
   startCountdown() {
     // 启动倒计时
-    setInterval(() => {
+    if (this.timer) clearInterval(this.timer)
+    this.warnedSoon = false
+    this.timer = setInterval(() => {
       if (this.data.order.remainingTime > 0) {
+        const nextRemaining = this.data.order.remainingTime - 1
         this.setData({
-          'order.remainingTime': this.data.order.remainingTime - 1
+          'order.remainingTime': nextRemaining,
+          'order.remainingTimeText': this.formatTime(nextRemaining)
         })
         // 订单超时预警
-        if (this.data.order.remainingTime <= 60) {
+        if (nextRemaining <= 60 && !this.warnedSoon) {
+          this.warnedSoon = true
           wx.showToast({
             title: '订单即将超时，请尽快配送',
             icon: 'none'
@@ -52,6 +60,35 @@ Page({
         }
       }
     }, 1000)
+  },
+  onUnload() {
+    if (this.timer) clearInterval(this.timer)
+  },
+  callApi(action, data = {}) {
+    const accountId = getApp().getAccountId()
+    return wx.cloud.callFunction({
+      name: 'api',
+      data: { action, data: { ...data, ...(accountId ? { accountId } : {}) } }
+    }).then(res => (res && res.result) || {})
+  },
+  loadOrder(orderId) {
+    if (!getApp().isLoggedIn()) return
+    this.callApi('getRiderOrders', { status: '配送中' }).then(result => {
+      if (!result.success) return
+      const order = (result.data || []).find(item => String(item.id) === String(orderId))
+      if (order) {
+        this.setData({
+          order: {
+            ...this.data.order,
+            id: order.id,
+            orderId: order.orderId || order.id,
+            merchant: { ...this.data.order.merchant, name: order.shop || order.merchant || this.data.order.merchant.name, address: order.shopAddress || this.data.order.merchant.address },
+            customer: { ...this.data.order.customer, name: order.customer || order.customerName || this.data.order.customer.name, address: order.customerAddress || this.data.order.customer.address, phone: order.customerPhone || this.data.order.customer.phone },
+            totalAmount: order.amount || this.data.order.totalAmount
+          }
+        })
+      }
+    }).catch(() => {})
   },
   formatTime(seconds) {
     const minutes = Math.floor(seconds / 60)
@@ -88,15 +125,18 @@ Page({
       success: (res) => {
         if (res.confirm) {
           wx.showToast({
-            title: '配送完成，收入已到账',
-            icon: 'success'
+            title: '配送完成中...',
+            icon: 'none'
           })
-          // 跳转到收入页面
-          setTimeout(() => {
-            wx.navigateTo({
-              url: '../income/income'
+          this.callApi('completeDelivery', { orderId: this.data.order.id }).then(result => {
+            wx.showToast({
+              title: result.success ? '配送完成，收入已到账' : (result.message || '操作失败'),
+              icon: result.success ? 'success' : 'none'
             })
-          }, 1000)
+            if (result.success) {
+              setTimeout(() => wx.switchTab({ url: '/pages/income/income' }), 800)
+            }
+          })
         }
       }
     })
@@ -104,16 +144,20 @@ Page({
   reportException() {
     wx.showModal({
       title: '异常上报',
-      content: '请选择异常类型',
-      cancelText: '取消',
-      confirmText: '确定',
+      editable: true,
+      placeholderText: '请填写异常说明',
       success: (res) => {
-        if (res.confirm) {
+        if (!res.confirm) return
+        this.callApi('reportOrderException', {
+          orderId: this.data.order.id,
+          reason: '其他异常',
+          detail: String(res.content || '')
+        }).then(result => {
           wx.showToast({
-            title: '异常上报成功',
-            icon: 'success'
+            title: result.success ? '异常上报成功' : (result.message || '上报失败'),
+            icon: result.success ? 'success' : 'none'
           })
-        }
+        })
       }
     })
   }
