@@ -8,14 +8,21 @@ App({
       traceUser: true
     })
     this.loadAccount()
+    this._wentToBackground = false
   },
   onShow() {
-    // 小程序显示时执行的逻辑
     console.log('小程序显示');
+    // 从后台回到前台（重新进入小程序），首页需要时可拉最新商家列表
+    if (this._wentToBackground) {
+      this.globalData.needsHomeMerchantsRefresh = true
+      this.globalData.needsOrdersRefresh = true
+      this.globalData.needsCategoryRefresh = true
+    }
+    this._wentToBackground = false
   },
   onHide() {
-    // 小程序隐藏时执行的逻辑
     console.log('小程序隐藏');
+    this._wentToBackground = true
   },
   loadAccount() {
     const account = wx.getStorageSync('currentAccount') || null
@@ -41,6 +48,10 @@ App({
     baseUrl: 'https://api.example.com',
     currentAccount: null,
     accountId: '',
-    homeCouponPopupShown: false
+    homeCouponPopupShown: false,
+    /** 小程序从后台回到前台后为 true，各页 onShow 消费后清掉 */
+    needsHomeMerchantsRefresh: false,
+    needsOrdersRefresh: false,
+    needsCategoryRefresh: false
   }
 })

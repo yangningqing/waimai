@@ -1,0 +1,45 @@
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="header">
+    <text class="title">经营报表</text>
+  </view>
+
+  <!-- 收入数据 -->
+  <view class="income-section">
+    <view class="income-item">
+      <text class="income-label">今日收入</text>
+      <text class="income-value">¥{{todayIncome.toFixed(2)}}</text>
+    </view>
+    <view class="income-item">
+      <text class="income-label">本周收入</text>
+      <text class="income-value">¥{{weekIncome.toFixed(2)}}</text>
+    </view>
+    <view class="income-item">
+      <text class="income-label">本月收入</text>
+      <text class="income-value">¥{{monthIncome.toFixed(2)}}</text>
+    </view>
+    <view class="income-item">
+      <text class="income-label">订单数量</text>
+      <text class="income-value">{{orderCount}}</text>
+    </view>
+  </view>
+
+  <!-- 销售趋势 -->
+  <view class="sales-section">
+    <text class="section-title">销售趋势</text>
+    <view class="sales-chart">
+      <view wx:for="{{salesData}}" wx:key="date" class="sales-bar">
+        <view class="bar-container">
+          <view class="bar" style="height: {{(item.sales / 2500) * 100}}%"></view>
+        </view>
+        <text class="bar-label">{{item.date}}</text>
+        <text class="bar-value">¥{{item.sales}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 返回按钮 -->
+  <view class="actions">
+    <button class="back-btn" bindtap="handleBack">返回</button>
+  </view>
+</view>

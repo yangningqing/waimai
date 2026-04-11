@@ -14,43 +14,17 @@ Page({
     keyword: '',
     loading: true,
     isRefreshing: false,
-    fetchingOrders: false,
-    lastOrdersFetchAt: 0
+    fetchingOrders: false
   },
   onLoad() {
     this.loadDeletedOrderIds()
-    this.loadOrdersCache()
-    if (!Array.isArray(this.data.allOrders) || this.data.allOrders.length === 0) {
-      this.getOrders()
-    }
+    this.getOrders(true)
   },
   onShow() {
-    if (!Array.isArray(this.data.allOrders) || this.data.allOrders.length === 0) {
-      this.getOrders()
-    }
-  },
-  loadOrdersCache() {
-    try {
-      const cached = wx.getStorageSync('')
-      if (cached && Array.isArray(cached.orders)) {
-        this.applyOrders(cached.orders)
-        this.setData({
-          loading: false,
-          lastOrdersFetchAt: Number(cached.updatedAt || 0)
-        })
-      }
-    } catch (err) {
-      console.warn('读取订单缓存失败:', err)
-    }
-  },
-  saveOrdersCache(orders) {
-    try {
-      wx.setStorageSync('', {
-        updatedAt: Date.now(),
-        orders: Array.isArray(orders) ? orders : []
-      })
-    } catch (err) {
-      console.warn('保存订单缓存失败:', err)
+    const app = getApp()
+    if (app.globalData.needsOrdersRefresh) {
+      app.globalData.needsOrdersRefresh = false
+      this.getOrders(true)
     }
   },
   loadDeletedOrderIds() {
@@ -106,7 +80,6 @@ Page({
         const normalizedOrders = this.normalizeOrders(result.data)
         this.tryClearCartAfterOrderSynced(normalizedOrders)
         this.applyOrders(normalizedOrders)
-        this.saveOrdersCache(normalizedOrders)
       } else {
         this.applyOrders([])
         wx.showToast({
@@ -127,8 +100,7 @@ Page({
       this.setData({
         loading: false,
         isRefreshing: false,
-        fetchingOrders: false,
-        lastOrdersFetchAt: Date.now()
+        fetchingOrders: false
       })
     })
   },
@@ -377,6 +349,36 @@ Page({
       }
     })
   },
+  contactMerchant(e) {
+    const orderId = String(e.currentTarget.dataset.id || '').trim()
+    const merchantId = Number(e.currentTarget.dataset.merchantId || 0)
+    const shop = String(e.currentTarget.dataset.shop || '商家').trim() || '商家'
+    if (!orderId) {
+      wx.showToast({ title: '订单号无效', icon: 'none' })
+      return
+    }
+    if (!merchantId) {
+      wx.showToast({ title: '商家信息缺失', icon: 'none' })
+      return
+    }
+    wx.showActionSheet({
+      itemList: ['电话联系', '在线咨询'],
+      success: (res) => {
+        if (res.tapIndex === 0) {
+          wx.makePhoneCall({
+            phoneNumber: '400-123-4567',
+            fail: () => {
+              wx.showToast({ title: '拨打电话失败', icon: 'none' })
+            }
+          })
+        } else if (res.tapIndex === 1) {
+          wx.navigateTo({
+            url: `/pages/chat/chat?orderId=${encodeURIComponent(orderId)}&merchantId=${merchantId}&merchantName=${encodeURIComponent(shop)}`
+          })
+        }
+      }
+    })
+  },
   contactRider(e) {
     const orderId = e.currentTarget.dataset.id
     if (!orderId) {
@@ -469,6 +471,16 @@ Page({
     }).catch(err => {
       console.error('提交评价失败:', err)
       wx.showToast({ title: '网络错误', icon: 'none' })
+    })
+  },
+  navigateToOrderDetail(e) {
+    const orderId = e.currentTarget.dataset.id
+    if (!orderId) {
+      wx.showToast({ title: '订单号无效', icon: 'none' })
+      return
+    }
+    wx.navigateTo({
+      url: `./detail/detail?id=${orderId}`
     })
   }
 })

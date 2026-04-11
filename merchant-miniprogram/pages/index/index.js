@@ -21,25 +21,13 @@ Page({
         time: '2026-04-06 11:30',
         amount: 45
       }
-    ],
-    hotGoods: [
-      {
-        id: 1,
-        name: '香辣鸡腿堡',
-        price: 25,
-        sales: 1234,
-        image: '../../images/ai_example1.png'
-      },
-      {
-        id: 2,
-        name: '可乐',
-        price: 8,
-        sales: 892,
-        image: '../../images/ai_example2.png'
-      }
     ]
   },
   onLoad() {
+    if (!getApp().isLoggedIn()) {
+      wx.redirectTo({ url: '/pages/login/login' })
+      return
+    }
     this.loadDashboard()
   },
   onShow() {
@@ -53,30 +41,27 @@ Page({
     }).then(res => (res && res.result) || {})
   },
   getMerchantName() {
-    const account = getApp().globalData.currentAccount || {}
-    return String(account.nickname || account.merchantName || '塔斯汀')
+    return getApp().getMerchantDisplayName()
+  },
+  getMerchantId() {
+    return getApp().getMerchantId()
   },
   loadDashboard() {
-    if (!getApp().isLoggedIn()) {
-      this.setData({ recentOrders: [], stats: { ...this.data.stats, todayOrders: 0, pendingOrders: 0, todayIncome: 0 } })
-      return
-    }
     const merchant = this.getMerchantName()
+    const merchantId = this.getMerchantId()
     Promise.all([
-      this.callApi('getMerchantDashboard', { merchant, merchantId: 1 }),
-      this.callApi('getMerchantOrders', { merchant }),
-      this.callApi('getMerchantGoods', { merchantId: 1 })
-    ]).then(([dashboard, orders, goods]) => {
+      this.callApi('getMerchantDashboard', { merchant, merchantId }),
+      this.callApi('getMerchantOrders', { merchant, merchantId })
+    ]).then(([dashboard, orders]) => {
       if (dashboard.success && dashboard.data) {
         this.setData({ stats: dashboard.data })
       }
       if (orders.success && Array.isArray(orders.data)) {
         this.setData({ recentOrders: orders.data.slice(0, 5) })
       }
-      if (goods.success && Array.isArray(goods.data)) {
-        this.setData({ hotGoods: goods.data.slice(0, 5) })
-      }
-    }).catch(() => wx.showToast({ title: '加载失败', icon: 'none' }))
+    }).catch(() => {
+      console.log('加载失败，使用默认数据')
+    })
   },
   navigateToGoods() {
     wx.switchTab({ url: '/pages/goods/goods' })
@@ -85,7 +70,10 @@ Page({
     wx.switchTab({ url: '/pages/orders/orders' })
   },
   navigateToIncome() {
-    wx.switchTab({ url: '/pages/income/income' })
+    wx.navigateTo({ url: '/pages/income/income' })
+  },
+  navigateToDelivery() {
+    wx.navigateTo({ url: '/pages/profile/delivery/delivery' })
   },
   handleOrder(e) {
     const orderId = e.currentTarget.dataset.id

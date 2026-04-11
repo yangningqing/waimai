@@ -1,0 +1,61 @@
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="header">
+    <text class="title">配送服务</text>
+  </view>
+
+  <!-- 配送设置 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">配送设置</text>
+    </view>
+    <view class="settings-list">
+      <view class="setting-item">
+        <text class="setting-label">配送费</text>
+        <text class="setting-value">¥{{deliverySettings.deliveryFee}}</text>
+      </view>
+      <view class="setting-item">
+        <text class="setting-label">最低起送</text>
+        <text class="setting-value">¥{{deliverySettings.minOrder}}</text>
+      </view>
+      <view class="setting-item">
+        <text class="setting-label">预计送达时间</text>
+        <text class="setting-value">{{deliverySettings.deliveryTime}}</text>
+      </view>
+      <view class="setting-item">
+        <text class="setting-label">配送范围</text>
+        <text class="setting-value">{{deliverySettings.deliveryRange}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 骑手列表 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">骑手列表</text>
+    </view>
+    <view class="rider-list">
+      <view wx:for="{{riders}}" wx:key="id" class="rider-item">
+        <view class="rider-info">
+          <text class="rider-name">{{item.name}}</text>
+          <text class="rider-phone" bindtap="handleCallRider" data-phone="{{item.phone}}">{{item.phone}}</text>
+          <view class="rider-stats">
+            <text class="rider-rating">评分: {{item.rating}}</text>
+            <text class="rider-orders">已完成: {{item.completedOrders}}单</text>
+          </view>
+        </view>
+        <text class="rider-status" style="color: {{item.status === '在线' ? '#4caf50' : '#999'}}">{{item.status}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:if="{{riders.length === 0}}" class="empty-state">
+    <text class="empty-text">暂无骑手</text>
+  </view>
+
+  <!-- 返回按钮 -->
+  <view class="actions">
+    <button class="back-btn" bindtap="handleBack">返回</button>
+  </view>
+</view>

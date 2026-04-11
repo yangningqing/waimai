@@ -1,0 +1,25 @@
+.container { background: #f6f6f6; min-height: 100vh; padding-bottom: 120rpx; }
+.top-tabs { background: #fff; padding: 24rpx; border-bottom: 1rpx solid #eee; }
+.tab { font-size: 30rpx; color: #333; }
+.tab.active { font-weight: 600; }
+.card { background: #fff; margin-top: 16rpx; padding: 20rpx 24rpx; }
+.card-title { font-size: 28rpx; color: #222; margin-bottom: 8rpx; font-weight: 600; }
+.address-text { font-size: 26rpx; color: #333; line-height: 1.4; }
+.address-text.muted { color: #999; }
+.row { display: flex; gap: 12rpx; flex-wrap: wrap; }
+.chip { font-size: 24rpx; padding: 8rpx 18rpx; border-radius: 24rpx; background: #f2f3f5; color: #666; }
+.chip.active { background: #e8f5e9; color: #07c160; }
+.shop-name { font-size: 30rpx; font-weight: 600; margin-bottom: 12rpx; }
+.item-row { display: flex; align-items: center; margin: 10rpx 0; }
+.item-name { flex: 1; font-size: 26rpx; color: #333; }
+.item-mid { width: 90rpx; text-align: center; font-size: 24rpx; color: #666; }
+.item-price { width: 120rpx; text-align: right; font-size: 26rpx; color: #333; }
+.fee-row { display: flex; justify-content: space-between; font-size: 26rpx; color: #333; margin: 10rpx 0; }
+.remark-input { margin: 8rpx 0 16rpx; background: #f7f8fa; border-radius: 10rpx; padding: 16rpx; font-size: 24rpx; }
+.bottom-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; height: 100rpx;
+  background: #fff; border-top: 1rpx solid #eee; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24rpx;
+}
+.total { font-size: 30rpx; font-weight: 600; color: #222; }
+.pay-btn { background: #07c160; color: #fff; border-radius: 40rpx; font-size: 28rpx; padding: 10rpx 30rpx; }

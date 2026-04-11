@@ -10,45 +10,21 @@ Page({
     lastLoadedAt: 0
   },
   onLoad() {
-    this.loadCategoryCache()
     if (!this.data.hasLoaded) {
       this.loadCategoriesAndGoods()
     }
   },
   onShow() {
+    const app = getApp()
+    if (app.globalData.needsCategoryRefresh) {
+      app.globalData.needsCategoryRefresh = false
+      try {
+        wx.removeStorageSync('user_category_cache')
+      } catch (e) {}
+      this.setData({ hasLoaded: false })
+    }
     if (!this.data.hasLoaded) {
       this.loadCategoriesAndGoods()
-    }
-  },
-  loadCategoryCache() {
-    try {
-      const cached = wx.getStorageSync('user_category_cache')
-      if (!cached || !Array.isArray(cached.categories) || !cached.goods) return
-      if (cached.version !== 2) return
-      const firstId = cached.activeCategory || (cached.categories[0] && cached.categories[0].id) || ''
-      this.setData({
-        categories: cached.categories,
-        goods: cached.goods,
-        activeCategory: String(firstId),
-        hasLoaded: true,
-        lastLoadedAt: Number(cached.updatedAt || 0)
-      })
-      this.updateCurrentCategory()
-    } catch (err) {
-      console.warn('读取分类缓存失败:', err)
-    }
-  },
-  saveCategoryCache(payload) {
-    try {
-      wx.setStorageSync('user_category_cache', {
-        version: 2,
-        updatedAt: Date.now(),
-        categories: payload.categories || [],
-        goods: payload.goods || {},
-        activeCategory: payload.activeCategory || ''
-      })
-    } catch (err) {
-      console.warn('保存分类缓存失败:', err)
     }
   },
   callApi(action, data = {}) {
@@ -93,7 +69,6 @@ Page({
         hasLoaded: true,
         lastLoadedAt: Date.now()
       })
-      this.saveCategoryCache({ categories, goods: goodsMap, activeCategory: firstId })
       this.updateCurrentCategory()
     }).catch(err => {
       console.error('加载分类数据失败:', err)

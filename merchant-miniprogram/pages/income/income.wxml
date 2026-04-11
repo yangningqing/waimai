@@ -1,30 +1,32 @@
 <view class="container">
-  <view class="header">
-    <text class="header-title">收入统计</text>
-  </view>
-
-  <view class="income-summary">
-    <view class="summary-item">
-      <text class="summary-label">今日收入</text>
-      <text class="summary-value">¥{{todayIncome}}</text>
-    </view>
-    <view class="summary-item">
-      <text class="summary-label">今日订单</text>
-      <text class="summary-value">{{todayOrders}}</text>
+  <!-- 今日收入 -->
+  <view class="today-income">
+    <view class="income-card">
+      <view class="income-title">今日收入</view>
+      <view class="income-amount">¥{{todayIncome}}</view>
+      <view class="income-orders">今日订单: {{todayOrders}}</view>
     </view>
   </view>
 
-  <view class="income-list">
-    <view class="list-header">
-      <text class="list-title">今日收入明细</text>
+  <!-- 历史收入 -->
+  <view class="history-income">
+    <view class="section-header">
+      <text class="section-title">历史收入</text>
+      <button class="refresh-btn" bindtap="handleRefresh">刷新</button>
     </view>
-
-    <view class="income-item" wx:for="{{incomeList}}" wx:key="orderId">
-      <view class="income-info">
-        <text class="income-order">订单：{{item.orderId}}</text>
-        <text class="income-time">{{item.time}}</text>
+    <view class="income-list">
+      <view wx:for="{{incomeList}}" wx:key="date" class="income-item">
+        <view class="income-date">{{date}}</view>
+        <view class="income-info">
+          <text class="income-value">¥{{income}}</text>
+          <text class="income-orders-count">{{orders}} 单</text>
+        </view>
       </view>
-      <text class="income-amount">+{{item.amount}}</text>
     </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:if="{{incomeList.length === 0}}" class="empty-state">
+    <text class="empty-text">暂无收入数据</text>
   </view>
 </view>

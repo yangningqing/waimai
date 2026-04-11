@@ -4,7 +4,9 @@
     "pages/category/category",
     "pages/goods/goods",
     "pages/cart/cart",
+    "pages/checkout/checkout",
     "pages/order/order",
+    "pages/order/detail/detail",
     "pages/address/address",
     "pages/address/form/form",
     "pages/address/form/map/map",
@@ -13,7 +15,9 @@
     "pages/register/register",
     "pages/member/member",
     "pages/coupons/coupons",
-    "pages/search/search"
+    "pages/search/search",
+    "pages/message/message",
+    "pages/chat/chat"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -37,12 +41,12 @@
         "text": "首页"
       },
       {
-        "pagePath": "pages/category/category",
-        "text": "分类"
-      },
-      {
         "pagePath": "pages/order/order",
         "text": "订单"
+      },
+      {
+        "pagePath": "pages/message/message",
+        "text": "消息"
       },
       {
         "pagePath": "pages/member/member",

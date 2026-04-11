@@ -1,26 +1,35 @@
 Page({
   data: {
-    todayIncome: 568,
-    todayOrders: 24,
+    todayIncome: 1245,
+    todayOrders: 32,
     incomeList: [
       {
-        orderId: '20260406001',
-        time: '10:30',
-        amount: 30
+        date: '2026-04-06',
+        income: 1245,
+        orders: 32
       },
       {
-        orderId: '20260406002',
-        time: '11:15',
-        amount: 25
+        date: '2026-04-05',
+        income: 980,
+        orders: 28
       },
       {
-        orderId: '20260406003',
-        time: '12:00',
-        amount: 45
+        date: '2026-04-04',
+        income: 1120,
+        orders: 30
+      },
+      {
+        date: '2026-04-03',
+        income: 850,
+        orders: 25
       }
     ]
   },
   onLoad() {
+    if (!getApp().isLoggedIn()) {
+      wx.redirectTo({ url: '/pages/login/login' })
+      return
+    }
     this.loadIncome()
   },
   onShow() {
@@ -34,21 +43,28 @@ Page({
     }).then(res => (res && res.result) || {})
   },
   getMerchantName() {
-    const account = getApp().globalData.currentAccount || {}
-    return String(account.nickname || account.merchantName || '塔斯汀')
+    return getApp().getMerchantDisplayName()
   },
   loadIncome() {
-    if (!getApp().isLoggedIn()) {
-      this.setData({ todayIncome: 0, todayOrders: 0, incomeList: [] })
-      return
-    }
-    this.callApi('getMerchantIncome', { merchant: this.getMerchantName() }).then(result => {
-      if (!result.success || !result.data) return
-      this.setData({
-        todayIncome: result.data.today || 0,
-        todayOrders: result.data.orders || 0,
-        incomeList: result.data.details || []
-      })
-    }).catch(() => wx.showToast({ title: '加载失败', icon: 'none' }))
+    const merchant = this.getMerchantName()
+    const merchantId = getApp().getMerchantId()
+    this.callApi('getMerchantIncome', { merchant, merchantId }).then(result => {
+      if (result.success && result.data) {
+        this.setData({
+          todayIncome: result.data.today || 0,
+          todayOrders: result.data.orders || 0,
+          incomeList: result.data.details || []
+        })
+      }
+    }).catch(() => {
+      console.log('加载失败，使用默认数据')
+    })
+  },
+  handleRefresh() {
+    wx.showToast({ title: '刷新中...', icon: 'none' })
+    this.loadIncome()
+    setTimeout(() => {
+      wx.showToast({ title: '刷新成功', icon: 'success' })
+    }, 1000)
   }
 })

@@ -1,0 +1,38 @@
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="header">
+    <text class="title">用户评价</text>
+  </view>
+
+  <!-- 评价列表 -->
+  <view class="evaluation-list">
+    <view wx:for="{{evaluations}}" wx:key="id" class="evaluation-item">
+      <view class="evaluation-header">
+        <image src="{{item.avatar}}" class="user-avatar" mode="aspectFill"></image>
+        <view class="user-info">
+          <text class="user-name">{{item.user}}</text>
+          <text class="evaluation-time">{{item.time}}</text>
+        </view>
+        <view class="rating">
+          <text wx:for="[1,2,3,4,5]" wx:key="*this" class="star" style="color: {{item.rating >= index + 1 ? '#ff9800' : '#ddd'}}">★</text>
+        </view>
+      </view>
+      <view class="evaluation-content">
+        <text class="content-text">{{item.content}}</text>
+      </view>
+      <view class="evaluation-footer">
+        <text class="goods-name">商品: {{item.goods}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:if="{{evaluations.length === 0}}" class="empty-state">
+    <text class="empty-text">暂无评价</text>
+  </view>
+
+  <!-- 返回按钮 -->
+  <view class="actions">
+    <button class="back-btn" bindtap="handleBack">返回</button>
+  </view>
+</view>

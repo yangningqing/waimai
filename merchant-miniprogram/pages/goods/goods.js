@@ -1,28 +1,17 @@
 Page({
   data: {
-    categoryList: ['全部商品', '热销商品', '新品上架'],
-    currentCategory: 0,
-    allGoods: [
-      {
-        id: 1,
-        name: '香辣鸡腿堡',
-        price: 18,
-        status: '上架中',
-        icon: '🍔',
-        sales: 1234
-      },
-      {
-        id: 2,
-        name: '薯条（大）',
-        price: 12,
-        status: '上架中',
-        icon: '🍟',
-        sales: 892
-      }
-    ],
-    goodsList: []
+    allGoods: [],
+    goodsList: [],
+    categories: ['全部', '主食', '饮料', '小吃'],
+    currentCategory: '全部',
+    searchText: '',
+    loading: true
   },
   onLoad() {
+    if (!getApp().isLoggedIn()) {
+      wx.redirectTo({ url: '/pages/login/login' })
+      return
+    }
     this.loadGoods()
   },
   onShow() {
@@ -35,105 +24,102 @@ Page({
       data: { action, data: { ...data, ...(accountId ? { accountId } : {}) } }
     }).then(res => (res && res.result) || {})
   },
+  getMerchantId() {
+    return getApp().getMerchantId()
+  },
   loadGoods() {
-    if (!getApp().isLoggedIn()) {
-      this.setData({ allGoods: [], goodsList: [] })
+    this.setData({ loading: true })
+    wx.showLoading({ title: '加载中...' })
+    const merchantId = this.getMerchantId()
+    if (!merchantId) {
+      wx.showToast({ title: '未获取到商家信息', icon: 'none' })
+      this.setData({ loading: false })
+      wx.hideLoading()
       return
     }
-    this.callApi('getMerchantGoods', { merchantId: 1 }).then(result => {
-      const allGoods = result.success ? (result.data || []) : []
-      this.setData({ allGoods })
+    this.callApi('getMerchantGoods', { merchantId }).then(result => {
+      if (result.success && Array.isArray(result.data)) {
+        this.setData({ allGoods: result.data })
+      } else {
+        this.setData({ allGoods: [] })
+      }
       this.applyCategoryFilter()
-    }).catch(() => wx.showToast({ title: '加载失败', icon: 'none' }))
-  },
-  switchCategory(e) {
-    this.setData({
-      currentCategory: e.currentTarget.dataset.index
+    }).catch(() => {
+      console.log('加载失败')
+      this.setData({ allGoods: [] })
+      this.applyCategoryFilter()
+    }).finally(() => {
+      this.setData({ loading: false })
+      wx.hideLoading()
     })
-    this.applyCategoryFilter()
   },
   applyCategoryFilter() {
-    const { currentCategory, allGoods } = this.data
-    let goodsList = [...(allGoods || [])]
-    if (currentCategory === 1) {
-      goodsList = goodsList.filter(item => Number(item.sales || 0) >= 500)
-    } else if (currentCategory === 2) {
-      goodsList = goodsList.filter(item => Number(item.id || 0) >= 500)
+    const { allGoods, currentCategory, searchText } = this.data
+    let filtered = allGoods
+    if (currentCategory !== '全部') {
+      filtered = filtered.filter(item => item.category === currentCategory)
     }
-    this.setData({ goodsList })
+    if (searchText) {
+      const text = searchText.toLowerCase()
+      filtered = filtered.filter(item => item.name.toLowerCase().includes(text))
+    }
+    this.setData({ goodsList: filtered })
   },
-  editGoods(e) {
-    const index = e.currentTarget.dataset.index
-    const goods = this.data.goodsList[index]
-    
-    wx.showModal({
-      title: '编辑商品',
-      editable: true,
-      content: goods.name,
-      success: (res) => {
-        if (res.confirm && res.content) {
-          this.callApi('saveMerchantGoods', {
-            id: goods.id,
-            merchantId: 1,
-            name: res.content,
-            price: goods.price,
-            status: goods.status,
-            icon: goods.icon,
-            sales: goods.sales
-          }).then(result => {
-            wx.showToast({ title: result.success ? '编辑成功' : (result.message || '编辑失败'), icon: result.success ? 'success' : 'none' })
-            if (result.success) this.loadGoods()
-          })
-        }
-      }
+  handleCategoryChange(e) {
+    const category = e.currentTarget.dataset.category
+    this.setData({ currentCategory: category })
+    this.applyCategoryFilter()
+  },
+  handleSearchInput(e) {
+    this.setData({ searchText: e.detail.value })
+    this.applyCategoryFilter()
+  },
+  handleAddGoods() {
+    wx.navigateTo({
+      url: '/pages/goods/edit/edit'
     })
   },
-  offGoods(e) {
-    const index = e.currentTarget.dataset.index
-    const goods = this.data.goodsList[index]
-    
+  handleEditGoods(e) {
+    const goodsId = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: `/pages/goods/edit/edit?id=${goodsId}`
+    })
+  },
+  handleDeleteGoods(e) {
+    const goodsId = e.currentTarget.dataset.id
     wx.showModal({
-      title: goods.status === '上架中' ? '确认下架' : '确认上架',
-      content: goods.status === '上架中' ? '确定要下架这个商品吗？' : '确定要上架这个商品吗？',
+      title: '删除商品',
+      content: '确定要删除这个商品吗？',
       success: (res) => {
         if (res.confirm) {
-          const nextStatus = goods.status === '上架中' ? '已下架' : '上架中'
+          wx.showLoading({ title: '删除中...' })
+          const merchantId = this.getMerchantId()
           this.callApi('saveMerchantGoods', {
-            id: goods.id,
-            merchantId: 1,
-            name: goods.name,
-            price: goods.price,
-            status: nextStatus,
-            icon: goods.icon,
-            sales: goods.sales
+            id: goodsId,
+            merchantId: merchantId,
+            status: '已下架'
           }).then(result => {
-            wx.showToast({ title: result.success ? (nextStatus === '上架中' ? '上架成功' : '下架成功') : (result.message || '操作失败'), icon: result.success ? 'success' : 'none' })
-            if (result.success) this.loadGoods()
+            if (result.success) {
+              wx.showToast({ title: '商品删除成功', icon: 'success' })
+              this.loadGoods()
+            } else {
+              wx.showToast({ title: result.message || '删除失败', icon: 'none' })
+            }
+          }).catch(() => {
+            wx.showToast({ title: '网络错误', icon: 'none' })
+          }).finally(() => {
+            wx.hideLoading()
           })
         }
       }
     })
   },
-  addGoods() {
-    wx.showModal({
-      title: '添加商品',
-      editable: true,
-      placeholderText: '请输入商品名称',
-      success: (res) => {
-        if (res.confirm && res.content) {
-          this.callApi('saveMerchantGoods', {
-            merchantId: 1,
-            name: res.content,
-            price: 0,
-            status: '上架中',
-            icon: '🍽️',
-            sales: 0
-          }).then(result => {
-            wx.showToast({ title: result.success ? '添加成功' : (result.message || '添加失败'), icon: result.success ? 'success' : 'none' })
-            if (result.success) this.loadGoods()
-          })
-        }
-      }
-    })
+  handleGoodsAction(e) {
+    const action = e.currentTarget.dataset.action
+    if (action === 'edit') {
+      this.handleEditGoods(e)
+    } else if (action === 'delete') {
+      this.handleDeleteGoods(e)
+    }
   }
 })

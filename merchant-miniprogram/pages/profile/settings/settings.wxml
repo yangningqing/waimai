@@ -1,0 +1,49 @@
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="header">
+    <text class="title">店铺设置</text>
+  </view>
+
+  <!-- 设置表单 -->
+  <view class="form">
+    <view class="form-item photo-block">
+      <text class="label">店铺照片</text>
+      <view class="photo-row">
+        <image wx:if="{{merchantInfo.image}}" class="shop-preview" src="{{merchantInfo.image}}" mode="aspectFill" />
+        <view wx:else class="shop-preview shop-preview--empty">暂无照片</view>
+        <view class="photo-actions">
+          <button class="photo-btn" type="default" size="mini" loading="{{uploadingPhoto}}" disabled="{{uploadingPhoto}}" bindtap="chooseShopPhoto">相册 / 拍照</button>
+          <button wx:if="{{merchantInfo.image}}" class="photo-btn photo-btn--danger" type="default" size="mini" bindtap="clearShopPhoto">清除</button>
+        </view>
+      </view>
+      <text class="hint">上传后会保存为云存储链接；也可在下方直接填写图片地址（https 或 cloud://）</text>
+      <input class="input input--photo" placeholder="图片链接（可选）" value="{{merchantInfo.image}}" data-field="image" bindinput="onFieldInput" />
+    </view>
+
+    <view class="form-item">
+      <text class="label">店铺名称</text>
+      <input class="input" placeholder="请输入店铺名称" value="{{merchantInfo.name}}" data-field="name" bindinput="onFieldInput" />
+    </view>
+
+    <view class="form-item">
+      <text class="label">联系电话</text>
+      <input class="input" placeholder="请输入联系电话" value="{{merchantInfo.phone}}" data-field="phone" bindinput="onFieldInput" />
+    </view>
+
+    <view class="form-item">
+      <text class="label">店铺地址</text>
+      <input class="input" placeholder="请输入店铺地址" value="{{merchantInfo.address}}" data-field="address" bindinput="onFieldInput" />
+    </view>
+
+    <view class="form-item">
+      <text class="label">营业时间</text>
+      <input class="input" placeholder="请输入营业时间" value="{{merchantInfo.businessHours}}" data-field="businessHours" bindinput="onFieldInput" />
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="actions">
+    <button class="cancel-btn" bindtap="handleCancel">取消</button>
+    <button class="save-btn" bindtap="handleSave">保存</button>
+  </view>
+</view>

@@ -1,0 +1,283 @@
+.container {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding-bottom: 30rpx;
+}
+
+.loading-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 400rpx;
+}
+
+.loading-text {
+  font-size: 28rpx;
+  color: #999;
+}
+
+.order-detail {
+  background-color: #fff;
+  margin-bottom: 20rpx;
+}
+
+/* 状态部分 */
+.status-section {
+  padding: 40rpx 30rpx;
+  background-color: #f5f5f5;
+  text-align: center;
+}
+
+.status-text {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+
+.status-desc {
+  font-size: 24rpx;
+  color: #666;
+}
+
+/* 商家信息 */
+.shop-section {
+  padding: 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.shop-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10rpx;
+  display: block;
+}
+
+.shop-address {
+  font-size: 24rpx;
+  color: #666;
+  line-height: 1.4;
+}
+
+/* 商品信息 */
+.goods-section {
+  padding: 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.section-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.goods-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.goods-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  background-color: #f9f9f9;
+  border-radius: 10rpx;
+}
+
+.goods-image {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 10rpx;
+  margin-right: 20rpx;
+}
+
+.goods-info {
+  flex: 1;
+}
+
+.goods-name {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 10rpx;
+  display: block;
+}
+
+.goods-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.goods-price {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #ff4757;
+}
+
+.goods-quantity {
+  font-size: 24rpx;
+  color: #666;
+}
+
+/* 订单信息 */
+.order-info-section {
+  padding: 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15rpx;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info-label {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.info-value {
+  font-size: 26rpx;
+  color: #333;
+  text-align: right;
+  flex: 1;
+  margin-left: 20rpx;
+}
+
+/* 收货信息 */
+.address-section {
+  padding: 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.address-info {
+  background-color: #f9f9f9;
+  padding: 20rpx;
+  border-radius: 10rpx;
+}
+
+.address-name {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10rpx;
+  display: block;
+}
+
+.address-phone {
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+  display: block;
+}
+
+.address-detail {
+  font-size: 24rpx;
+  color: #666;
+  line-height: 1.4;
+  display: block;
+}
+
+/* 价格信息 */
+.price-section {
+  padding: 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.price-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15rpx;
+}
+
+.price-label {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.price-value {
+  font-size: 26rpx;
+  color: #333;
+}
+
+.price-item.total {
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.price-item.total .price-value {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #ff4757;
+}
+
+/* 操作按钮 */
+.action-section {
+  padding: 30rpx;
+  display: flex;
+  gap: 20rpx;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.action-btn {
+  padding: 0 30rpx;
+  height: 70rpx;
+  border-radius: 35rpx;
+  font-size: 26rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1rpx solid #ddd;
+  background-color: #fff;
+  color: #333;
+}
+
+.action-btn.primary {
+  background-color: #ff6b35;
+  color: #fff;
+  border: none;
+}
+
+.action-btn.ghost {
+  border: 1rpx solid #ddd;
+  background-color: #fff;
+  color: #666;
+}
+
+/* 空状态 */
+.empty-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100rpx 0;
+  background-color: #fff;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #999;
+  margin-bottom: 30rpx;
+}
+
+.retry-btn {
+  padding: 0 40rpx;
+  height: 70rpx;
+  border-radius: 35rpx;
+  font-size: 26rpx;
+  background-color: #ff6b35;
+  color: #fff;
+  border: none;
+}

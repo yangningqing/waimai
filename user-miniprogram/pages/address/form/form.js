@@ -4,6 +4,8 @@ Page({
     address: '',
     addressShort: '',
     addressDetail: '',
+    mapName: '',
+    mapAddress: '',
     doorNo: '',
     tagOptions: ['家', '公司', '学校'],
     tag: '家',
@@ -30,8 +32,10 @@ Page({
       if (!hit) return
       this.setData({
         address: String(hit.address || ''),
-        addressShort: String(hit.address || '').split(' ')[0] || String(hit.address || ''),
+        addressShort: String(hit.shortAddress || '').trim(),
         addressDetail: String(hit.address || ''),
+        mapName: String(hit.shortAddress || '').trim(),
+        mapAddress: String(hit.address || ''),
         contactName: String(hit.name || ''),
         phone: String(hit.phone || '')
       })
@@ -57,7 +61,9 @@ Page({
           this.setData({
             address,
             addressShort: shortName || address,
-            addressDetail: detailText || address
+            addressDetail: detailText || address,
+            mapName: shortName,
+            mapAddress: detailText || address
           })
           wx.showToast({ title: '已选择地址', icon: 'success' })
         },
@@ -107,15 +113,16 @@ Page({
     this.setData({ gender: String(e.currentTarget.dataset.gender || '先生') })
   },
   saveAddress() {
-    const { id, address, doorNo, contactName, gender, phone } = this.data
-    const fullAddress = `${String(address || '').trim()} ${String(doorNo || '').trim()}`.trim()
+    const { id, address, addressShort, addressDetail, doorNo, contactName, gender, phone } = this.data
+    const fullAddress = `${String(addressDetail || address || '').trim()} ${String(doorNo || '').trim()}`.trim()
     if (!fullAddress) return wx.showToast({ title: '请选择收货地址', icon: 'none' })
     if (!contactName.trim()) return wx.showToast({ title: '请填写联系人', icon: 'none' })
     if (!/^1\d{10}$/.test(phone.trim())) return wx.showToast({ title: '手机号格式错误', icon: 'none' })
     const payload = {
       name: `${contactName.trim()} ${gender}`,
       phone: phone.trim(),
-      address: fullAddress
+      address: fullAddress,
+      shortAddress: String(addressShort || address || '').trim()
     }
     wx.showLoading({ title: '保存中...' })
     const p = id
@@ -130,5 +137,27 @@ Page({
       }
     }).catch(() => wx.showToast({ title: '网络错误', icon: 'none' }))
       .finally(() => wx.hideLoading())
+  },
+  deleteAddress() {
+    const { id } = this.data
+    if (!id) return wx.showToast({ title: '地址ID无效', icon: 'none' })
+    wx.showModal({
+      title: '确认删除',
+      content: '确定要删除这个地址吗？',
+      success: (res) => {
+        if (res.confirm) {
+          wx.showLoading({ title: '删除中...' })
+          this.callApi('deleteAddress', { id }).then(result => {
+            if (result.success) {
+              wx.showToast({ title: '删除成功', icon: 'success' })
+              setTimeout(() => wx.navigateBack(), 220)
+            } else {
+              wx.showToast({ title: result.message || '删除失败', icon: 'none' })
+            }
+          }).catch(() => wx.showToast({ title: '网络错误', icon: 'none' }))
+            .finally(() => wx.hideLoading())
+        }
+      }
+    })
   }
 })

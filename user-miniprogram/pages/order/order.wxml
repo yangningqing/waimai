@@ -33,7 +33,7 @@
   </view>
 
   <view class="order-list" wx:elif="{{orders.length > 0}}">
-    <view class="order-item" wx:for="{{orders}}" wx:key="id" bindlongpress="handleMore" data-id="{{item.id}}">
+    <view class="order-item" wx:for="{{orders}}" wx:key="id" bindlongpress="handleMore" bindtap="navigateToOrderDetail" data-id="{{item.id}}">
       <view class="order-header">
         <view class="shop-wrap">
           <text class="order-shop" bindtap="navigateToShop" data-merchant-id="{{item.merchantId}}">{{item.shop}}</text>
@@ -65,7 +65,7 @@
           <button class="action-btn" bindtap="contactRider" data-id="{{item.id}}" wx:if="{{item.status === '待收货'}}">联系骑手</button>
           <button class="action-btn" bindtap="confirmReceipt" data-id="{{item.id}}" wx:if="{{item.status === '待收货'}}">确认收货</button>
           <button class="action-btn" bindtap="evaluate" data-id="{{item.id}}" wx:if="{{item.canEvaluate}}">评价</button>
-          <button class="action-btn ghost" bindtap="copyOrderId" data-id="{{item.id}}">复制单号</button>
+          <button class="action-btn ghost" catchtap="contactMerchant" data-id="{{item.id}}" data-merchant-id="{{item.merchantId}}" data-shop="{{item.shop}}">联系商家</button>
         </view>
       </view>
     </view>

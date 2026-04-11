@@ -9,12 +9,13 @@
     <view class="address-item" wx:for="{{addresses}}" wx:key="id" data-index="{{index}}">
       <view class="address-info" bindtap="selectAddress" data-index="{{index}}">
         <view class="address-main-line">
-          <text class="address-full">{{item.address}}</text>
-          <text class="edit-btn" bindtap="editAddress" data-index="{{index}}">编辑</text>
+          <text class="address-short">{{item.shortAddress || item.address}}</text>
+          <text class="edit-btn" catchtap="editAddress" data-index="{{index}}">编辑</text>
         </view>
+        <text class="address-full">{{item.address}}</text>
         <view class="address-sub-line">
-          <text class="address-name">{{item.name}}</text>
-          <text class="address-gender">先生</text>
+          <text class="address-name">{{item.displayName || item.name}}</text>
+          <text class="address-gender" wx:if="{{item.gender}}">{{item.gender}}</text>
           <text class="address-phone">{{item.phone}}</text>
           <text class="default-tag" wx:if="{{item.isDefault}}">默认</text>
         </view>

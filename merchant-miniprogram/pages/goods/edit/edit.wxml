@@ -1,0 +1,49 @@
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="header">
+    <text class="title">{{goodsId ? '编辑商品' : '添加商品'}}</text>
+  </view>
+
+  <!-- 商品表单 -->
+  <view class="form">
+    <view class="form-item">
+      <text class="label">商品名称</text>
+      <input class="input" placeholder="请输入商品名称" bindinput="handleNameInput" value="{{name}}" />
+    </view>
+
+    <view class="form-item">
+      <text class="label">商品价格</text>
+      <input class="input" type="number" placeholder="请输入商品价格" bindinput="handlePriceInput" value="{{price}}" />
+    </view>
+
+    <view class="form-item">
+      <text class="label">商品分类</text>
+      <picker class="picker" mode="selector" range="{{categories}}" value="{{categories.indexOf(category)}}" bindchange="handleCategoryChange">
+        <view class="picker-text">{{category}}</view>
+      </picker>
+    </view>
+
+    <view class="form-item">
+      <text class="label">商品状态</text>
+      <picker class="picker" mode="selector" range="['上架中', '已下架']" value="{{status === '上架中' ? 0 : 1}}" bindchange="handleStatusChange">
+        <view class="picker-text">{{status}}</view>
+      </picker>
+    </view>
+
+    <view class="form-item">
+      <text class="label">销量</text>
+      <input class="input" type="number" placeholder="请输入销量" bindinput="handleSalesInput" value="{{sales}}" />
+    </view>
+
+    <view class="form-item">
+      <text class="label">商品图片</text>
+      <input class="input" placeholder="请输入商品图片URL" bindinput="handleImageInput" value="{{image}}" />
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="actions">
+    <button class="cancel-btn" bindtap="handleCancel">取消</button>
+    <button class="save-btn" bindtap="handleSave">{{goodsId ? '保存修改' : '添加商品'}}</button>
+  </view>
+</view>

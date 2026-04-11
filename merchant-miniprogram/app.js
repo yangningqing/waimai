@@ -31,6 +31,16 @@ App({
   getAccountId() {
     return String(this.globalData.accountId || '')
   },
+  /** 与云库一致：保持 number，勿统一转成字符串（否则 where 匹配失败） */
+  getMerchantId() {
+    const account = this.globalData.currentAccount
+    if (!account || account.merchantId == null || account.merchantId === '') return ''
+    return account.merchantId
+  },
+  getMerchantDisplayName() {
+    const account = this.globalData.currentAccount || {}
+    return String(account.nickname || account.merchantName || '我的店铺')
+  },
   isLoggedIn() {
     return !!this.getAccountId()
   },

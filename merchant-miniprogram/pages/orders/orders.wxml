@@ -1,30 +1,42 @@
 <view class="container">
-  <view class="header">
-    <text class="header-title">订单管理</text>
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <input class="search-input" placeholder="搜索订单号或用户" bindinput="handleSearchInput" value="{{searchText}}" />
   </view>
 
-  <view class="status-tabs">
-    <view class="tab-item {{currentTab === index ? 'active' : ''}}" wx:for="{{tabList}}" wx:key="index" bindtap="switchTab" data-index="{{index}}">{{item}}</view>
+  <!-- 状态筛选 -->
+  <view class="status-filter">
+    <view wx:for="{{statuses}}" wx:key="*this" class="status-item {{currentStatus === item ? 'active' : ''}}" data-status="{{item}}" bindtap="handleStatusChange">
+      {{item}}
+    </view>
   </view>
 
+  <!-- 订单列表 -->
   <view class="order-list">
-    <view class="order-item" wx:for="{{orderList}}" wx:key="id" data-index="{{index}}">
+    <view wx:for="{{orderList}}" wx:key="id" class="order-item" data-id="{{item.orderId}}" data-status="{{item.status}}" bindtap="handleOrderAction">
       <view class="order-header">
-        <text class="order-id">订单号：{{item.id}}</text>
-        <text class="order-status">{{item.status}}</text>
+        <text class="order-id">订单号: {{item.orderId}}</text>
+        <text class="order-status" style="color: {{item.status === '待处理' ? '#ff9800' : item.status === '已完成' ? '#4caf50' : item.status === '配送中' ? '#2196f3' : '#999'}}">{{item.status}}</text>
       </view>
-      <view class="order-content">
-        <text class="customer-name">{{item.customerName}}</text>
-        <text class="goods-info">{{item.goodsInfo}}</text>
-        <text class="order-time">下单时间：{{item.orderTime}}</text>
-        <text class="order-price">¥{{item.price}}</text>
+      <view class="order-info">
+        <text class="order-user">{{item.customerName}} {{item.customerPhone}}</text>
+        <text class="order-time">{{item.time}}</text>
       </view>
-      <view class="order-actions">
-        <button class="action-btn accept-btn" bindtap="acceptOrder" data-index="{{index}}" wx:if="{{item.status === '待接单'}}">接单</button>
-        <button class="action-btn" bindtap="rejectOrder" data-index="{{index}}" wx:if="{{item.status === '待接单'}}">拒单</button>
-        <button class="action-btn" bindtap="viewDetail" data-index="{{index}}" wx:if="{{item.status === '配送中'}}">查看详情</button>
-        <button class="action-btn accept-btn" bindtap="completeOrder" data-index="{{index}}" wx:if="{{item.status === '配送中'}}">完成订单</button>
+      <view class="order-address">
+        <text class="address-text">{{item.customerAddress}}</text>
+      </view>
+      <view class="order-items">
+        <text class="item-name">{{item.goodsInfo}}</text>
+      </view>
+      <view class="order-footer">
+        <text class="order-amount">总计: ¥{{item.amount}}</text>
+        <text class="order-action">{{item.status === '待处理' || item.status === '待接单' ? '点击接单' : item.status === '配送中' ? '点击完成' : '查看详情'}}</text>
       </view>
     </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:if="{{orderList.length === 0}}" class="empty-state">
+    <text class="empty-text">暂无订单</text>
   </view>
 </view>

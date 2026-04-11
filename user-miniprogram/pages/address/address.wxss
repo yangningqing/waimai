@@ -19,10 +19,11 @@
 }
 
 .header-action {
-  width: 100rpx;
+  width: 140rpx;
   text-align: right;
   font-size: 28rpx;
   color: #333;
+  white-space: nowrap;
 }
 
 .header-title {
@@ -65,12 +66,18 @@
   gap: 20rpx;
 }
 
-.address-full {
+.address-short {
   font-size: 34rpx;
   font-weight: 600;
   color: #333;
   line-height: 1.4;
   flex: 1;
+}
+.address-full {
+  display: block;
+  font-size: 24rpx;
+  color: #8a8a8a;
+  line-height: 1.4;
 }
 
 .address-sub-line {

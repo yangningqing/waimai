@@ -1,0 +1,29 @@
+<view class="container">
+  <view class="page-title">消息中心</view>
+  
+  <!-- 消息分类 -->
+  <view class="message-tabs">
+    <view wx:for="{{tabs}}" wx:key="id" class="tab-item {{activeTab === index ? 'active' : ''}}" data-index="{{index}}" bindtap="switchTab">
+      {{item.name}}
+    </view>
+  </view>
+  
+  <!-- 消息列表 -->
+  <view class="message-list">
+    <view wx:for="{{filteredMessages}}" wx:key="id" class="message-item {{item.inboxKind === 'thread' ? 'thread-row' : ''}}" data-id="{{item.id}}" data-inboxkind="{{item.inboxKind}}" data-orderid="{{item.orderId}}" data-merchantid="{{item.merchantId}}" data-merchantname="{{item.merchantName}}" bindtap="handleMessageTap">
+      <view class="message-icon {{item.type}}">{{item.icon}}</view>
+      <view class="message-content">
+        <text class="message-title">{{item.title}}</text>
+        <text class="message-desc">{{item.content}}</text>
+        <text class="message-time">{{item.time}}</text>
+      </view>
+      <view wx:if="{{item.unread}}" class="message-badge">1</view>
+    </view>
+    
+    <!-- 空状态 -->
+    <view wx:if="{{filteredMessages.length === 0}}" class="empty-state">
+      <text class="empty-icon">📭</text>
+      <text class="empty-text">暂无消息</text>
+    </view>
+  </view>
+</view>

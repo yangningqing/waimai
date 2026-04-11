@@ -1,0 +1,58 @@
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="header">
+    <text class="title">财务对账</text>
+  </view>
+
+  <!-- 余额信息 -->
+  <view class="balance-section">
+    <view class="balance-card">
+      <view class="balance-label">当前余额</view>
+      <view class="balance-amount">¥{{balance.toFixed(2)}}</view>
+      <button class="withdraw-btn" bindtap="handleWithdraw">提现</button>
+    </view>
+  </view>
+
+  <!-- 提现记录 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">提现记录</text>
+    </view>
+    <view class="withdrawal-list">
+      <view wx:for="{{withdrawals}}" wx:key="id" class="withdrawal-item">
+        <view class="withdrawal-info">
+          <text class="withdrawal-amount">¥{{item.amount}}</text>
+          <text class="withdrawal-time">{{item.time}}</text>
+        </view>
+        <text class="withdrawal-status" style="color: {{item.status === '已完成' ? '#4caf50' : '#ff9800'}}">{{item.status}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 交易记录 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">交易记录</text>
+    </view>
+    <view class="transaction-list">
+      <view wx:for="{{transactions}}" wx:key="id" class="transaction-item">
+        <view class="transaction-info">
+          <text class="transaction-type">{{item.type}}</text>
+          <text class="transaction-time">{{item.time}}</text>
+          <text class="transaction-order">{{item.orderId}}</text>
+        </view>
+        <text class="transaction-amount" style="color: {{item.type === '收入' ? '#4caf50' : '#f44336'}}">{{item.type === '收入' ? '+' : '-'}}¥{{item.amount}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:if="{{withdrawals.length === 0 && transactions.length === 0}}" class="empty-state">
+    <text class="empty-text">暂无财务数据</text>
+  </view>
+
+  <!-- 返回按钮 -->
+  <view class="actions">
+    <button class="back-btn" bindtap="handleBack">返回</button>
+  </view>
+</view>

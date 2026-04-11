@@ -1,32 +1,17 @@
 Page({
   data: {
-    currentTab: 0,
-    tabList: ['全部', '待接单', '配送中', '已完成'],
-    allOrders: [
-      {
-        id: '20260406001',
-        customerName: '张三',
-        customerPhone: '138****1234',
-        customerAddress: '北京城市学院顺义校区',
-        goodsInfo: '香辣鸡腿堡 x1，薯条 x1',
-        orderTime: '10:30',
-        price: 30,
-        status: '待接单'
-      },
-      {
-        id: '20260406002',
-        customerName: '李四',
-        customerPhone: '139****5678',
-        customerAddress: '朝阳区望京SOHO',
-        goodsInfo: '曼玲粥套餐 x1',
-        orderTime: '11:15',
-        price: 25,
-        status: '配送中'
-      }
-    ],
-    orderList: []
+    allOrders: [],
+    orderList: [],
+    statuses: ['全部', '待处理', '配送中', '已完成', '已取消'],
+    currentStatus: '全部',
+    searchText: '',
+    loading: true
   },
   onLoad() {
+    if (!getApp().isLoggedIn()) {
+      wx.redirectTo({ url: '/pages/login/login' })
+      return
+    }
     this.loadOrders()
   },
   onShow() {
@@ -40,107 +25,105 @@ Page({
     }).then(res => (res && res.result) || {})
   },
   getMerchantName() {
-    const account = getApp().globalData.currentAccount || {}
-    return String(account.nickname || account.merchantName || '塔斯汀')
+    return getApp().getMerchantDisplayName()
+  },
+  getMerchantId() {
+    return getApp().getMerchantId()
   },
   loadOrders() {
-    if (!getApp().isLoggedIn()) {
-      this.setData({ allOrders: [], orderList: [] })
-      return
-    }
-    this.callApi('getMerchantOrders', { merchant: this.getMerchantName() }).then(result => {
-      const allOrders = result.success ? (result.data || []) : []
-      this.setData({ allOrders })
+    this.setData({ loading: true })
+    wx.showLoading({ title: '加载中...' })
+    const merchant = this.getMerchantName()
+    const merchantId = this.getMerchantId()
+    this.callApi('getMerchantOrders', { merchant, merchantId }).then(result => {
+      if (result.success && Array.isArray(result.data)) {
+        this.setData({ allOrders: result.data })
+      } else {
+        this.setData({ allOrders: [] })
+      }
       this.applyFilter()
-    }).catch(() => wx.showToast({ title: '加载失败', icon: 'none' }))
-  },
-  switchTab(e) {
-    this.setData({
-      currentTab: e.currentTarget.dataset.index
+    }).catch(() => {
+      console.log('加载失败')
+      this.setData({ allOrders: [] })
+      this.applyFilter()
+    }).finally(() => {
+      this.setData({ loading: false })
+      wx.hideLoading()
     })
-    this.applyFilter()
   },
   applyFilter() {
-    const { currentTab, allOrders } = this.data
-    let orderList = allOrders || []
-    if (currentTab === 1) {
-      orderList = orderList.filter(item => item.status === '待接单')
-    } else if (currentTab === 2) {
-      orderList = orderList.filter(item => item.status === '配送中' || item.status === '待取餐')
-    } else if (currentTab === 3) {
-      orderList = orderList.filter(item => item.status === '已完成')
+    const { allOrders, currentStatus, searchText } = this.data
+    let filtered = allOrders
+    if (currentStatus !== '全部') {
+      filtered = filtered.filter(item => item.status === currentStatus)
     }
-    this.setData({ orderList })
+    if (searchText) {
+      const text = searchText.toLowerCase()
+      filtered = filtered.filter(item => 
+        item.orderId.toLowerCase().includes(text) || 
+        (item.customerName && item.customerName.toLowerCase().includes(text))
+      )
+    }
+    this.setData({ orderList: filtered })
   },
-  acceptOrder(e) {
-    const index = e.currentTarget.dataset.index
-    const orderList = this.data.orderList
-    
+  handleStatusChange(e) {
+    const status = e.currentTarget.dataset.status
+    this.setData({ currentStatus: status })
+    this.applyFilter()
+  },
+  handleSearchInput(e) {
+    this.setData({ searchText: e.detail.value })
+    this.applyFilter()
+  },
+  handleOrderAction(e) {
+    const orderId = e.currentTarget.dataset.id
+    const status = e.currentTarget.dataset.status
+    if (status === '待处理' || status === '待接单') {
+      this.handleAcceptOrder(e)
+    } else if (status === '配送中') {
+      this.handleCompleteOrder(e)
+    } else {
+      this.viewOrderDetail(e)
+    }
+  },
+  handleAcceptOrder(e) {
+    const orderId = e.currentTarget.dataset.id
     wx.showModal({
-      title: '确认接单',
+      title: '接单',
       content: '确定要接这个订单吗？',
       success: (res) => {
         if (res.confirm) {
-          this.callApi('updateMerchantOrderStatus', { orderId: orderList[index].id, status: '配送中' }).then(result => {
-            wx.showToast({
-              title: result.success ? '接单成功' : (result.message || '接单失败'),
-              icon: result.success ? 'success' : 'none'
-            })
+          wx.showToast({ title: '接单中...', icon: 'none' })
+          this.callApi('updateMerchantOrderStatus', { orderId, status: '配送中' }).then(result => {
+            wx.showToast({ title: result.success ? '接单成功' : (result.message || '接单失败'), icon: result.success ? 'success' : 'none' })
             if (result.success) this.loadOrders()
           })
         }
       }
     })
   },
-  rejectOrder(e) {
-    const index = e.currentTarget.dataset.index
-    const orderList = this.data.orderList
-    
+  handleCompleteOrder(e) {
+    const orderId = e.currentTarget.dataset.id
     wx.showModal({
-      title: '确认拒单',
-      editable: true,
-      placeholderText: '请输入拒单原因',
+      title: '完成订单',
+      content: '确定要完成这个订单吗？',
       success: (res) => {
         if (res.confirm) {
-          this.callApi('updateMerchantOrderStatus', { orderId: orderList[index].id, status: '已取消' }).then(result => {
-            wx.showToast({
-              title: result.success ? '已拒单' : (result.message || '操作失败'),
-              icon: result.success ? 'success' : 'none'
-            })
+          wx.showToast({ title: '处理中...', icon: 'none' })
+          this.callApi('updateMerchantOrderStatus', { orderId, status: '已完成' }).then(result => {
+            wx.showToast({ title: result.success ? '订单已完成' : (result.message || '处理失败'), icon: result.success ? 'success' : 'none' })
             if (result.success) this.loadOrders()
           })
         }
       }
     })
   },
-  viewDetail(e) {
-    const index = e.currentTarget.dataset.index
-    const order = this.data.orderList[index]
-    
+  viewOrderDetail(e) {
+    const orderId = e.currentTarget.dataset.id
     wx.showModal({
       title: '订单详情',
-      content: `订单号：${order.id}\n客户：${order.customerName}\n地址：${order.customerAddress}\n商品：${order.goodsInfo}\n金额：¥${order.price}`,
+      content: `订单号: ${orderId}`,
       showCancel: false
-    })
-  },
-  completeOrder(e) {
-    const index = e.currentTarget.dataset.index
-    const orderList = this.data.orderList
-    
-    wx.showModal({
-      title: '确认完成',
-      content: '确定订单已经完成了吗？',
-      success: (res) => {
-        if (res.confirm) {
-          this.callApi('updateMerchantOrderStatus', { orderId: orderList[index].id, status: '已完成' }).then(result => {
-            wx.showToast({
-              title: result.success ? '订单已完成' : (result.message || '操作失败'),
-              icon: result.success ? 'success' : 'none'
-            })
-            if (result.success) this.loadOrders()
-          })
-        }
-      }
     })
   }
 })

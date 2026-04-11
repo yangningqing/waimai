@@ -1,0 +1,37 @@
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="header">
+    <text class="title">活动中心</text>
+  </view>
+
+  <!-- 活动列表 -->
+  <view class="activity-list">
+    <view wx:for="{{activities}}" wx:key="id" class="activity-item">
+      <view class="activity-header">
+        <text class="activity-title">{{item.title}}</text>
+        <text class="activity-status" style="color: {{item.status === '进行中' ? '#4caf50' : '#ff9800'}}">{{item.status}}</text>
+      </view>
+      <view class="activity-content">
+        <text class="activity-description">{{item.description}}</text>
+      </view>
+      <view class="activity-footer">
+        <text class="activity-date">{{item.startDate}} 至 {{item.endDate}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:if="{{activities.length === 0}}" class="empty-state">
+    <text class="empty-text">暂无活动</text>
+  </view>
+
+  <!-- 创建活动按钮 -->
+  <view class="create-section">
+    <button class="create-btn" bindtap="handleCreateActivity">创建活动</button>
+  </view>
+
+  <!-- 返回按钮 -->
+  <view class="actions">
+    <button class="back-btn" bindtap="handleBack">返回</button>
+  </view>
+</view>

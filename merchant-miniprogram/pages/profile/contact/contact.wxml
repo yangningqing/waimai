@@ -1,0 +1,54 @@
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="header">
+    <text class="title">客服中心</text>
+  </view>
+
+  <!-- 客服信息 -->
+  <view class="contact-section">
+    <view class="contact-item" bindtap="handleCallPhone">
+      <view class="contact-icon">📞</view>
+      <view class="contact-content">
+        <text class="contact-label">客服电话</text>
+        <text class="contact-value">{{contactInfo.phone}}</text>
+      </view>
+      <view class="contact-arrow">→</view>
+    </view>
+    <view class="contact-item" bindtap="handleSendEmail">
+      <view class="contact-icon">📧</view>
+      <view class="contact-content">
+        <text class="contact-label">邮箱</text>
+        <text class="contact-value">{{contactInfo.email}}</text>
+      </view>
+      <view class="contact-arrow">→</view>
+    </view>
+    <view class="contact-item">
+      <view class="contact-icon">⏰</view>
+      <view class="contact-content">
+        <text class="contact-label">工作时间</text>
+        <text class="contact-value">{{contactInfo.workingHours}}</text>
+      </view>
+    </view>
+    <view class="contact-item" bindtap="handleCopyQQ">
+      <view class="contact-icon">💬</view>
+      <view class="contact-content">
+        <text class="contact-label">QQ</text>
+        <text class="contact-value">{{contactInfo.qq}}</text>
+      </view>
+      <view class="contact-arrow">→</view>
+    </view>
+    <view class="contact-item" bindtap="handleCopyWechat">
+      <view class="contact-icon">💚</view>
+      <view class="contact-content">
+        <text class="contact-label">微信</text>
+        <text class="contact-value">{{contactInfo.wechat}}</text>
+      </view>
+      <view class="contact-arrow">→</view>
+    </view>
+  </view>
+
+  <!-- 返回按钮 -->
+  <view class="actions">
+    <button class="back-btn" bindtap="handleBack">返回</button>
+  </view>
+</view>

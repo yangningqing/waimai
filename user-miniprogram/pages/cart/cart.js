@@ -15,10 +15,9 @@ Page({
   },
   syncSelectedAddress() {
     const selectedAddress = wx.getStorageSync('selectedAddress') || null
+    const shortText = String((selectedAddress && selectedAddress.shortAddress) || '').trim()
     this.setData({
-      selectedAddressText: selectedAddress && selectedAddress.address
-        ? String(selectedAddress.address)
-        : ''
+      selectedAddressText: shortText || String((selectedAddress && selectedAddress.address) || '').trim()
     })
   },
   chooseAddress() {
@@ -113,60 +112,15 @@ Page({
       return
     }
 
-    const selectedAddress = wx.getStorageSync('selectedAddress') || null
-    if (!selectedAddress || !selectedAddress.id) {
-      wx.showModal({
-        title: '请选择收货地址',
-        content: '下单前需要先选择收货地址',
-        confirmText: '去选择',
-        success: (res) => {
-          if (res.confirm) {
-            wx.navigateTo({ url: '../address/address?mode=select' })
-          }
-        }
-      })
-      return
-    }
-    wx.showLoading({ title: '下单中...' })
-    wx.cloud.callFunction({
-      name: 'api',
-      data: {
-        action: 'createOrder',
-        data: {
-          accountId,
-          cartItems: this.data.cartItems,
-          totalAmount: this.data.totalAmount,
-          address: selectedAddress
-        }
-      }
-    }).then(res => {
-      const result = (res && res.result) || {}
-      console.log('createOrder result:', result)
-      if (!result.success) {
-        const reason = String(result.message || result.error || '下单失败')
-        wx.showModal({
-          title: '下单失败',
-          content: reason,
-          showCancel: false
-        })
-        return
-      }
-      const orderId = result.data && result.data.orderId ? String(result.data.orderId) : ''
-      if (orderId) {
-        wx.setStorageSync('pending_clear_cart_order_id', orderId)
-      }
-      wx.showToast({ title: `下单成功:${orderId}`, icon: 'success' })
-      // 订单是 tabBar 页面，优先 switchTab，失败时自动兜底
-      setTimeout(() => this.goToOrderTab(), 80)
-    }).catch(err => {
-      console.error('创建订单失败:', err)
-      wx.showModal({
-        title: '创建订单失败',
-        content: String((err && err.errMsg) || '网络错误，请稍后重试'),
-        showCancel: false
-      })
-    }).finally(() => {
-      wx.hideLoading()
+    const firstShop = this.data.cartItems[0] || {}
+    wx.setStorageSync('checkout_payload', {
+      source: 'cart',
+      shopName: String(firstShop.shopName || '商家'),
+      items: Array.isArray(firstShop.goods) ? firstShop.goods : [],
+      goodsTotal: Number(this.data.totalAmount || 0),
+      deliveryFee: 0,
+      couponDeduct: 0
     })
+    wx.navigateTo({ url: '../checkout/checkout' })
   }
 })

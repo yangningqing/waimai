@@ -138,3 +138,13 @@
   font-size: 34rpx;
   font-weight: 600;
 }
+
+.delete-btn {
+  margin-top: 16rpx;
+  background: #fff;
+  color: #ff4d4f;
+  border: 1rpx solid #ff4d4f;
+  border-radius: 10rpx;
+  font-size: 34rpx;
+  font-weight: 600;
+}

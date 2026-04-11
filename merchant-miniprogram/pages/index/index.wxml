@@ -1,66 +1,66 @@
 <view class="container">
-  <view class="header">
-    <text class="header-title">商家中心</text>
-    <text class="shop-name">塔斯汀</text>
-  </view>
-
-  <view class="stats-section">
+  <!-- 顶部统计卡片 -->
+  <view class="stats-container">
     <view class="stat-card">
-      <text class="stat-title">今日订单</text>
-      <text class="stat-value">{{stats.todayOrders}}</text>
-      <text class="stat-desc">较昨日 +12%</text>
+      <view class="stat-number">{{stats.todayOrders}}</view>
+      <view class="stat-label">今日订单</view>
     </view>
     <view class="stat-card">
-      <text class="stat-title">今日收入</text>
-      <text class="stat-value">¥{{stats.todayIncome.toLocaleString()}}</text>
-      <text class="stat-desc">较昨日 +8%</text>
+      <view class="stat-number">¥{{stats.todayIncome}}</view>
+      <view class="stat-label">今日收入</view>
     </view>
     <view class="stat-card">
-      <text class="stat-title">待处理订单</text>
-      <text class="stat-value">{{stats.pendingOrders}}</text>
-      <text class="stat-desc">较昨日 -20%</text>
+      <view class="stat-number">{{stats.pendingOrders}}</view>
+      <view class="stat-label">待处理</view>
     </view>
     <view class="stat-card">
-      <text class="stat-title">商品总数</text>
-      <text class="stat-value">{{stats.goodsCount}}</text>
-      <text class="stat-desc">较昨日 0</text>
+      <view class="stat-number">{{stats.goodsCount}}</view>
+      <view class="stat-label">商品数</view>
     </view>
   </view>
 
-  <view class="order-section">
+  <!-- 快捷操作 -->
+  <view class="quick-actions">
+    <view class="action-item" bindtap="navigateToGoods">
+      <view class="action-icon">📦</view>
+      <view class="action-label">商品管理</view>
+    </view>
+    <view class="action-item" bindtap="navigateToOrders">
+      <view class="action-icon">📋</view>
+      <view class="action-label">订单管理</view>
+    </view>
+    <view class="action-item" bindtap="navigateToIncome">
+      <view class="action-icon">💰</view>
+      <view class="action-label">收入统计</view>
+    </view>
+    <view class="action-item" bindtap="navigateToDelivery">
+      <view class="action-icon">🚚</view>
+      <view class="action-label">配送服务</view>
+    </view>
+  </view>
+
+  <!-- 最近订单 -->
+  <view class="section">
     <view class="section-header">
       <text class="section-title">最近订单</text>
-      <text class="section-more" bindtap="navigateToOrders">查看全部</text>
+      <navigator url="/pages/orders/orders" class="more">查看全部</navigator>
     </view>
     <view class="order-list">
-      <view class="order-item" wx:for="{{recentOrders}}" wx:key="index">
-        <view class="order-info">
-          <text class="order-id">订单号：{{item.orderId}}</text>
-          <text class="order-status">{{item.status}}</text>
+      <view wx:for="{{recentOrders}}" wx:key="id" class="order-item" data-id="{{item.orderId}}" data-status="{{item.status}}" bindtap="handleOrderAction">
+        <view class="order-header">
+          <text class="order-id">订单号: {{item.orderId}}</text>
+          <text class="order-status" style="color: {{item.status === '待处理' ? '#ff9800' : item.status === '已完成' ? '#4caf50' : '#2196f3'}}">{{item.status}}</text>
         </view>
-        <text class="order-time">{{item.time}}</text>
-        <text class="order-amount">¥{{item.amount}}</text>
-        <button class="order-btn" bindtap="handleOrderAction" data-id="{{item.id}}" data-status="{{item.status}}">
-          {{item.status === '待处理' || item.status === '待接单' ? '处理' : '详情'}}
-        </button>
+        <view class="order-info">
+          <text class="order-time">{{item.time}}</text>
+          <text class="order-amount">¥{{item.amount}}</text>
+        </view>
+        <view class="order-action">
+          <text class="action-text">{{item.status === '待处理' || item.status === '待接单' ? '点击处理' : '查看详情'}}</text>
+        </view>
       </view>
     </view>
   </view>
 
-  <view class="goods-section">
-    <view class="section-header">
-      <text class="section-title">热门商品</text>
-      <text class="section-more" bindtap="navigateToGoods">查看全部</text>
-    </view>
-    <view class="goods-list">
-      <view class="goods-item" wx:for="{{hotGoods}}" wx:key="index">
-        <image src="{{item.image}}" class="goods-image"></image>
-        <view class="goods-info">
-          <text class="goods-name">{{item.name}}</text>
-          <text class="goods-price">¥{{item.price}}</text>
-          <text class="goods-sales">月售 {{item.sales}}</text>
-        </view>
-      </view>
-    </view>
-  </view>
+
 </view>

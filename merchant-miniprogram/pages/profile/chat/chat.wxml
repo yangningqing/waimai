@@ -1,0 +1,43 @@
+<view class="container">
+  <scroll-view
+    class="message-container"
+    scroll-y
+    scroll-into-view="{{lastMessageId}}"
+  >
+    <view wx:if="{{loading}}" class="loading">
+      <text>加载中...</text>
+    </view>
+
+    <view wx:else class="message-list">
+      <view class="system-message">
+        <text>今天 {{currentDate}}</text>
+      </view>
+
+      <view
+        wx:for="{{messages}}"
+        wx:key="id"
+        id="message-{{item.id}}"
+        class="message-item {{item.type === 'sent' ? 'sent' : 'received'}}"
+      >
+        <view class="message-bubble {{item.type === 'sent' ? 'sent' : 'received'}}">
+          <text wx:if="{{item.senderLabel}}" class="sender-label">{{item.senderLabel}}</text>
+          <text class="message-content">{{item.content}}</text>
+          <text class="message-time">{{item.time}}</text>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <view class="input-container">
+    <input
+      class="input"
+      placeholder="请输入消息..."
+      value="{{inputValue}}"
+      bindinput="handleInputChange"
+      bindconfirm="sendMessage"
+    />
+    <button class="send-button" bindtap="sendMessage">
+      发送
+    </button>
+  </view>
+</view>

@@ -9,9 +9,7 @@ Page({
     this.setData({ selectMode: String(options.mode || '') === 'select' })
   },
   onShow() {
-    if (!this.data.hasLoadedAddresses) {
-      this.loadAddresses()
-    }
+    this.loadAddresses()
   },
   callApi(action, payload = {}) {
     return wx.cloud.callFunction({
@@ -26,15 +24,34 @@ Page({
       if (/^1\d{10}$/.test(p)) return `${p.slice(0, 3)}****${p.slice(7)}`
       return p
     }
-    return arr.map(item => ({
+    const splitNameAndGender = (rawName) => {
+      const text = String(rawName || '').trim()
+      const m = text.match(/^(.*?)(先生|女士)$/)
+      if (m) {
+        return {
+          displayName: String(m[1] || '').trim() || text,
+          gender: String(m[2] || '').trim()
+        }
+      }
+      return { displayName: text, gender: '' }
+    }
+    return arr.map(item => {
+      const ng = splitNameAndGender(item.name)
+      const rawAddress = String(item.address || '').trim()
+      const rawShort = String(item.shortAddress || '').trim()
+      return ({
       id: item.id || item._id || '',
       name: item.name || '',
+      displayName: ng.displayName,
+      gender: ng.gender,
       phone: maskPhone(item.phone),
       phoneRaw: String(item.phone || ''),
-      address: item.address || '',
+      address: rawAddress,
+      shortAddress: rawShort,
       isDefault: !!item.isDefault,
       image: item.image || ''
-    })).filter(a => !!a.id)
+      })
+    }).filter(a => !!a.id)
   },
   onBack() {
     wx.navigateBack({ fail: () => wx.switchTab({ url: '/pages/member/member' }) })

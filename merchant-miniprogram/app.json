@@ -1,10 +1,19 @@
 {
   "pages": [
+    "pages/login/login",
+    "pages/register/register",
     "pages/index/index",
     "pages/goods/goods",
+    "pages/goods/edit/edit",
     "pages/orders/orders",
     "pages/income/income",
-    "pages/profile/profile"
+    "pages/profile/profile",
+    "pages/profile/message/message",
+    "pages/profile/chat/chat",
+    "pages/profile/settings/settings",
+    "pages/profile/report/report",
+    "pages/profile/system/system",
+    "pages/profile/contact/contact"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -19,16 +28,12 @@
         "text": "首页"
       },
       {
-        "pagePath": "pages/goods/goods",
-        "text": "商品管理"
-      },
-      {
         "pagePath": "pages/orders/orders",
-        "text": "订单管理"
+        "text": "订单"
       },
       {
-        "pagePath": "pages/income/income",
-        "text": "收入统计"
+        "pagePath": "pages/profile/message/message",
+        "text": "消息"
       },
       {
         "pagePath": "pages/profile/profile",

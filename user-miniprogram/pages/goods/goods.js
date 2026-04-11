@@ -19,11 +19,13 @@ Page({
       image: '../../images/ai_example1.png'
     },
     loading: true,
-    selectedAddressText: ''
+    selectedAddressText: '',
+    merchantId: null
   },
   onLoad(options) {
     const merchantId = options.id
     if (merchantId) {
+      this.setData({ merchantId })
       this.getGoodsByMerchant(merchantId)
     } else {
       this.setData({ loading: false })
@@ -35,13 +37,15 @@ Page({
   },
   onShow() {
     this.syncSelectedAddress()
+    if (this.data.merchantId) {
+      this.getGoodsByMerchant(this.data.merchantId)
+    }
   },
   syncSelectedAddress() {
     const selectedAddress = wx.getStorageSync('selectedAddress') || null
+    const shortText = String((selectedAddress && selectedAddress.shortAddress) || '').trim()
     this.setData({
-      selectedAddressText: selectedAddress && selectedAddress.address
-        ? String(selectedAddress.address)
-        : ''
+      selectedAddressText: shortText || String((selectedAddress && selectedAddress.address) || '').trim()
     })
   },
   chooseAddress() {
@@ -329,65 +333,15 @@ Page({
       minOrder: this.data.shop.minPrice,
       goods: allGoods.filter(goods => goods.quantity > 0)
     }]
-    const selectedAddress = wx.getStorageSync('selectedAddress') || null
-    if (!selectedAddress || !selectedAddress.id) {
-      wx.showModal({
-        title: '请选择收货地址',
-        content: '下单前需要先选择收货地址',
-        confirmText: '去选择',
-        success: res => {
-          if (res.confirm) {
-            wx.navigateTo({ url: '../address/address?mode=select' })
-          }
-        }
-      })
-      return
-    }
-    wx.showLoading({ title: '下单中...' })
-    wx.cloud.callFunction({
-      name: 'api',
-      data: {
-        action: 'createOrder',
-        data: {
-          accountId,
-          cartItems,
-          totalAmount: this.data.totalAmount,
-          address: selectedAddress
-        }
-      }
-    }).then(res => {
-      const result = (res && res.result) || {}
-      if (!result.success) {
-        wx.showModal({
-          title: '下单失败',
-          content: String(result.message || result.error || '下单失败'),
-          showCancel: false
-        })
-        return
-      }
-      const orderId = result.data && result.data.orderId ? String(result.data.orderId) : ''
-      if (orderId) {
-        wx.setStorageSync('pending_clear_cart_order_id', orderId)
-      }
-      wx.removeStorageSync('cartItems')
-      wx.showToast({ title: '下单成功', icon: 'success' })
-      wx.switchTab({
-        url: '/pages/order/order',
-        fail: (err) => {
-          console.error('跳转订单页失败:', err)
-          wx.reLaunch({ url: '/pages/order/order' })
-        }
-      })
-    }).catch(err => {
-      console.error('商品页直接下单失败:', err)
-      wx.showModal({
-        title: '下单失败',
-        content: String((err && err.errMsg) || '网络错误，请稍后重试'),
-        showCancel: false
-      })
-    }).finally(() => {
-      wx.hideLoading()
+    wx.setStorageSync('checkout_payload', {
+      source: 'goods',
+      shopName: this.data.shop.name,
+      items: cartItems[0].goods,
+      goodsTotal: Number(this.data.totalAmount || 0),
+      deliveryFee: 0,
+      couponDeduct: 0
     })
+    wx.navigateTo({ url: '../checkout/checkout' })
   },
   toggleCart() {
     const showCart = !this.data.showCart

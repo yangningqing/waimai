@@ -1,0 +1,31 @@
+<view class="container">
+  <view class="register-form">
+    <view class="logo">
+      <view class="logo-icon">🏪</view>
+      <view class="logo-text">商家注册</view>
+    </view>
+    
+    <view class="form-item">
+      <input class="input" placeholder="请输入账号" bindinput="handleUsernameInput" value="{{username}}" />
+    </view>
+    
+    <view class="form-item">
+      <input class="input" placeholder="请输入密码" password bindinput="handlePasswordInput" value="{{password}}" />
+    </view>
+    
+    <view class="form-item">
+      <input class="input" placeholder="请输入确认密码" password bindinput="handleConfirmPasswordInput" value="{{confirmPassword}}" />
+    </view>
+    
+    <view class="form-item">
+      <input class="input" placeholder="请输入商家名称" bindinput="handleMerchantNameInput" value="{{merchantName}}" />
+    </view>
+    
+    <button class="register-btn" bindtap="handleRegister">注册</button>
+    
+    <view class="login-link">
+      <text>已有账号？</text>
+      <text class="login-text" bindtap="navigateToLogin">立即登录</text>
+    </view>
+  </view>
+</view>

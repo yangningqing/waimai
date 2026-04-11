@@ -42,5 +42,6 @@
     </view>
 
     <button class="save-btn" bindtap="saveAddress">保存地址</button>
+    <button class="delete-btn" wx:if="{{id}}" bindtap="deleteAddress">删除地址</button>
   </view>
 </view>

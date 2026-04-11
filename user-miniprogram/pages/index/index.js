@@ -10,18 +10,19 @@ Page({
       { id: 4, value: 11, minSpend: 25, name: '休闲玩乐神券' }
     ],
     loading: true,
-    lastMerchantsFetchAt: 0,
     fetchingMerchants: false
   },
   onLoad() {
-    this.loadMerchantsCache()
-    if (!Array.isArray(this.data.merchants) || this.data.merchants.length === 0) {
-      this.getMerchants()
-    }
+    try {
+      wx.removeStorageSync('user_merchants_cache')
+    } catch (e) {}
+    this.getMerchants()
   },
   onShow() {
     this.tryShowCouponPopup()
-    if (!Array.isArray(this.data.merchants) || this.data.merchants.length === 0) {
+    const app = getApp()
+    if (app.globalData.needsHomeMerchantsRefresh) {
+      app.globalData.needsHomeMerchantsRefresh = false
       this.getMerchants()
     }
   },
@@ -47,30 +48,6 @@ Page({
       }
     })
   },
-  loadMerchantsCache() {
-    try {
-      const cached = wx.getStorageSync('user_merchants_cache')
-      if (cached && Array.isArray(cached.merchants)) {
-        this.setData({
-          merchants: cached.merchants,
-          loading: false,
-          lastMerchantsFetchAt: Number(cached.updatedAt || 0)
-        })
-      }
-    } catch (err) {
-      console.warn('读取商家缓存失败:', err)
-    }
-  },
-  saveMerchantsCache(merchants) {
-    try {
-      wx.setStorageSync('user_merchants_cache', {
-        updatedAt: Date.now(),
-        merchants: Array.isArray(merchants) ? merchants : []
-      })
-    } catch (err) {
-      console.warn('保存商家缓存失败:', err)
-    }
-  },
   getMerchants() {
     if (this.data.fetchingMerchants) return
     this.setData({ fetchingMerchants: true })
@@ -86,11 +63,7 @@ Page({
     }).then(res => {
       if (res.result.success) {
         const merchants = res.result.data
-        this.setData({
-          merchants,
-          lastMerchantsFetchAt: Date.now()
-        })
-        this.saveMerchantsCache(merchants)
+        this.setData({ merchants })
       } else {
         wx.showToast({
           title: '获取商家失败',

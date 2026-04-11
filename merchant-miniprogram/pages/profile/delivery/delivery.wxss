@@ -1,0 +1,125 @@
+.container {
+  padding: 20rpx;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.header {
+  background-color: #fff;
+  padding: 20rpx;
+  border-radius: 10rpx;
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.section {
+  background-color: #fff;
+  border-radius: 10rpx;
+  margin-bottom: 20rpx;
+  overflow: hidden;
+}
+
+.section-header {
+  padding: 20rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.settings-list,
+.rider-list {
+  padding: 0 20rpx;
+}
+
+.setting-item,
+.rider-item {
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.setting-item:last-child,
+.rider-item:last-child {
+  border-bottom: none;
+}
+
+.setting-label,
+.rider-name {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 5rpx;
+}
+
+.setting-value {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.rider-info {
+  flex: 1;
+}
+
+.rider-phone {
+  font-size: 24rpx;
+  color: #2196f3;
+  margin-bottom: 10rpx;
+  display: block;
+}
+
+.rider-stats {
+  display: flex;
+  justify-content: space-between;
+}
+
+.rider-rating,
+.rider-orders {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.rider-status {
+  font-size: 28rpx;
+  font-weight: bold;
+  margin-left: 20rpx;
+}
+
+.empty-state {
+  background-color: #fff;
+  padding: 100rpx 20rpx;
+  border-radius: 10rpx;
+  text-align: center;
+  margin-bottom: 20rpx;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #999;
+}
+
+.actions {
+  margin-top: 40rpx;
+  text-align: center;
+}
+
+.back-btn {
+  padding: 20rpx;
+  border: 1rpx solid #ddd;
+  border-radius: 5rpx;
+  font-size: 28rpx;
+  background-color: #fff;
+  color: #666;
+  width: 200rpx;
+}
